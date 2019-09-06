@@ -1,0 +1,17 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  bottom: 0;
+}
+
+body, a, textarea, input, button {
+  font-family: $base-font;
+}
+
+a, button {
+  display: inline-flex;
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+}

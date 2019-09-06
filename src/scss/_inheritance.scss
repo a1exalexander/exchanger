@@ -1,0 +1,10 @@
+%bb {
+  border-bottom: 1px solid $N1;
+}
+
+%card {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  min-height: 160px;
+  font-size: $H400;
+}

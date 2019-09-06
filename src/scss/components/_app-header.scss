@@ -1,0 +1,23 @@
+.app-header {
+  
+  @extend %bb;
+  &__nav {
+    padding: 14px 0;
+    @include container;
+    @extend %bb;
+  }
+  &__link {
+    @include text($H500, 500);
+    @include transition(transform);
+    @include media {
+      &:hover {
+        color: lighten($color: $N100, $amount: 10%);
+        transform: translate3d(-1px, -1px, 0);
+      }
+    }
+    &:active {
+      color: $N100;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+}
