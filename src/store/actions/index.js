@@ -1,22 +1,36 @@
-import { FETCH_CURRENCIES_REQUEST, FETCH_CURRENCIES_SUCCESS, FETCH_CURRENCIES_FAILURE } from '../../constants';
+import {
+  FETCH_CURRENCIES_REQUEST,
+  FETCH_CURRENCIES_SUCCESS,
+  FETCH_CURRENCIES_FAILURE,
+  SET_EXCHANGE
+} from '../../constants';
 import ApiService from '../../services/apiService';
 const apiService = new ApiService();
 
-const fetchCurrenciesSuccess = (currencies) => {
+const fetchCurrenciesSuccess = payload => {
   return {
     type: FETCH_CURRENCIES_SUCCESS,
-    payload: currencies,
-  }
+    payload
+  };
 };
 
-const fetchCurrencies = () => async (dispatch) => {
+const setExchange = (payload) => (dispatch, getState) => {
+  const exchange = getState().currencies.find(item => item.currencyA.code === payload);
+  localStorage.setItem('exchange', JSON.stringify(exchange));
+  dispatch({
+    type: SET_EXCHANGE,
+    payload: exchange,
+  });
+};
+
+const fetchCurrencies = () => async dispatch => {
   dispatch(FETCH_CURRENCIES_REQUEST);
   try {
     const currencies = await apiService.fetchCurrencies();
     dispatch(fetchCurrenciesSuccess(currencies));
-  } catch(error) {
+  } catch (error) {
     dispatch(FETCH_CURRENCIES_FAILURE);
   }
 };
 
-export { fetchCurrencies };
+export { fetchCurrencies, setExchange };

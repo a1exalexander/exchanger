@@ -1,8 +1,8 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  bottom: 0;
-}
+// * {
+//   box-sizing: border-box;
+//   margin: 0;
+//   bottom: 0;
+// }
 
 body, a, textarea, input, button {
   font-family: $base-font;
@@ -13,5 +13,21 @@ a, button {
   text-decoration: none;
   &:hover {
     text-decoration: none;
+  }
+}
+.ant-select-open, .ant-select-focused {
+  .ant-select-selection {
+    border-color: $N7;
+    box-shadow: none;
+    outline: none;
+  }
+}
+.ant-select-selection  {
+  &:hover {
+    border-color: $N7;
+  }
+  &:focus {
+    box-shadow: none;
+    outline: none;
   }
 }

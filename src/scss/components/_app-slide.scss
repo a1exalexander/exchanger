@@ -1,6 +1,54 @@
 .app-slide {
   @extend %card;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.09);
   margin: 32px;
-  min-width: 260px;
+  flex: 0 0 300px;
   padding: 12px;
+  @include flex-col(space-between, center);
+  &--skeleton {
+    justify-content: center;
+  }
+  &__row {
+    @include flex-row(center, center);
+  }
+  &__icon {
+    @include size(18px);
+    margin: 6px;
+  }
+  &__icon-exchange {
+    font-size: 16px;
+    margin: 0 8px;
+  }
+  &__currency {
+    @include text($H600, 500);
+    margin-right: 4px;
+  }
+  &__currency-name {
+    @include text($H600, 400);
+  }
+  &__label {
+    @include text($H500, 500);
+    margin-right: 4px;
+    &--sell {
+      color: $O1;
+    }
+    &--buy {
+      color: $G3;
+    }
+    &--cross {
+      color: $B3;
+    }
+  }
+  &__value {
+    @include text($H600, 500);
+  }
+  &__skeleton {
+    .ant-skeleton-paragraph {
+      
+      @include flex-col(center, stretch);
+      li {
+        width: 100% !important;
+      }
+    }
+  }
 }

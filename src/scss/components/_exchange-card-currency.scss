@@ -1,0 +1,66 @@
+.exchange-card-currency {
+  flex: 0 0 45%;
+  align-self: stretch;
+  @include flex-col(space-between, center);
+  &__head {
+    @include flex-col(flex-start, center);
+  }
+  &__footer {
+    font-size: $H500;
+    align-self: flex-start;
+  }
+  &__row {
+    @include flex-row(center, center);
+  }
+  &__info {
+    font-size: $H500;
+    margin-right: 6px;
+    
+  }
+  &__icon {
+    @include size(20px);
+  }
+  &__toggle {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    @include transition(filter, transform);
+    &.sell {
+      color: $O1;
+    }
+    &.buy {
+      color: $G3;
+    }
+    @include media {
+      &:hover  {
+        filter: brightness(1.1);
+      }
+    }
+    &:active  {
+      filter: brightness(0.9);
+      transform: rotate(360deg);
+    }
+  }
+  &__icon-exchange {
+    font-size: 24px;
+    position: relative;
+  }
+  &__currency {
+    @include text($H500, 500);
+  }
+  &__input {
+    border: none;
+    outline: none;
+    @include text($H800, 500);
+    border-bottom: 1px solid $N1;
+    margin: 14px 0;
+    text-align: center;
+    @include media {
+      max-width: 220px;
+      text-align: left;
+      margin: 0;
+    }
+  }
+}

@@ -1,16 +1,10 @@
-const stringMiddleware = () => (next) => (action, payload) => {
+const stringMiddleware = () => (next) => (action) => {
   const isString = typeof action === 'string';
-  if (isString && payload) {
-    return next({
-      type: action,
-      payload,
-    });
-  } else if (isString) {
+  if (isString) {
     return next({
       type: action,
     });
-  }
-
+  } 
   return next(action);
 };
 

@@ -3,12 +3,12 @@
 	background: linear-gradient(to right,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
 }
 
-$animationSpeed: 40s;
+$animationSpeed: 60s;
 
 // Animation
 @keyframes scroll {
 	0% { transform: translateX(0); }
-	100% { transform: translateX(calc(-250px * 7))}
+	100% { transform: translateX(calc((-300px - 64px) * 8))}
 }
 
 // Styling
@@ -22,7 +22,7 @@ $animationSpeed: 40s;
 	&::after {
 		@include white-gradient;
 		content: "";
-		height: 100px;
+		height: 100%;
 		position: absolute;
 		width: 200px;
 		z-index: 2;
@@ -44,11 +44,5 @@ $animationSpeed: 40s;
 		display: flex;
     width: 100vw;
     list-style: none;
-	}
-	
-	&__slide {
-    @extend %card;
-    margin: 32px;
-    min-width: 260px;
 	}
 }

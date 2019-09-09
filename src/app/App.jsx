@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { fetchCurrencies } from '../store/actions'; 
 import { HomePage } from '../pages';
 import AppHeader from '../components/header';
+import 'antd/es/select/style/css';
+import 'antd/es/dropdown/style/css';
+import 'antd/es/skeleton/style/css';
 
 class App extends PureComponent {
 
@@ -11,8 +14,6 @@ class App extends PureComponent {
   }
   
   render() {
-    const { loading, hasError } = this.props;
-
     return (
       <div className="App">
         <AppHeader/>
@@ -22,12 +23,8 @@ class App extends PureComponent {
   }
 };
 
-const mapStateToProps = ({ currencies, loading, hasError }) => {
-  return { currencies, loading, hasError };
-};
-
 const mapDispatchToProps = {
   fetchCurrencies
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);

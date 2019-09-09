@@ -6,7 +6,7 @@ const AppHeader = () => {
     <header className="app-header">
       <nav className='app-header__nav'>
         <a href="/" className="app-header__link">
-          <h1 className="app-header__title">Exchanger</h1>
+          <h1 className="app-header__title">UAH Exchanger</h1>
         </a>
       </nav>
       <AppCarousel/>
