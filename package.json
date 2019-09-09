@@ -2,6 +2,7 @@
   "name": "exchanger",
   "version": "0.1.0",
   "private": true,
+  "homepage":"https://github.com/a1exalexander/exchanger",
   "dependencies": {
     "antd": "^3.23.2",
     "axios": "^0.19.0",
@@ -9,6 +10,7 @@
     "currency-codes": "^1.5.0",
     "decimal.js": "^10.2.0",
     "env-cmd": "^10.0.1",
+    "gh-pages": "^2.1.1",
     "json-server": "^0.15.1",
     "moment": "^2.24.0",
     "node-sass": "^4.12.0",
@@ -26,7 +28,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "json-server --watch fake-server/db.json --routes fake-server/routes.json --port 3004"
+    "server": "json-server --watch fake-server/db.json --routes fake-server/routes.json --port 3004",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
