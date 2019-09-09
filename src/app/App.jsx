@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { fetchCurrencies } from '../store/actions'; 
 import { HomePage } from '../pages';
@@ -7,20 +7,21 @@ import 'antd/es/select/style/css';
 import 'antd/es/dropdown/style/css';
 import 'antd/es/skeleton/style/css';
 
-class App extends PureComponent {
+const App = ({ fetchCurrencies }) => {
 
-  componentDidMount() {
-    this.props.fetchCurrencies();
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchCurrencies();
+    }
+    fetchData();
+  }, []);
   
-  render() {
-    return (
-      <div className="App">
-        <AppHeader/>
-        <HomePage/>
-      </div>
-    );
-  }
+  return (
+    <div className="App">
+      <AppHeader/>
+      <HomePage/>
+    </div>
+  );
 };
 
 const mapDispatchToProps = {

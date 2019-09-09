@@ -1,12 +1,13 @@
 import { FETCH_CURRENCIES_REQUEST, FETCH_CURRENCIES_SUCCESS, FETCH_CURRENCIES_FAILURE, SET_EXCHANGE, TOGGLE_EXCHANGE_METHOD } from '../../constants';
 import initialExchange from './exchange';
+import has from 'has';
 
 const toggleExchangeMethod = (method) => {
   return method === 'buy' ? 'sell' : 'buy';;
 }
 
 const setExchangeMethod = (item) => {
-  return item.rateBuy ? 'buy' : 'cross';
+  return has(item, 'rateBuy') ? 'buy' : 'cross';
 }
 
 const initialState = {

@@ -38,17 +38,19 @@ const ExchangeCard = props => {
     }
   }, [method, exchange.currencyCodeA, exchange.currencyCodeB])
 
-  const getIcon = country => require(`../../assets/flags/${country}.svg`);
+  const getIcon = (country) => country ? require(`../../assets/flags/${country}.svg`) : '';
+
+  const rateA = rates[method] || 1;
 
   const handleChangeA = (e) => {
-    calcByA(e.target.value, rates[method], setValueA, setValueB);
+    calcByA(e.target.value, rateA, setValueA, setValueB);
   }
 
   const handleChangeB = (e) => {
-    calcByB(e.target.value, rates[method], setValueB, setValueA);
+    calcByB(e.target.value, rateA, setValueB, setValueA);
   }
 
-  const rateB = Decimal.div(1, rates[method]).toFixed(4);
+  const rateB = loading ? '' : Decimal.div(1, rateA).toFixed(4);
 
   if (loading) {
     return (
@@ -82,7 +84,7 @@ const ExchangeCard = props => {
         value={valueA}
         setValue={handleChangeA}
         icon={getIcon(countryA)}
-        rate={rates[method]}
+        rate={rateA}
         codeA={codeB}
         codeB={codeA}
         currencyB={currencyA}
