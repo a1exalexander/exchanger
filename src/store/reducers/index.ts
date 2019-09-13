@@ -1,16 +1,17 @@
 import { FETCH_CURRENCIES_REQUEST, FETCH_CURRENCIES_SUCCESS, FETCH_CURRENCIES_FAILURE, SET_EXCHANGE, TOGGLE_EXCHANGE_METHOD } from '../../constants';
-import initialExchange from './exchange';
-import has from 'has';
+import initialExchange from './initialExchange';
+import { ExchangesState, ActionTypes } from '../types';
+const has: any = require('has');
 
-const toggleExchangeMethod = (method) => {
+const toggleExchangeMethod = (method: string) => {
   return method === 'buy' ? 'sell' : 'buy';;
 }
 
-const setExchangeMethod = (item) => {
+const setExchangeMethod = (item: object) => {
   return has(item, 'rateBuy') ? 'buy' : 'cross';
 }
 
-const initialState = {
+const initialState: ExchangesState = {
   currencies: [],
   loading: false,
   hasError: false,
@@ -18,7 +19,10 @@ const initialState = {
   exchange: {...initialExchange},
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (
+  state: ExchangesState = initialState,
+  action: any
+): ExchangesState => {
 
   switch (action.type) {
 

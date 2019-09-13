@@ -4,20 +4,21 @@ import {
   FETCH_CURRENCIES_FAILURE,
   SET_EXCHANGE
 } from '../../constants';
+import { ActionTypes, Exchange, Currencies, ExchangesState } from '../types';
 import ApiService from '../../services/apiService';
 const apiService = new ApiService();
 
-const fetchCurrenciesSuccess = payload => {
+const fetchCurrenciesSuccess = (payload: Currencies) => {
   return {
     type: FETCH_CURRENCIES_SUCCESS,
     payload
   };
 };
 
-const setExchange = (payload) => (dispatch, getState) => {
+const setExchange = (payload: string | Exchange) => (dispatch: any, getState: any) => {
   let exchange;
   if (typeof payload === 'string') {
-    exchange = getState().currencies.find(item => item.currencyA.code === payload);
+    exchange = getState().currencies.find((item: Exchange) => item.currencyA.code === payload);
   } else {
     exchange = payload;
   }
@@ -25,15 +26,16 @@ const setExchange = (payload) => (dispatch, getState) => {
   dispatch({
     type: SET_EXCHANGE,
     payload: exchange,
-  });
+  } as ActionTypes);
 };
 
-const fetchCurrencies = () => async (dispatch, getState) => {
+const fetchCurrencies = () => async (dispatch: any, getState: any) => {
   dispatch(FETCH_CURRENCIES_REQUEST);
   try {
     const currencies = await apiService.fetchCurrencies();
     dispatch(fetchCurrenciesSuccess(currencies));
-    const ex = localStorage.getItem('exchange') ? JSON.parse(localStorage.getItem('exchange')) : currencies[0];
+    const localExchange: string | null = localStorage.getItem('exchange');
+    const ex = localExchange ? JSON.parse(localExchange) : currencies[0];
     setExchange(ex)(dispatch, getState);
     return;
   } catch (error) {

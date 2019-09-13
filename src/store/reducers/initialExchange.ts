@@ -1,4 +1,6 @@
-const exchange = {
+import { Exchange } from '../types';
+
+const exchange: Exchange = {
   currencyCodeA: '',
   currencyCodeB: '',
   date: '',
@@ -23,8 +25,10 @@ const exchange = {
   }
 };
 
-const initialExchange = localStorage.getItem('exchange')
-  ? JSON.parse(localStorage.getItem('exchange'))
+const localExchanges: any = localStorage.getItem('exchange')
+
+const initialExchange: Exchange = localStorage.getItem('exchange')
+  ? JSON.parse(localExchanges)
   : exchange;
 
 export default initialExchange;
