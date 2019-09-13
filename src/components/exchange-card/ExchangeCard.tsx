@@ -5,12 +5,22 @@ import { TOGGLE_EXCHANGE_METHOD } from '../../constants';
 import CalcCurrency from '../../utils/calcCurrency';
 import { Skeleton } from 'antd';
 import { Decimal } from 'decimal.js';
+import { Exchange, SN } from '../../types';
+import { ExchangesState } from '../../store/types';
 
 const { calcByA, calcByB } = new CalcCurrency();
 
-const ExchangeCard = props => {
+interface ExchangeCardProps {
+  className: string;
+  exchange: Exchange;
+  method: string,
+  loading: boolean;
+  toggleExchangeMethod: () => string;
+}
 
-  const {
+const ExchangeCard = (props: ExchangeCardProps) => {
+
+  const  {
     className = '',
     exchange,
     method,
@@ -21,12 +31,12 @@ const ExchangeCard = props => {
   const {
     currencyA: { code: codeA, currency: currencyA, country: countryA },
     currencyB: { code: codeB, currency: currencyB, country: countryB }
-  } = exchange;
+  } = exchange as Exchange;
 
   const [valueA, setValueA] = useState('');
   const [valueB, setValueB] = useState('');
 
-  const rates = {
+  const rates: any = {
     buy: exchange.rateBuy,
     sell: exchange.rateSell,
     cross: exchange.rateCross
@@ -34,23 +44,23 @@ const ExchangeCard = props => {
 
   useEffect(() => {
     if (valueA && valueB) {
-      calcByB(valueB, rates[props.method], setValueB, setValueA);
+      calcByB(valueB, rates[method], setValueB, setValueA);
     }
   }, [method, exchange.currencyCodeA, exchange.currencyCodeB])
 
-  const getIcon = (country) => country ? require(`../../assets/flags/${country}.svg`) : '';
+  const getIcon = (country: string) => country ? require(`../../assets/flags/${country}.svg`) : '';
 
-  const rateA = rates[method] || 1;
+  const rateA: SN = rates[method] || 1;
 
-  const handleChangeA = (e) => {
+  const handleChangeA = (e: any): void => {
     calcByA(e.target.value, rateA, setValueA, setValueB);
   }
 
-  const handleChangeB = (e) => {
+  const handleChangeB = (e: any): void => {
     calcByB(e.target.value, rateA, setValueB, setValueA);
   }
 
-  const rateB = loading ? '' : Decimal.div(1, rateA).toFixed(4);
+  const rateB: SN = loading ? '' : Decimal.div(1, rateA).toFixed(4);
 
   if (loading) {
     return (
@@ -80,6 +90,7 @@ const ExchangeCard = props => {
       >
         <i className="fas fa-exchange-alt exchange-card__icon-exchange"></i>
       </button>
+      <span className={`exchange-card__method ${method}`}>{method}</span>
       <ExchangeCardCurrency
         value={valueA}
         setValue={handleChangeA}
@@ -93,13 +104,13 @@ const ExchangeCard = props => {
   );
 };
 
-const mapStateToProps = ({ exchange, currencies, loading, method }) => {
+const mapStateToProps = ({ exchange, currencies, loading, method }: ExchangesState) => {
   return { exchange, currencies, loading, method };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch: any): any => {
   return {
-    toggleExchangeMethod: () => dispatch(TOGGLE_EXCHANGE_METHOD)
+    toggleExchangeMethod: () => dispatch(TOGGLE_EXCHANGE_METHOD) as string
   };
 };
 

@@ -1,6 +1,7 @@
 import React from 'react';
+import { Exchange } from '../../types';
 
-const AppSlide = ({exchange}) => {
+const AppSlide = ({ exchange }: { exchange: Exchange }) => {
 
   const {
     rateBuy = '',
@@ -10,7 +11,7 @@ const AppSlide = ({exchange}) => {
     currencyB: { code: codeB, currency: currencyB, country: countryB }
   } = exchange;
 
-  const getIcon = country => require(`../../assets/flags/${country}.svg`);
+  const getIcon = (country: string) => require(`../../assets/flags/${country}.svg`);
 
   const priceElement = () => {
     if (rateBuy) {

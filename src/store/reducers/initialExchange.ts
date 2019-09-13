@@ -1,4 +1,4 @@
-import { Exchange } from '../types';
+import { Exchange } from '../../types';
 
 const exchange: Exchange = {
   currencyCodeA: '',

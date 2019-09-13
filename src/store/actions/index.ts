@@ -4,7 +4,8 @@ import {
   FETCH_CURRENCIES_FAILURE,
   SET_EXCHANGE
 } from '../../constants';
-import { ActionTypes, Exchange, Currencies, ExchangesState } from '../types';
+import { ActionTypes } from '../types';
+import { Exchange, Currencies } from '../../types';
 import ApiService from '../../services/apiService';
 const apiService = new ApiService();
 

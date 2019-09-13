@@ -1,6 +1,17 @@
 import React from 'react';
+import { SN } from '../../types';
 
-const ExchangeCardCurrency = ({ icon, codeA, codeB, currencyB, rate, value, setValue }) => {
+interface ExchangeCardCurrencyProps {
+  icon: string;
+  codeA: string;
+  codeB: string;
+  currencyB: string;
+  rate: SN;
+  value: SN;
+  setValue: any;
+}
+
+const ExchangeCardCurrency = ({ icon, codeA, codeB, currencyB, rate, value, setValue }: ExchangeCardCurrencyProps) => {
 
   return (
     <div className="exchange-card-currency">
@@ -20,7 +31,7 @@ const ExchangeCardCurrency = ({ icon, codeA, codeB, currencyB, rate, value, setV
           </object>
         </div>
       </div>
-      <input type="text" className="exchange-card-currency__input" value={value} onChange={setValue}/>
+      <input type="text" className="exchange-card-currency__input" value={value} onChange={setValue} placeholder={`Enter "${currencyB}" amount`}/>
       <div className="exchange-card-currency__footer">
         1 {codeB} = {rate} {codeA}
       </div>

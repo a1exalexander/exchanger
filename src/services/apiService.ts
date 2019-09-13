@@ -1,16 +1,16 @@
-import http from 'axios';
+const http: any = require('axios');
 import api from '../api';
-import { logError, logSuccess } from '../services/logger';
+import { logError, logSuccess } from './logger';
 import { mapCurrencies } from '../utils/formatCurrency';
 
 if (process.env.REACT_APP_API_MODE === 'fake') {
   http.interceptors.response.use(
-    response => {
+    (response: any) => {
       return new Promise(resolve => {
         setTimeout(() => resolve(response), 1500);
       });
     },
-    error => {
+    (error: any) => {
       return Promise.reject(error);
     },
   );
@@ -18,7 +18,7 @@ if (process.env.REACT_APP_API_MODE === 'fake') {
 
 export default class ApiService {
 
-  _fetchData = async (method, url, params = '') => {
+  _fetchData = async (method: string, url: string, params: any = '') => {
     try {
       const { data } = await http[method](url, params);
       logSuccess(url, data);

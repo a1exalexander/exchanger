@@ -1,4 +1,4 @@
-const currencyList = {
+const currencyList: { [key: string]: string } = {
   AED: 'United Arab Emirates Dirham',
   AFN: 'Afghanistan',
   ALL: 'Albania',
@@ -172,7 +172,7 @@ const currencyList = {
   ZWL: 'Zimbabwean Dollar'
 };
 
-const getCountry = (code) => {
+const getCountry = (code: string) => {
   return currencyList[code].toLowerCase() || '';
 };
 

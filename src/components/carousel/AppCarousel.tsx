@@ -2,18 +2,26 @@ import React from 'react';
 import AppSlide from './AppSlide';
 import { connect } from 'react-redux';
 import { Skeleton } from 'antd';
+import { Currencies, Exchange } from '../../types';
 
-const AppCarousel = ({ loading, currencies, method }) => {
+interface AppCarouselProps {
+  loading: boolean;
+  currencies: Currencies;
+  method: any;
+}
+
+const AppCarousel = ({ loading, currencies, method }: AppCarouselProps) => {
   
   const slides = () => {
-    return currencies.map((exchange, index) => {
-      return <AppSlide key={index+1} exchange={exchange} method={method}/>;
+    return currencies.map((exchange: Exchange, index: number) => {
+      return (<AppSlide key={index+1} exchange={exchange}/>);
     });
   };
   
   const loadingCards = () => {
-    const count = [...Array(20).keys()];
-    return count.map((el, index) => {
+    const countArray: any = new Array(20).keys();
+    const count: any = [...countArray];
+    return count.map((el: any, index: number) => {
       return (<li key={index} className="app-slide app-slide--skeleton">
         <Skeleton className='app-slide__skeleton' active paragraph={{rows: 3}} title={false}/>
       </li>);
@@ -29,7 +37,7 @@ const AppCarousel = ({ loading, currencies, method }) => {
   );
 };
 
-const mapStateToProps = ({ currencies, loading }) => {
+const mapStateToProps = ({ currencies, loading }: { currencies: Currencies, loading: boolean }) => {
   return { currencies, loading }
 }
 

@@ -2,21 +2,30 @@ import React from 'react';
 import { Select } from 'antd';
 import { setExchange } from '../../store/actions';
 import { connect } from 'react-redux';
-const { Option } = Select;
+import { Currencies, Exchange } from '../../types';
+import { ExchangesState } from '../../store/types';
+const { Option }: any = Select;
 
-const filterOption = (input, option) => {
-  return option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+const filterOption = (inputValue: string, option: any) => {
+  return option.props.children.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0;
 };
 
-const mapedOptions = (options) => {
-  const newList = options.filter(({ currencyCodeB }) => currencyCodeB === 980);
+const mapedOptions = (currencies: Currencies): any => {
+  const newList = currencies.filter(({ currencyCodeB }): boolean => currencyCodeB === 980);
   return newList.map((item, index) => { 
-    const { currencyA: { code, currency } } = item;
+    const { currencyA: { code, currency } }: Exchange = item;
     return (<Option key={index+code} value={code} label={code}><b>{code}</b> {currency}</Option>)
   });
 }
 
-const SelectCard = ({ exchange, currencies, loading, setExchange }) => {
+interface SelectCardProps {
+  exchange: Exchange;
+  currencies: Currencies;
+  loading: boolean;
+  setExchange: any;
+}
+
+const SelectCard = ({ exchange, currencies, loading, setExchange }: SelectCardProps) => {
 
   return (
     <div className="select-card">
@@ -39,7 +48,7 @@ const SelectCard = ({ exchange, currencies, loading, setExchange }) => {
   );
 };
 
-const mapStateToProps = ({ exchange, currencies, loading }) => {
+const mapStateToProps = ({ exchange, currencies, loading }: ExchangesState) => {
   return { exchange, currencies, loading }
 }
 

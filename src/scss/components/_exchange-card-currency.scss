@@ -1,5 +1,5 @@
 .exchange-card-currency {
-  flex: 0 0 45%;
+  flex: 0 0 40%;
   align-self: stretch;
   @include flex-col(space-between, center);
   &__head {
@@ -57,8 +57,11 @@
     border-bottom: 1px solid $N1;
     margin: 14px 0;
     text-align: center;
+    &::placeholder {
+      @include text($H400, 400, $N6);
+    }
     @include media {
-      max-width: 220px;
+      width: 100%;
       text-align: left;
       margin: 0;
     }

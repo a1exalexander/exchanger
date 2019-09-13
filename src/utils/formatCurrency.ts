@@ -2,7 +2,7 @@ import * as cc from 'currency-codes';
 import moment from 'moment';
 import getCountry from './currencyList';
 
-export const mapCurrencies = (item) => {
+export const mapCurrencies = (item: any) => {
   let newItem = {...item};
   newItem.currencyA = cc.number(item.currencyCodeA);
   newItem.currencyB = cc.number(item.currencyCodeB);
@@ -12,8 +12,8 @@ export const mapCurrencies = (item) => {
   return newItem;
 };
 
-const formatCurrency = (currencyCode) => {
-  const newItem = cc.number(currencyCode);
+const formatCurrency = (currencyCode: string) => {
+  const newItem: any = cc.number(currencyCode);
   newItem.country = getCountry(newItem.code);
   return newItem;
 };

@@ -1,30 +1,9 @@
 import { SET_EXCHANGE, FETCH_CURRENCIES_SUCCESS } from '../constants';
+import { Exchange, Currencies } from '../types';
 
-type SN = string | number;
+export type SN = string | number;
 
 // STATE TYPES
-
-export interface Currency {
-  code: string;
-  number: SN;
-  digits: SN;
-  currency: string;
-  countries: Array<string>;
-  country: string;
-}
-
-export interface Exchange {
-  currencyCodeA: SN;
-  currencyCodeB: SN;
-  date: string;
-  rateBuy?: SN;
-  rateSell?: SN;
-  rateCross?: SN;
-  currencyA: Currency;
-  currencyB: Currency;
-}
-
-export type Currencies = Array<Exchange>;
 
 export interface ExchangesState {
   currencies: Currencies;
@@ -47,5 +26,4 @@ interface FetchCurrenciesSuccessAction {
 }
 
 type StringAction = string;
-
 export type ActionTypes = SetExchangeAction | FetchCurrenciesSuccessAction | StringAction;
