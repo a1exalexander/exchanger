@@ -6,8 +6,9 @@ import AppHeader from '../components/header';
 import 'antd/es/select/style/css';
 import 'antd/es/dropdown/style/css';
 import 'antd/es/skeleton/style/css';
+import { ActionTypes } from '../store/types';
 
-const App = ({ fetchCurrencies }) => {
+const App = ({ fetchCurrencies }: any) => {
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +25,7 @@ const App = ({ fetchCurrencies }) => {
   );
 };
 
-const mapDispatchToProps = {
+const mapDispatchToProps: any = {
   fetchCurrencies
 };
 
