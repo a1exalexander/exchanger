@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import ExchangeCardCurrency from './ExchangeCardCurrency';
 import { connect } from 'react-redux';
 import { TOGGLE_EXCHANGE_METHOD } from '../../constants';
@@ -10,15 +10,20 @@ import { ExchangesState } from '../../store/types';
 
 const { calcByA, calcByB } = new CalcCurrency();
 
-interface ExchangeCardProps {
-  className: string;
-  exchange: Exchange;
-  method: string,
-  loading: boolean;
-  toggleExchangeMethod: () => string;
+interface IBaseProps {
+  className?: string;
 }
 
-const ExchangeCard = (props: ExchangeCardProps) => {
+interface IConnectedProps {
+  exchange: Exchange;
+  method?: string,
+  loading?: boolean;
+  toggleExchangeMethod?: () => string;
+}
+
+type IProps = IBaseProps & IConnectedProps;
+
+const ExchangeCard: FC<IProps> = (props) => {
 
   const  {
     className = '',
@@ -104,15 +109,17 @@ const ExchangeCard = (props: ExchangeCardProps) => {
   );
 };
 
-const mapStateToProps = ({ exchange, currencies, loading, method }: ExchangesState) => {
-  return { exchange, currencies, loading, method };
-};
-
 const mapDispatchToProps = (dispatch: any): any => {
   return {
     toggleExchangeMethod: () => dispatch(TOGGLE_EXCHANGE_METHOD) as string
   };
 };
+
+const mapStateToProps = ({exchange, currencies, loading, method}: ExchangesState) => {
+  return {
+    exchange, currencies, loading, method
+  }
+}
 
 export default connect(
   mapStateToProps,

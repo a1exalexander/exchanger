@@ -6,7 +6,6 @@ import AppHeader from '../components/header';
 import 'antd/es/select/style/css';
 import 'antd/es/dropdown/style/css';
 import 'antd/es/skeleton/style/css';
-import { ActionTypes } from '../store/types';
 
 const App = ({ fetchCurrencies }: any) => {
 

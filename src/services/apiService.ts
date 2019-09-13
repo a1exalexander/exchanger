@@ -1,7 +1,7 @@
-const http: any = require('axios');
 import api from '../api';
 import { logError, logSuccess } from './logger';
 import { mapCurrencies } from '../utils/formatCurrency';
+const http: any = require('axios');
 
 if (process.env.REACT_APP_API_MODE === 'fake') {
   http.interceptors.response.use(

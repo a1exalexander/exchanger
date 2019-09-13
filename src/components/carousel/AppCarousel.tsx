@@ -7,10 +7,9 @@ import { Currencies, Exchange } from '../../types';
 interface AppCarouselProps {
   loading: boolean;
   currencies: Currencies;
-  method: any;
 }
 
-const AppCarousel = ({ loading, currencies, method }: AppCarouselProps) => {
+const AppCarousel = ({ loading, currencies }: AppCarouselProps) => {
   
   const slides = () => {
     return currencies.map((exchange: Exchange, index: number) => {
