@@ -16,9 +16,9 @@ interface IBaseProps {
 
 interface IConnectedProps {
   exchange: Exchange;
-  method?: string,
-  loading?: boolean;
-  toggleExchangeMethod?: () => string;
+  method: string,
+  loading: boolean;
+  toggleExchangeMethod: () => string;
 }
 
 type IProps = IBaseProps & IConnectedProps;
