@@ -23,7 +23,7 @@ interface IConnectedProps {
 
 type IProps = IBaseProps & IConnectedProps;
 
-const ExchangeCard: FC<IProps> = (props) => {
+const ExchangeCard: FC<any> = (props: IProps) => {
 
   const  {
     className = '',
@@ -78,7 +78,7 @@ const ExchangeCard: FC<IProps> = (props) => {
   }
 
   return (
-    <div className={`exchange-card fadeIn ${className}`}>
+    <div className={`exchange-card fadeIn home-page__exchange-card ${className}`}>
       <ExchangeCardCurrency
         value={valueB}
         setValue={handleChangeB}
@@ -111,13 +111,13 @@ const ExchangeCard: FC<IProps> = (props) => {
 
 const mapDispatchToProps = (dispatch: any): any => {
   return {
-    toggleExchangeMethod: () => dispatch(TOGGLE_EXCHANGE_METHOD) as string
+    toggleExchangeMethod: () => dispatch(TOGGLE_EXCHANGE_METHOD)
   };
 };
 
-const mapStateToProps = ({exchange, currencies, loading, method}: ExchangesState) => {
+const mapStateToProps = ({exchange, loading, method}: ExchangesState) => {
   return {
-    exchange, currencies, loading, method
+    exchange, loading, method
   }
 }
 

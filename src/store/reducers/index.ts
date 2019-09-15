@@ -1,6 +1,6 @@
 import { FETCH_CURRENCIES_REQUEST, FETCH_CURRENCIES_SUCCESS, FETCH_CURRENCIES_FAILURE, SET_EXCHANGE, TOGGLE_EXCHANGE_METHOD } from '../../constants';
 import initialExchange from './initialExchange';
-import { ExchangesState, ActionTypes } from '../types';
+import { ExchangesState } from '../types';
 const has: any = require('has');
 
 const toggleExchangeMethod = (method: string) => {
