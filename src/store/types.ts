@@ -26,4 +26,4 @@ interface FetchCurrenciesSuccessAction {
 }
 
 type StringAction = string;
-export type ActionTypes = SetExchangeAction | FetchCurrenciesSuccessAction | StringAction;
+export type ActionTypes = SetExchangeAction | FetchCurrenciesSuccessAction | StringAction | void;

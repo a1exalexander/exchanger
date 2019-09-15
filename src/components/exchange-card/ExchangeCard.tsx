@@ -14,16 +14,20 @@ interface IBaseProps {
   className?: string;
 }
 
-interface IConnectedProps {
+interface IStateProps {
   exchange: Exchange;
   method: string,
   loading: boolean;
+  
+}
+
+interface IDispatchProps {
   toggleExchangeMethod: () => string;
 }
 
-type IProps = IBaseProps & IConnectedProps;
+type IProps = IBaseProps & IStateProps & IDispatchProps;
 
-const ExchangeCard: FC<any> = (props: IProps) => {
+const ExchangeCard: FC<IProps> = (props: IProps) => {
 
   const  {
     className = '',
@@ -78,7 +82,7 @@ const ExchangeCard: FC<any> = (props: IProps) => {
   }
 
   return (
-    <div className={`exchange-card fadeIn home-page__exchange-card ${className}`}>
+    <div className={`exchange-card fadeIn ${className}`}>
       <ExchangeCardCurrency
         value={valueB}
         setValue={handleChangeB}
@@ -109,19 +113,7 @@ const ExchangeCard: FC<any> = (props: IProps) => {
   );
 };
 
-const mapDispatchToProps = (dispatch: any): any => {
-  return {
-    toggleExchangeMethod: () => dispatch(TOGGLE_EXCHANGE_METHOD)
-  };
-};
-
-const mapStateToProps = ({exchange, loading, method}: ExchangesState) => {
-  return {
-    exchange, loading, method
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+export default connect<IStateProps, IDispatchProps, IBaseProps, ExchangesState>(
+  ({exchange, loading, method}: ExchangesState) => ({ exchange, loading, method }),
+  (dispatch: any) => ({toggleExchangeMethod: () => dispatch(TOGGLE_EXCHANGE_METHOD)})
 )(ExchangeCard);

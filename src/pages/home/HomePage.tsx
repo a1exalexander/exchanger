@@ -6,7 +6,7 @@ const HomePage = () => {
 
   return (
     <div className='home-page'>
-      <ExchangeCard />
+      <ExchangeCard className='home-page__exchange-card'/>
       <SelectCard/>
     </div>
   )
