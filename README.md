@@ -1,23 +1,70 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) using [Typescipt](http://www.typescriptlang.org).
 
+### [Link to app](https://a1exalexander.github.io/exchanger/)
+
+## Dependencies 
+> * [React](https://reactjs.org/)
+> * [Redux](https://redux.js.org/)
+> * [typescript](https://www.typescriptlang.org/)
+> * [decimal.js](https://mikemcl.github.io/decimal.js/)
+> * [Moment](https://momentjs.com/)
+> * [Axios](https://github.com/axios/axios)
+
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+```
+npm i
+```
+or
+```
+yarn
+```
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Compiles and hot-reloads for development with fake API ([JSON-server](https://github.com/typicode/json-server))
+```
+npm start
+```
+or
+```
+yarn start
+```
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+### Run json-server by another terminal
+```
+npm run server
+```
 
-### `npm test`
+### Compiles and hot-reloads for development with production API
+```
+npm run dev
+```
+or
+```
+yarn dev
+```
 
+### Run your tests
+
+```
+npm test
+```
+or
+```
+yarn test
+```
 Launches the test runner in the interactive watch mode.<br>
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+### Compiles and minifies for production
+```
+npm run build
+```
+or
+```
+yarn build
+```
 
 Builds the app for production to the `build` folder.<br>
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -27,7 +74,13 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+```
+npm run eject
+```
+or
+```
+yarn eject
+```
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
