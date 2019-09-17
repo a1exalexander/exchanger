@@ -46,7 +46,12 @@ const AppSlide = ({ exchange, setExchange }: { exchange: Exchange, setExchange: 
   };
 
   return (
-    <li onClick={() => setExchange(id)} className="app-slide">
+    <li
+      onClick={(e) => {
+        e.preventDefault();
+        setExchange(id);
+      }}
+      className="app-slide">
       <div className="app-slide__row">
         <object type="image/svg+xml" data={getIcon(countryB, codeB)} className="app-slide__icon"> </object>
         <span className="app-slide__currency">{codeB}</span>

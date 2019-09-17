@@ -7,7 +7,12 @@ import { ExchangesState } from '../../store/types';
 const { Option }: any = Select;
 
 const filterOption = (inputValue: string, option: any) => {
-  return option.props.children.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0;
+  return option.props.children.some((item: any) => {
+    if (typeof item === 'string') {
+      return item.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0;
+    }
+    return item.props.children.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0;
+  })
 };
 
 interface SelectCardProps {

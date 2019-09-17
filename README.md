@@ -1,4 +1,4 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) using [Typescipt](http://www.typescriptlang.org).
+App for convert currencies developed using Javascript library React and Typescript as typed superset javascript. For state contor i used Redux and Axios as API wrapper for it. Also i used Redux middlewares: thunk for use async code and middleware for use strings in dispatch.
 
 ### [Link to app](https://a1exalexander.github.io/exchanger/)
 
