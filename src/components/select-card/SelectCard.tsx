@@ -23,7 +23,7 @@ interface SelectCardProps {
 }
 
 const SelectCard = ({ exchange, currencies, loading, setExchange }: SelectCardProps) => {
-
+  
   return (
     <div className="select-card">
       <p className="select-card__title">Сurrency selection</p>
@@ -32,11 +32,11 @@ const SelectCard = ({ exchange, currencies, loading, setExchange }: SelectCardPr
         className="select-card__select"
         placeholder="Select a currency"
         optionFilterProp="children"
-        defaultValue={exchange.currencyA.code}
+        defaultValue={exchange.id}
         optionLabelProp="label"
         size='large'
         loading={loading}
-        value={exchange.currencyA.code}
+        value={exchange.id}
         onChange={setExchange}
         filterOption={filterOption}
       >
@@ -45,6 +45,21 @@ const SelectCard = ({ exchange, currencies, loading, setExchange }: SelectCardPr
           return (<Option key={id} value={id} label={code}><b>{currencyB.code}</b> - <b>{code}</b> {currency}</Option>)
         })}
       </Select>
+      <select
+        name='currencies'
+        value={exchange.id}
+        onChange={(e: any) => {
+          const v = e.target.value;
+          setExchange(v);
+        }}
+        className='select-card__select-input'>
+        {
+          currencies.map((item) => { 
+            const { currencyA: { code, currency }, id, currencyB, }: Exchange = item;
+            return (<option key={id} value={id}>{currencyB.code} - {code} {currency}</option>)
+          })
+        }
+      </select>
     </div>
   );
 };

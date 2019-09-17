@@ -7,7 +7,7 @@ import { Decimal } from 'decimal.js';
 const cryptocurrencies = require('cryptocurrencies');
 
 export const getUahBtc = (cash: Array<Exchange>, crypto: Array<Exchange>) => {
-  const id = Math.floor((Math.random() * Date.now()) + 1);
+  const id = String(Math.floor((Math.random() * Date.now()) + 1));
   const USD: any = cash.find((item) => item.currencyA.code === 'USD' && item.currencyB.code === 'UAH');
   const BTC: any = crypto.find((item) => item.currencyA.code === 'BTC' && item.currencyB.code === 'USD');
   const newExchange = {
@@ -21,7 +21,7 @@ export const getUahBtc = (cash: Array<Exchange>, crypto: Array<Exchange>) => {
 }
 
 export const mapCurrencies = (item: any) => {
-  const id = Math.floor((Math.random() * Date.now()) + 1);
+  const id = String(Math.floor((Math.random() * Date.now()) + 1));
   let newItem = {...item};
   newItem.id = id;
   newItem.currencyA = cc.number(item.currencyCodeA);
@@ -33,7 +33,7 @@ export const mapCurrencies = (item: any) => {
 };
 
 export const mapBTC = (item: any) => {
-  const id = Math.floor((Math.random() * Date.now()) + 1);
+  const id = String(Math.floor((Math.random() * Date.now()) + 1));
   let newItem:Exchange = {
     id,
     currencyCodeA: item.ccy,

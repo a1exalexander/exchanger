@@ -12,10 +12,23 @@
     margin: 0 16px;
   }
   &__select {
+    display: none;
+    @include media {
+      display: block;
+      width: 220px;
+    }
+  }
+  &__select-input {
     width: 100%;
     font-size: 16px;
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    border-top-width: 1.02px;
+    border-radius: 4px;
+    outline: none;
+    padding: 6px 12px;
     @include media {
-      width: 220px;
+      display: none;
     }
   }
 }

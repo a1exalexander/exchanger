@@ -20,7 +20,7 @@ const fetchCurrenciesSuccess = (payload: Currencies) => {
 const setExchange = (payload: string | Exchange) => (dispatch: any, getState: any) => {
   let exchange;
   if (typeof payload === 'string' || typeof payload === 'number') {
-    exchange = getState().currencies.find((item: Exchange) => item.id === payload);
+    exchange = getState().currencies.find((item: Exchange) => String(item.id) === String(payload));
   } else {
     exchange = payload;
   }
@@ -37,10 +37,10 @@ const fetchCurrencies = () => async (dispatch: any, getState: any) => {
     const cash = await apiService.fetchCurrencies();
     const crypto = await apiService.fetchBTC();
     const uahBtc = getUahBtc(cash, crypto);
-    const currencies = [...crypto, uahBtc, ...cash];
+    const currencies = [...cash, ...crypto, uahBtc];
     dispatch(fetchCurrenciesSuccess(currencies));
     const localExchange: string | null = localStorage.getItem('exchange');
-    const ex = localExchange ? JSON.parse(localExchange) : currencies[0];
+    const ex = localExchange && localExchange !== 'undefined' ? JSON.parse(localExchange) : currencies[0];
     setExchange(ex)(dispatch, getState);
     return;
   } catch (error) {
