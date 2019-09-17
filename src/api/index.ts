@@ -12,6 +12,7 @@ console.log(`ROOT URL ${process.env.REACT_APP_API_MODE}: ${ROOT_URL}`);
 
 const api = {
   currencies: `${ROOT_URL}/bank/currency`,
+  btc: `https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=1`,
 }
 
 export default api;

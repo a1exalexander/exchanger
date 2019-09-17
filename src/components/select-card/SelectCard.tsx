@@ -10,14 +10,6 @@ const filterOption = (inputValue: string, option: any) => {
   return option.props.children.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0;
 };
 
-const mapedOptions = (currencies: Currencies): any => {
-  const newList = currencies.filter(({ currencyCodeB }): boolean => currencyCodeB === 980);
-  return newList.map((item, index) => { 
-    const { currencyA: { code, currency } }: Exchange = item;
-    return (<Option key={index+code} value={code} label={code}><b>{code}</b> {currency}</Option>)
-  });
-}
-
 interface SelectCardProps {
   exchange: Exchange;
   currencies: Currencies;
@@ -43,18 +35,18 @@ const SelectCard = ({ exchange, currencies, loading, setExchange }: SelectCardPr
         onChange={setExchange}
         filterOption={filterOption}
       >
-        {mapedOptions(currencies)}
+        {currencies.map((item, index) => { 
+          const { currencyA: { code, currency }, id, currencyB, }: Exchange = item;
+          return (<Option key={id} value={id} label={code}><b>{currencyB.code}</b> - <b>{code}</b> {currency}</Option>)
+        })}
       </Select>
     </div>
   );
 };
 
-const mapStateToProps = ({ exchange, currencies, loading }: ExchangesState) => {
-  return { exchange, currencies, loading }
-}
-
-const mapDispatchToProps = {
-  setExchange,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SelectCard);
+export default connect(
+  ({ exchange, currencies, loading }: ExchangesState) => {
+    return { exchange, currencies, loading }
+  },
+  { setExchange }
+)(SelectCard);

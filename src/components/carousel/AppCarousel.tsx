@@ -1,6 +1,7 @@
 import React from 'react';
 import AppSlide from './AppSlide';
 import { connect } from 'react-redux';
+import { setExchange } from '../../store/actions';
 import { Skeleton } from 'antd';
 import { Currencies, Exchange } from '../../types';
 
@@ -36,8 +37,7 @@ const AppCarousel = ({ loading, currencies }: AppCarouselProps) => {
   );
 };
 
-const mapStateToProps = ({ currencies, loading }: { currencies: Currencies, loading: boolean }) => {
-  return { currencies, loading }
-}
-
-export default connect(mapStateToProps)(AppCarousel);
+export default connect(
+  ({ currencies, loading }: { currencies: Currencies, loading: boolean }) => ({ currencies, loading }),
+  { setExchange }
+)(AppCarousel);

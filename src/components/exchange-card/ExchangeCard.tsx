@@ -7,6 +7,7 @@ import { Skeleton } from 'antd';
 import { Decimal } from 'decimal.js';
 import { Exchange, SN } from '../../types';
 import { ExchangesState } from '../../store/types';
+import getIcon from '../../utils/getIcon';
 
 const { calcByA, calcByB } = new CalcCurrency();
 
@@ -38,8 +39,8 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
   } = props;
 
   const {
-    currencyA: { code: codeA, currency: currencyA, country: countryA },
-    currencyB: { code: codeB, currency: currencyB, country: countryB }
+    currencyA: { code: codeA, currency: currencyA, country: countryA = '' },
+    currencyB: { code: codeB, currency: currencyB, country: countryB = '' }
   } = exchange as Exchange;
 
   const [valueA, setValueA] = useState('');
@@ -57,8 +58,6 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
     }
   }, [method, exchange.currencyCodeA, exchange.currencyCodeB])
 
-  const getIcon = (country: string) => country ? require(`../../assets/flags/${country}.svg`) : '';
-
   const rateA: SN = rates[method] || 1;
 
   const handleChangeA = (e: any): void => {
@@ -69,7 +68,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
     calcByB(e.target.value, rateA, setValueB, setValueA);
   }
 
-  const rateB: SN = loading ? '' : Decimal.div(1, rateA).toFixed(4);
+  const rateB: SN = loading ? '' : Decimal.div(1, rateA).toFixed(6);
 
   if (loading) {
     return (
@@ -86,7 +85,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
       <ExchangeCardCurrency
         value={valueB}
         setValue={handleChangeB}
-        icon={getIcon(countryB)}
+        icon={getIcon(countryB, codeB)}
         rate={rateB}
         codeA={codeA}
         codeB={codeB}
@@ -103,7 +102,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
       <ExchangeCardCurrency
         value={valueA}
         setValue={handleChangeA}
-        icon={getIcon(countryA)}
+        icon={getIcon(countryA, codeA)}
         rate={rateA}
         codeA={codeB}
         codeB={codeA}

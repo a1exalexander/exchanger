@@ -7,6 +7,7 @@ import {
 import { ActionTypes } from '../types';
 import { Exchange, Currencies } from '../../types';
 import ApiService from '../../services/apiService';
+import { getUahBtc } from '../../utils/formatCurrency';
 const apiService = new ApiService();
 
 const fetchCurrenciesSuccess = (payload: Currencies) => {
@@ -18,8 +19,8 @@ const fetchCurrenciesSuccess = (payload: Currencies) => {
 
 const setExchange = (payload: string | Exchange) => (dispatch: any, getState: any) => {
   let exchange;
-  if (typeof payload === 'string') {
-    exchange = getState().currencies.find((item: Exchange) => item.currencyA.code === payload);
+  if (typeof payload === 'string' || typeof payload === 'number') {
+    exchange = getState().currencies.find((item: Exchange) => item.id === payload);
   } else {
     exchange = payload;
   }
@@ -33,7 +34,10 @@ const setExchange = (payload: string | Exchange) => (dispatch: any, getState: an
 const fetchCurrencies = () => async (dispatch: any, getState: any) => {
   dispatch(FETCH_CURRENCIES_REQUEST);
   try {
-    const currencies = await apiService.fetchCurrencies();
+    const cash = await apiService.fetchCurrencies();
+    const crypto = await apiService.fetchBTC();
+    const uahBtc = getUahBtc(cash, crypto);
+    const currencies = [...crypto, uahBtc, ...cash];
     dispatch(fetchCurrenciesSuccess(currencies));
     const localExchange: string | null = localStorage.getItem('exchange');
     const ex = localExchange ? JSON.parse(localExchange) : currencies[0];

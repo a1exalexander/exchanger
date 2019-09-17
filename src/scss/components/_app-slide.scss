@@ -1,5 +1,6 @@
 .app-slide {
   @extend %card;
+  cursor: pointer;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.09);
   margin: 32px;
   flex: 0 0 300px;

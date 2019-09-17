@@ -1,17 +1,21 @@
 import React from 'react';
 import { Exchange } from '../../types';
+import { connect } from 'react-redux';
+import getIcon from '../../utils/getIcon';
+import { setExchange } from '../../store/actions';
+import { Dispatch } from 'redux';
+import { ActionTypes } from '../../store/types';
 
-const AppSlide = ({ exchange }: { exchange: Exchange }) => {
+const AppSlide = ({ exchange, setExchange }: { exchange: Exchange, setExchange: any }) => {
 
   const {
+    id,
     rateBuy = '',
     rateSell = '',
     rateCross = '',
-    currencyA: { code: codeA, currency: currencyA, country: countryA },
-    currencyB: { code: codeB, currency: currencyB, country: countryB }
+    currencyA: { code: codeA, currency: currencyA, country: countryA = '' },
+    currencyB: { code: codeB, currency: currencyB, country: countryB = '' }
   } = exchange;
-
-  const getIcon = (country: string) => require(`../../assets/flags/${country}.svg`);
 
   const priceElement = () => {
     if (rateBuy) {
@@ -42,15 +46,15 @@ const AppSlide = ({ exchange }: { exchange: Exchange }) => {
   };
 
   return (
-    <li className="app-slide">
+    <li onClick={() => setExchange(id)} className="app-slide">
       <div className="app-slide__row">
-        <object type="image/svg+xml" data={getIcon(countryB)} className="app-slide__icon"> </object>
+        <object type="image/svg+xml" data={getIcon(countryB, codeB)} className="app-slide__icon"> </object>
         <span className="app-slide__currency">{codeB}</span>
         <span className="app-slide__currency-name">{currencyB}</span>
       </div>
       {priceElement()}
       <div className="app-slide__row">
-        <object type="image/svg+xml" data={getIcon(countryA)} className="app-slide__icon"> </object>
+        <object type="image/svg+xml" data={getIcon(countryA, codeA)} className="app-slide__icon"> </object>
         <span className="app-slide__currency">{codeA}</span>
         <span className="app-slide__currency-name">{currencyA}</span>
       </div>
@@ -58,4 +62,7 @@ const AppSlide = ({ exchange }: { exchange: Exchange }) => {
   );
 };
 
-export default AppSlide;
+export default connect(
+  null,
+  { setExchange }
+)(AppSlide);

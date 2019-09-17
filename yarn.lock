@@ -3118,6 +3118,16 @@ crypto-random-string@^1.0.0:
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
   integrity sha1-ojD2T1aDEOFJgAmUB5DsmVRbyn4=
 
+cryptocurrencies@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/cryptocurrencies/-/cryptocurrencies-7.0.0.tgz#4f8fc826a63c14a1294e0b401bb69503506f98a5"
+  integrity sha512-jCA+ykHJg0BAH4eR3T5uhZJ31kp9JrZZqn7Cga4tUgONSPdg4MGLv0SuL272llVXfUgvZZX2lYM4ZjJa/+hjYw==
+
+cryptocurrency-icons@^0.16.1:
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/cryptocurrency-icons/-/cryptocurrency-icons-0.16.1.tgz#33ec0b828c666f773b53866b4b803b2a06c28efc"
+  integrity sha512-C6y+r56g0ZJzZ9kCbeKa/WXb/oz1elilsaSGjv86T93P0oZWr4v5pxnbtZrEnvHn63qbTxo/Pz3NvzLbKrnQVQ==
+
 css-animation@1.x, css-animation@^1.3.2, css-animation@^1.5.0:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/css-animation/-/css-animation-1.6.1.tgz#162064a3b0d51f958b7ff37b3d6d4de18e17039e"
