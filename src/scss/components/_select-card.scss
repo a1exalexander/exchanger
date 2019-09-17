@@ -12,6 +12,10 @@
     margin: 0 16px;
   }
   &__select {
-    width: 200px;
+    width: 100%;
+    font-size: 16px;
+    @include media {
+      width: 220px;
+    }
   }
 }

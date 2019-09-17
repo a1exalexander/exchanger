@@ -30,6 +30,9 @@ const ExchangeCardCurrency = ({ icon, codeA, codeB, currencyB, rate, value, setV
           >
           </object>
         </div>
+        <div className="exchange-card-currency__rate">
+          = {rate} {codeA}
+        </div>
       </div>
       <input type="text" className="exchange-card-currency__input" value={value} onChange={setValue} placeholder={`Enter "${currencyB}" amount`}/>
       <div className="exchange-card-currency__footer">

@@ -3,11 +3,19 @@
   align-self: stretch;
   @include flex-col(space-between, center);
   &__head {
-    @include flex-col(flex-start, center);
+    width: 100%;
+    @include flex-row(space-between, center);
+    @include media {
+      @include flex-col(flex-start, center);
+    }
   }
   &__footer {
-    font-size: $H500;
-    align-self: flex-start;
+    display: none;
+    @include media {
+      display: block;
+      font-size: $H500;
+      align-self: flex-start;
+    }
   }
   &__row {
     @include flex-row(center, center);
@@ -19,6 +27,12 @@
   }
   &__icon {
     @include size(20px);
+    order: -1;
+    margin-right: 4px;
+    @include media {
+      order: 2;
+      margin-right: 0;
+    }
   }
   &__toggle {
     background-color: transparent;
@@ -48,7 +62,18 @@
     position: relative;
   }
   &__currency {
-    @include text($H500, 500);
+    display: none;
+    @include media {
+      display: inline-block;
+      @include text($H500, 500);
+      margin-right: 0
+    }
+  }
+  &__rate {
+    margin-left: 12px;
+    @include media {
+      display: none;
+    }
   }
   &__input {
     border: none;
@@ -57,11 +82,12 @@
     border-bottom: 1px solid $N1;
     margin: 14px 0;
     text-align: center;
+    width: 100%;
     &::placeholder {
       @include text($H400, 400, $N6);
     }
     @include media {
-      width: 100%;
+      
       text-align: left;
       margin: 0;
     }

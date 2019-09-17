@@ -1,8 +1,5 @@
 .exchange-card {
   @extend %card;
-  position: relative;
-  top: -52px;
-  z-index: 2;
   width: 100%;
   padding: 24px;
   @include flex-col(flex-start, center);
@@ -18,12 +15,6 @@
     flex: 0 0 42%;
     align-self: stretch;
     @include flex-col(space-between, center);
-  }
-  &__head {
-    @include flex-col(flex-start, center);
-  }
-  &__footer {
-    font-size: $H500;
   }
   &__row {
     @include flex-row(center, center);
@@ -43,8 +34,10 @@
     border-radius: 4px;
     @include transition(filter, transform);
     margin: 24px 0;
+    transition-duration: 0.6s;
     @include media {
       margin: 0 24px;
+      transition-duration: 0.2s;
     }
     &.sell {
       color: $O1;
@@ -82,11 +75,15 @@
     }
   }
   &__method {
-    position: absolute;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
     text-transform: capitalize;
+    position: absolute;
+    bottom: 44.5%;
+    left: 55%;
+    @include media {
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
     &.sell {
       color: $O1;
     }

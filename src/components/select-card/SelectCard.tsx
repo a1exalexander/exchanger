@@ -37,6 +37,7 @@ const SelectCard = ({ exchange, currencies, loading, setExchange }: SelectCardPr
         optionFilterProp="children"
         defaultValue={exchange.currencyA.code}
         optionLabelProp="label"
+        size='large'
         loading={loading}
         value={exchange.currencyA.code}
         onChange={setExchange}

@@ -20,30 +20,6 @@
   color: $color;
 }
 
-@mixin isTablet($display: block) {
-  display: none;
-  @media screen and (min-width: $screen-tablet) {
-    display: $display;
-    @content;
-  }
-}
-
-@mixin isDesktop($display: block) {
-  display: none;
-  @media screen and (min-width: $screen-desktop) {
-    display: $display;
-    @content;
-  }
-}
-
-@mixin isMobile($display: block) {
-  display: $display;
-  @content;
-  @media screen and (min-width: $screen-tablet) {
-    display: none;
-  }
-}
-
 @mixin size($size, $round: false) {
   width: $size;
   height: $size;
@@ -221,7 +197,7 @@ $z-index: (
   @return map-get($z-index, $key);
 }
 
-@mixin media($screen: 1024px) {
+@mixin media($screen: 860px) {
   @media screen and (min-width: $screen) {
     @content;
   }
