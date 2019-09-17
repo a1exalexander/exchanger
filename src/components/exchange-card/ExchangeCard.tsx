@@ -91,13 +91,16 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
         codeB={codeB}
         currencyB={currencyB}
       />
-      <button
-        onClick={toggleExchangeMethod}
-        className={`exchange-card__toggle ${method}`}
-        title={method}
-      >
-        <i className="fas fa-exchange-alt exchange-card__icon-exchange"></i>
-      </button>
+      <div className='exchange-card__toggle-wrapper'>
+        <button
+          onClick={toggleExchangeMethod}
+          className={`exchange-card__toggle ${method}`}
+          title={method}
+        >
+          <i className="fas fa-exchange-alt exchange-card__icon-exchange"></i>
+        </button>
+        <span className={`exchange-card__method  exchange-card__method--mobile ${method}`}>{method}</span>
+      </div>
       <span className={`exchange-card__method ${method}`}>{method}</span>
       <ExchangeCardCurrency
         value={valueA}

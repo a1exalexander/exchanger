@@ -1,6 +1,16 @@
 .app-header {
   @extend %bb;
-  padding-bottom: 42px;
+  margin-bottom: 24px;
+  @include media {
+    margin-bottom: 0;
+    padding-bottom: 42px;
+  }
+  .app-carousel {
+    display: none;
+    @include media {
+      display: block;
+    }
+  }
   &__nav {
     padding: 14px 0;
     @include container;
@@ -19,7 +29,10 @@
     }
   }
   &__title {
-    @include text($H900, 500);
+    @include text($H700, 500);
     margin: 0;
+    @include media {
+      font-size: $H900;
+    }
   }
 }

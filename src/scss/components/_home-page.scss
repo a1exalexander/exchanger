@@ -2,10 +2,8 @@
   @include container;
   position: relative;
   @include flex-col(flex-start, stretch);
-  padding-bottom: 64px;
   @include media {
     @include flex-row;
-    padding-bottom: 32px;
   }
   &__exchange-card {
     order: 2;

@@ -33,10 +33,8 @@
     cursor: pointer;
     border-radius: 4px;
     @include transition(filter, transform);
-    margin: 24px 0;
     transition-duration: 0.6s;
     @include media {
-      margin: 0 24px;
       transition-duration: 0.2s;
     }
     &.sell {
@@ -60,6 +58,13 @@
       transform: rotate(360deg);
     }
   }
+  &__toggle-wrapper {
+    position: relative;
+    margin: 24px 0;
+    @include media {
+      margin: 0 24px;
+    }
+  }
   &__icon-exchange {
     font-size: 24px;
     position: relative;
@@ -77,12 +82,23 @@
   &__method {
     text-transform: capitalize;
     position: absolute;
-    bottom: 45%;
-    left: 55%;
+    display: none;
     @include media {
       bottom: 25px;
+      display: block;
       left: 50%;
       transform: translateX(-50%);
+    }
+    &--mobile {
+      display: block;
+      left: 110%;
+      top: 0;
+      bottom: 0;
+      transform: translateY(2px);
+      margin-right: 6px;
+      @include media {
+        display: none;
+      }
     }
     &.sell {
       color: $O1;

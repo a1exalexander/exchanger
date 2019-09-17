@@ -1,9 +1,15 @@
 .select-card {
   position: relative;
-  top: -32px;
+  @include media {
+    top: -32px;
+  }
   &__title {
-    @include text($H500, 400);
-    margin-bottom: 32px;
+    display: none;
+    @include media {
+      display: block;
+      @include text($H500, 400);
+      margin-bottom: 32px;
+    } 
   }
   &__row {
     @include flex-row(flex-start, center);
@@ -27,6 +33,7 @@
     border-radius: 4px;
     outline: none;
     padding: 6px 12px;
+    margin-bottom: 24px;
     @include media {
       display: none;
     }
