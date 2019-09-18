@@ -36,7 +36,7 @@ const SelectCard = ({ exchange, currencies, loading, setExchange }: SelectCardPr
         optionLabelProp="label"
         size='large'
         loading={loading}
-        value={exchange.id}
+        value={`${exchange.currencyB.code} - ${exchange.currencyA.code} ${exchange.currencyA.currency}`}
         onChange={setExchange}
         filterOption={filterOption}
       >
