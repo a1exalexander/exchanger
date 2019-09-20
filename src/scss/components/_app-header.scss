@@ -1,7 +1,7 @@
 .app-header {
-  @extend %bb;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   @include media {
+    border-bottom: 1px solid $N1;
     margin-bottom: 0;
     padding-bottom: 42px;
   }
@@ -11,14 +11,31 @@
       display: block;
     }
   }
+  &__logo {
+    @include svg(20px);
+    margin-right: 8px;
+    @include media {
+      @include svg(32px);
+      display: block;
+      margin-right: 12px;
+    }
+  }
   &__nav {
-    padding: 14px 0;
     @include container;
+    $size: 6px;
+    padding-top: $size;
+    padding-bottom: $size;
     @extend %bb;
     margin: 0;
+    @include media {
+      $size: 14px;
+      padding-top: $size;
+      padding-bottom: $size;
+    }
   }
   &__link {
     @include transition(color);
+    @include flex-row(flex-start, center);
     @include media {
       &:hover > * {
         color: lighten($N100, 20%);
@@ -29,7 +46,7 @@
     }
   }
   &__title {
-    @include text($H700, 500);
+    @include text($H600, 500);
     margin: 0;
     @include media {
       font-size: $H900;

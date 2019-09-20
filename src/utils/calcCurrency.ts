@@ -10,14 +10,14 @@ export default class CalcCurrency {
   calcByA = (val: SN, rate: SN, funcA: any, funcB: any) => {
     if (this._isNumber(val)) {
       funcA(val);
-      funcB(new Decimal(Number(val)).mul(Number(rate)).toFixed(4));
+      funcB(new Decimal(Number(val)).mul(Number(rate)));
     }
   }
 
   calcByB = (val: SN, rate: SN, funcA: any, funcB: any) => {
     if (this._isNumber(val)) {
       funcA(val);
-      funcB(new Decimal(Number(val)).div(Number(rate)).toFixed(4));
+      funcB(new Decimal(Number(val)).div(Number(rate)));
     }
   }
 }

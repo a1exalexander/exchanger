@@ -1,7 +1,7 @@
 import * as cc from 'currency-codes';
 import moment from 'moment';
 import getCountry from './currencyList';
-import { Exchange } from '../types';
+import { Exchange, SN } from '../types';
 import { Decimal } from 'decimal.js';
 
 const cryptocurrencies = require('cryptocurrencies');
@@ -55,5 +55,15 @@ const formatCurrency = (currencyCode: string) => {
   return newItem;
 };
 
+export const toFix = (val: SN | Decimal, n = 4) => {
+  const max = Number.MAX_SAFE_INTEGER;
+  if (val) {
+    return new Decimal(val).toDP(n, Decimal.ROUND_DOWN).toNumber()
+  }
+  // if (Number(val) >= max) {
+  //   return max;
+  // }
+  return '';
+}
 
 export default formatCurrency;

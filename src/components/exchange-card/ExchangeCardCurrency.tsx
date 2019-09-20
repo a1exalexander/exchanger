@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { inputFontSize } from '../../utils/helpers';
 import { SN } from '../../types';
 
 interface ExchangeCardCurrencyProps {
@@ -34,7 +35,7 @@ const ExchangeCardCurrency = ({ icon, codeA, codeB, currencyB, rate, value, setV
           = {rate} {codeA}
         </div>
       </div>
-      <input type="text" className="exchange-card-currency__input" value={value} onChange={setValue} placeholder={`Enter "${currencyB}" amount`}/>
+      <input title='asd' style={{ fontSize: inputFontSize(value) }} type="text" className="exchange-card-currency__input" value={value} onChange={setValue} placeholder={`Enter "${currencyB}" amount`}/>
       <div className="exchange-card-currency__footer">
         1 {codeB} = {rate} {codeA}
       </div>

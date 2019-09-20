@@ -8,6 +8,7 @@ import { Decimal } from 'decimal.js';
 import { Exchange, SN } from '../../types';
 import { ExchangesState } from '../../store/types';
 import getIcon from '../../utils/getIcon';
+import { toFix } from '../../utils/formatCurrency';
 
 const { calcByA, calcByB } = new CalcCurrency();
 
@@ -43,7 +44,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
     currencyB: { code: codeB, currency: currencyB, country: countryB = '' }
   } = exchange as Exchange;
 
-  const [valueA, setValueA] = useState('');
+  const [valueA, setValueA] = useState(1);
   const [valueB, setValueB] = useState('');
 
   const rates: any = {
@@ -53,8 +54,8 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
   };
 
   useEffect(() => {
-    if (valueA && valueB) {
-      calcByB(valueB, rates[method], setValueB, setValueA);
+    if (valueA) {
+      calcByA(valueA, rates[method], setValueA, setValueB);
     }
   }, [method, exchange.currencyCodeA, exchange.currencyCodeB])
 
@@ -68,7 +69,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
     calcByB(e.target.value, rateA, setValueB, setValueA);
   }
 
-  const rateB: SN = loading ? '' : Decimal.div(1, rateA).toFixed(6);
+  const rateB: SN = loading ? '' : new Decimal(1).div(rateA).toDP(4, Decimal.ROUND_DOWN).toString();
 
   if (loading) {
     return (
@@ -83,13 +84,13 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
   return (
     <div className={`exchange-card fadeIn ${className}`}>
       <ExchangeCardCurrency
-        value={valueB}
-        setValue={handleChangeB}
-        icon={getIcon(countryB, codeB)}
-        rate={rateB}
-        codeA={codeA}
-        codeB={codeB}
-        currencyB={currencyB}
+        value={toFix(valueA)}
+        setValue={handleChangeA}
+        icon={getIcon(countryA, codeA)}
+        rate={rateA}
+        codeA={codeB}
+        codeB={codeA}
+        currencyB={currencyA}
       />
       <div className='exchange-card__toggle-wrapper'>
         <button
@@ -103,13 +104,13 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
       </div>
       <span className={`exchange-card__method ${method}`}>{method}</span>
       <ExchangeCardCurrency
-        value={valueA}
-        setValue={handleChangeA}
-        icon={getIcon(countryA, codeA)}
-        rate={rateA}
-        codeA={codeB}
-        codeB={codeA}
-        currencyB={currencyA}
+        value={toFix(valueB)}
+        setValue={handleChangeB}
+        icon={getIcon(countryB, codeB)}
+        rate={rateB}
+        codeA={codeA}
+        codeB={codeB}
+        currencyB={currencyB}
       />
     </div>
   );
