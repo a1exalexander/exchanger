@@ -2,7 +2,7 @@
 
 App for convert currencies developed using Javascript library React and Typescript as typed superset javascript. For state contor i used Redux and Axios as API wrapper for it. Also i used Redux middlewares: thunk for use async code and middleware for use strings in dispatch.
 
-### [Link to app](https://a1exalexander.github.io/exchanger/)
+### [Link to app](https://exchanger.now.sh/)
 
 ## Dependencies 
 > * [React](https://reactjs.org/)
