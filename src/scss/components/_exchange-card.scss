@@ -11,6 +11,11 @@
     top: -52px;
     height: 200px;
   }
+  &__ontop-button {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+  }
   &__side {
     flex: 0 0 42%;
     align-self: stretch;

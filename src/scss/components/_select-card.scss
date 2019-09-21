@@ -1,4 +1,52 @@
-.select-card {
+@-webkit-keyframes color-transition {
+	0% {
+		background-color: $B2;
+		border-color: $B2;
+	}
+	25% {
+    background-color: $R2;
+		border-color: $R2;
+		
+	}
+	50% {
+		background-color: $G1;
+		border-color: $G1;
+  }
+  75% {
+		background-color: $P1;
+		border-color: $P1;
+	}
+	100% {
+		background-color: $Y1;
+		border-color: $Y1;
+	}
+}
+
+@keyframes color-transition {
+	0% {
+		background-color: $B2;
+		border-color: $B2;
+	}
+	25% {
+    background-color: $R2;
+		border-color: $R2;
+		
+	}
+	50% {
+		background-color: $G1;
+		border-color: $G1;
+  }
+  75% {
+		background-color: $P1;
+		border-color: $P1;
+	}
+	100% {
+		background-color: $Y1;
+		border-color: $Y1;
+	}
+}
+$style: select-card;
+.#{$style} {
   position: relative;
   @include media {
     top: -32px;
@@ -17,6 +65,9 @@
   &__icon-exchange {
     margin: 0 16px;
   }
+  &__icon-middle {
+    font-size: 13px;
+  }
   &__select {
     display: none;
     @include media {
@@ -24,7 +75,71 @@
       width: 260px;
     }
   }
+  &__select-inner {
+    position: relative;
+    pointer-events: none;
+  }
+  &__select-wrapper {
+    margin-bottom: 24px;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    box-shadow: 0 -1px 6px 8px rgba(0, 0, 0, 0.11);
+    @include media {
+      display: none;
+    }
+  }
+  &__placeholder {
+    width: 100%;
+    border-top-width: 1.02px;
+    background-color: $B2;
+    outline: none;
+    padding: 24px 12px 12px;
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+    @include flex-row(space-between, center);
+    @include text($H400, 500, $N0);
+    animation-name: color-transition;
+    -webkit-animation-duration: 20s;
+    animation-duration: 20s;
+    -webkit-animation-direction: alternate;
+    animation-direction: alternate;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+  }
+  &__help {
+    text-align: center;
+    left: 0;
+    right: 0;
+    position: absolute;
+    bottom: -22px;
+    @include text($H300, 400, $N6);
+  }
+  &__logo {
+    @include svg(14px, $N0);
+    svg {
+      fill: $N0;
+    }
+  }
+  &__caption {
+    position: absolute;
+    z-index: 3;
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: 2px;
+    @include text($H300, 500, $N0);
+    text-align: center;
+  }
   &__select-input {
+    top: 0;
+    opacity: 0;
+    position: absolute;
     width: 100%;
     font-size: 16px;
     background-color: #fff;
@@ -33,9 +148,23 @@
     border-radius: 4px;
     outline: none;
     padding: 6px 12px;
-    margin-bottom: 24px;
-    @include media {
-      display: none;
+    pointer-events: all;
+  }
+  &__icon {
+    @include size(20px);
+    &--m-right {
+      margin-right: 6px;
+    }
+    &--m-left {
+      margin-left: 6px;
     }
   }
+  &__placeholder-item {
+    @include flex-row(flex-start, center);
+    flex: 0 0 48%;
+    &--right {
+      justify-content: flex-end;
+    }
+  }
+  
 }

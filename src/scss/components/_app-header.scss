@@ -1,6 +1,8 @@
 .app-header {
   margin-bottom: 16px;
+  height: 82px;
   @include media {
+    height: auto;
     border-bottom: 1px solid $N1;
     margin-bottom: 0;
     padding-bottom: 42px;
@@ -22,12 +24,14 @@
   }
   &__nav {
     @include container;
-    $size: 6px;
+    $size: 12px;
     padding-top: $size;
     padding-bottom: $size;
     @extend %bb;
     margin: 0;
+    display: none;
     @include media {
+      display: block;
       $size: 14px;
       padding-top: $size;
       padding-bottom: $size;
@@ -46,7 +50,7 @@
     }
   }
   &__title {
-    @include text($H600, 500);
+    @include text($H500, 500);
     margin: 0;
     @include media {
       font-size: $H900;
