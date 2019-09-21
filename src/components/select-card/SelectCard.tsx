@@ -32,31 +32,8 @@ const SelectCard = ({ exchange, currencies, loading, setExchange }: SelectCardPr
     currencyB: { code: codeB, currency: currencyB, country: countryB = '' }
   } = exchange as Exchange;
 
-  const [sPosition, setSelectPosition] = useState(50);
-
-  const handleScroll = (e: any) => {
-    
-    const testDiv = document.getElementById("select");
-    if (testDiv) {
-      const rect: any = testDiv.getBoundingClientRect();
-      setSelectPosition(rect.top);
-    }
-  }
-
-  useEffect(
-    () => {
-      window.addEventListener('scroll', handleScroll);
-      return () => window.removeEventListener('scroll', handleScroll);
-    },
-    []
-  )
-
-  useEffect(
-    () => console.log(sPosition)
-  )
-
   return (
-    <div className="select-card" onScroll={handleScroll}>
+    <div className="select-card">
       <p className="select-card__title">Сurrency selection</p>
       <Select
         showSearch
@@ -76,7 +53,7 @@ const SelectCard = ({ exchange, currencies, loading, setExchange }: SelectCardPr
           return (<Option key={id} value={id} label={code}><b>{currencyB.code}</b> - <b>{code}</b> {currency}</Option>)
         })}
       </Select>
-      <div className={`select-card__select-wrapper ${sPosition < 30 ? 'active': ''}`} id='select'>
+      <div className={`select-card__select-wrapper`} id='select'>
         <div className='select-card__select-inner'>
           <div className='select-card__placeholder'>
             <p className='select-card__caption'>UAH Excahnger</p>
