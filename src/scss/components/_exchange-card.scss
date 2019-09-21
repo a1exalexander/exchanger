@@ -3,6 +3,7 @@
   width: 100%;
   padding: 24px;
   @include flex-col(flex-start, center);
+  z-index: 2;
   @include media {
     @include flex-row(space-between, center);
     position: relative;

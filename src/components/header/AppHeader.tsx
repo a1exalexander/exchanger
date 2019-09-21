@@ -5,6 +5,7 @@ import appLogo from '../../assets/images/currencies.svg';
 const AppHeader = () => {
   return (
     <header className="app-header">
+      <span className='app-header__help'>Tap here to select currencies</span>
       <nav className='app-header__nav'>
         <a href="/" className="app-header__link">
           <object className="app-header__logo" data={appLogo} type="image/svg+xml"></object>

@@ -1,11 +1,24 @@
 .app-header {
   margin-bottom: 16px;
   height: 82px;
+  position: relative;
   @include media {
     height: auto;
     border-bottom: 1px solid $N1;
     margin-bottom: 0;
     padding-bottom: 42px;
+  }
+  &__help {
+    text-align: center;
+    left: 0;
+    right: 0;
+    position: fixed;
+    top: 60px;
+    @include text($H300, 400, $N6);
+    z-index: 0;
+    @include media {
+      display: none;
+    }
   }
   .app-carousel {
     display: none;

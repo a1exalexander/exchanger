@@ -78,7 +78,6 @@ const SelectCard = ({ exchange, currencies, loading, setExchange }: SelectCardPr
       </Select>
       <div className={`select-card__select-wrapper ${sPosition < 30 ? 'active': ''}`} id='select'>
         <div className='select-card__select-inner'>
-          <span className='select-card__help'>Tap here to select currencies</span>
           <div className='select-card__placeholder'>
             <p className='select-card__caption'>UAH Excahnger</p>
             <div className='select-card__placeholder-item'>

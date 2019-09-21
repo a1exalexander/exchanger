@@ -1,3 +1,19 @@
+@-webkit-keyframes AnimationName {
+  0%{background-position:0% 81%}
+  50%{background-position:100% 20%}
+  100%{background-position:0% 81%}
+}
+@-moz-keyframes AnimationName {
+  0%{background-position:0% 81%}
+  50%{background-position:100% 20%}
+  100%{background-position:0% 81%}
+}
+@keyframes AnimationName {
+  0%{background-position:0% 81%}
+  50%{background-position:100% 20%}
+  100%{background-position:0% 81%}
+}
+
 @-webkit-keyframes color-transition {
 	0% {
 		background-color: $B2;
@@ -87,6 +103,7 @@ $style: select-card;
     right: 0;
     left: 0;
     box-shadow: 0 -1px 6px 8px rgba(0, 0, 0, 0.11);
+    z-index: 10;
     @include media {
       display: none;
     }
@@ -102,24 +119,14 @@ $style: select-card;
     pointer-events: none;
     @include flex-row(space-between, center);
     @include text($H400, 500, $N0);
-    animation-name: color-transition;
-    -webkit-animation-duration: 20s;
-    animation-duration: 20s;
-    -webkit-animation-direction: alternate;
-    animation-direction: alternate;
-    -webkit-animation-iteration-count: infinite;
-    animation-iteration-count: infinite;
-    -webkit-animation-timing-function: linear;
-    animation-timing-function: linear;
+    background: linear-gradient(271deg, $R2, $Y2, $G1, #17a781, $B2);
+    background-size: 1000% 1000%;
+    -webkit-animation: AnimationName 39s ease infinite;
+    -moz-animation: AnimationName 39s ease infinite;
+    animation: AnimationName 39s ease infinite;
+
   }
-  &__help {
-    text-align: center;
-    left: 0;
-    right: 0;
-    position: absolute;
-    bottom: -22px;
-    @include text($H300, 400, $N6);
-  }
+  
   &__logo {
     @include svg(14px, $N0);
     svg {
