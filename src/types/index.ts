@@ -20,6 +20,7 @@ export interface Exchange {
   rateCross?: SN;
   currencyA: Currency;
   currencyB: Currency;
+  precision?: number;
 }
 
 export type Currencies = Array<Exchange>;

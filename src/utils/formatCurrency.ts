@@ -12,9 +12,10 @@ export const getUahBtc = (cash: Array<Exchange>, crypto: Array<Exchange>) => {
   const BTC: any = crypto.find((item) => item.currencyA.code === 'BTC' && item.currencyB.code === 'USD');
   const newExchange = {
     id,
+    precision: 6,
     currencyCodeA: BTC.currencyCodeA,
-    rateBuy: Decimal.mul(USD.rateBuy, BTC.rateBuy).toFixed(4),
-    rateSell: Decimal.mul(USD.rateSell, BTC.rateSell).toFixed(4),
+    rateBuy: Decimal.mul(USD.rateBuy, BTC.rateBuy).toFixed(6),
+    rateSell: Decimal.mul(USD.rateSell, BTC.rateSell).toFixed(6),
     currencyA: BTC.currencyA,
   };
   return Object.assign({}, USD, newExchange);
@@ -22,11 +23,14 @@ export const getUahBtc = (cash: Array<Exchange>, crypto: Array<Exchange>) => {
 
 export const mapCurrencies = (item: any) => {
   const id = String(Math.floor((Math.random() * Date.now()) + 1));
-  let newItem = {...item};
-  newItem.id = id;
-  newItem.currencyA = cc.number(item.currencyCodeA);
-  newItem.currencyB = cc.number(item.currencyCodeB);
-  newItem.date = moment(item.date, 'X').format('DD MMMM YYYY');
+  let newItem = {
+    ...item,
+    id,
+    precision: 4,
+    currencyA: cc.number(item.currencyCodeA),
+    currencyB: cc.number(item.currencyCodeB),
+    date: moment(item.date, 'X').format('DD MMMM YYYY'),
+  };
   newItem.currencyA.country = getCountry(newItem.currencyA.code);
   newItem.currencyB.country = getCountry(newItem.currencyB.code);
   return newItem;
@@ -36,6 +40,7 @@ export const mapBTC = (item: any) => {
   const id = String(Math.floor((Math.random() * Date.now()) + 1));
   let newItem:Exchange = {
     id,
+    precision: 6,
     currencyCodeA: item.ccy,
     currencyCodeB: item.base_ccy,
     rateBuy: Number(item.buy),
@@ -55,14 +60,14 @@ const formatCurrency = (currencyCode: string) => {
   return newItem;
 };
 
-export const toFix = (val: SN | Decimal, n = 4) => {
+export const toFix = (val: SN | Decimal, pre = 4) => {
   const max = Number.MAX_SAFE_INTEGER;
-  if (val) {
-    return new Decimal(val).toDP(n, Decimal.ROUND_DOWN).toNumber()
+  if (val && pre > 4) {
+    return new Decimal(val).toFixed(pre);
   }
-  // if (Number(val) >= max) {
-  //   return max;
-  // }
+  if (val) {
+    return new Decimal(val).toDP(pre, Decimal.ROUND_DOWN).toNumber(); 
+  }
   return '';
 }
 

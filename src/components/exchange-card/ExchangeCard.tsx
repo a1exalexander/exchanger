@@ -41,7 +41,8 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
 
   const {
     currencyA: { code: codeA, currency: currencyA, country: countryA = '' },
-    currencyB: { code: codeB, currency: currencyB, country: countryB = '' }
+    currencyB: { code: codeB, currency: currencyB, country: countryB = '' },
+    precision,
   } = exchange as Exchange;
 
   const [valueA, setValueA] = useState(1);
@@ -84,7 +85,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
   return (
     <div className={`exchange-card fadeIn ${className}`}>
       <ExchangeCardCurrency
-        value={toFix(valueA)}
+        value={toFix(valueA, precision)}
         setValue={handleChangeA}
         icon={getIcon(countryA, codeA)}
         rate={rateA}
@@ -104,7 +105,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
       </div>
       <span className={`exchange-card__method ${method}`}>{method}</span>
       <ExchangeCardCurrency
-        value={toFix(valueB)}
+        value={toFix(valueB, precision)}
         setValue={handleChangeB}
         icon={getIcon(countryB, codeB)}
         rate={rateB}

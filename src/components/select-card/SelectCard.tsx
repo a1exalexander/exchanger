@@ -56,7 +56,7 @@ const SelectCard = ({ exchange, currencies, loading, setExchange }: SelectCardPr
       <div className={`select-card__select-wrapper`} id='select'>
         <div className='select-card__select-inner'>
           <div className='select-card__placeholder'>
-            <p className='select-card__caption'>UAH Excahnger</p>
+            <h1 className='select-card__caption'>UAH Excahnger</h1>
             <div className='select-card__placeholder-item'>
               <object
                 type="image/svg+xml"
