@@ -2,7 +2,7 @@ import * as cc from 'currency-codes';
 import moment from 'moment';
 import getCountry from './currencyList';
 import { Exchange, SN } from '../types';
-import { Decimal } from 'decimal.js';
+import Big  from 'big.js';
 
 const cryptocurrencies = require('cryptocurrencies');
 
@@ -14,8 +14,8 @@ export const getUahBtc = (cash: Array<Exchange>, crypto: Array<Exchange>) => {
     id,
     precision: 6,
     currencyCodeA: BTC.currencyCodeA,
-    rateBuy: Decimal.mul(USD.rateBuy, BTC.rateBuy).toFixed(6),
-    rateSell: Decimal.mul(USD.rateSell, BTC.rateSell).toFixed(6),
+    rateBuy: new Big(USD.rateBuy).mul(BTC.rateBuy).round(6).toString(),
+    rateSell: new Big(USD.rateSell).mul(BTC.rateSell).round(6).toString(),
     currencyA: BTC.currencyA,
   };
   return Object.assign({}, USD, newExchange);
@@ -60,15 +60,6 @@ const formatCurrency = (currencyCode: string) => {
   return newItem;
 };
 
-export const toFix = (val: SN | Decimal, pre = 4) => {
-  const max = Number.MAX_SAFE_INTEGER;
-  if (val && pre > 4) {
-    return new Decimal(val).toFixed(pre);
-  }
-  if (val) {
-    return new Decimal(val).toDP(pre, Decimal.ROUND_DOWN).toNumber(); 
-  }
-  return '';
-}
+export const toFix = (val: SN | Big, pre = 4) => val ? new Big(val).round(pre) : '';
 
 export default formatCurrency;

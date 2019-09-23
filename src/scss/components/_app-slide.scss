@@ -25,14 +25,14 @@
     margin: 0 8px;
   }
   &__currency {
-    @include text($H600, 500);
+    @include text($H500, 500);
     margin-right: 4px;
   }
   &__currency-name {
-    @include text($H600, 400);
+    @include text($H500, 400);
   }
   &__label {
-    @include text($H500, 500);
+    @include text($H400, 500);
     margin-right: 4px;
     &--sell {
       color: $O1;
@@ -45,7 +45,7 @@
     }
   }
   &__value {
-    @include text($H600, 500);
+    @include text($H500, 500);
   }
   &__skeleton {
     .ant-skeleton-paragraph {

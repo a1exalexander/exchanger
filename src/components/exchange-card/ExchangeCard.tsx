@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { TOGGLE_EXCHANGE_METHOD } from '../../constants';
 import CalcCurrency from '../../utils/calcCurrency';
 import { Skeleton } from 'antd';
-import { Decimal } from 'decimal.js';
+import Big from 'big.js';
 import { Exchange, SN } from '../../types';
 import { ExchangesState } from '../../store/types';
 import getIcon from '../../utils/getIcon';
@@ -70,7 +70,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
     calcByB(e.target.value, rateA, setValueB, setValueA);
   }
 
-  const rateB: SN = loading ? '' : new Decimal(1).div(rateA).toDP(4, Decimal.ROUND_DOWN).toString();
+  const rateB: SN | Big = loading ? '' : new Big(1).div(rateA).round(precision).toString();
 
   if (loading) {
     return (

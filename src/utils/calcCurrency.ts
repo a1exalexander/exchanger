@@ -1,23 +1,25 @@
-import { Decimal } from 'decimal.js';
+import Big from 'big.js';
 import { SN } from '../types';
 
 export default class CalcCurrency {
 
-  _isNumber = (val: SN) => {
+  _isNumber = (val: SN | Big) => {
     return !Number.isNaN(Number(val));
   }
   
-  calcByA = (val: SN, rate: SN, funcA: any, funcB: any) => {
+  calcByA = (val: SN | Big, rate: SN | Big, funcA: any, funcB: any) => {
     if (this._isNumber(val)) {
       funcA(val);
-      funcB(new Decimal(Number(val)).mul(Number(rate)));
+      const result = val !== '' ? new Big(val).mul(rate) : ''
+      funcB(result);
     }
   }
 
-  calcByB = (val: SN, rate: SN, funcA: any, funcB: any) => {
+  calcByB = (val: SN | Big, rate: SN | Big, funcA: any, funcB: any) => {
     if (this._isNumber(val)) {
       funcA(val);
-      funcB(new Decimal(Number(val)).div(Number(rate)));
+      const result = val !== '' ? new Big(val).div(rate) : ''
+      funcB(result);
     }
   }
 }

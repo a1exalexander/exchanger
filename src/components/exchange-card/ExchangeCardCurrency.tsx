@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { inputFontSize } from '../../utils/helpers';
 import { SN } from '../../types';
+import Big from 'big.js';
 
 interface ExchangeCardCurrencyProps {
   icon: string;
   codeA: string;
   codeB: string;
   currencyB: string;
-  rate: SN;
-  value: SN;
+  rate: SN | Big;
+  value: any;
   setValue: any;
 }
 

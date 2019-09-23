@@ -1,12 +1,12 @@
 import { SN } from '../types';
-import { Decimal } from 'decimal.js';
+import Big from 'big.js';
 
-export const inputFontSize = (val: SN= '') => {
+export const inputFontSize = (val: SN | Big = '') => {
   const length = String(val).length;
   const Kof = 24;
-  let result = 1.5;
+  let result: SN | Big = 1.5;
   if (length > 16 && length < 40) {
-    result = new Decimal(Kof).div(length).toNumber(); 
+    result = new Big(Kof).div(length); 
   } else if (length > 40) {
     result = 0.6; 
   }
