@@ -3,8 +3,7 @@ import { Exchange } from '../../types';
 import { connect } from 'react-redux';
 import getIcon from '../../utils/getIcon';
 import { setExchange } from '../../store/actions';
-import { Dispatch } from 'redux';
-import { ActionTypes } from '../../store/types';
+import ReactGA from 'react-ga';
 
 const AppSlide = ({ exchange, setExchange }: { exchange: Exchange, setExchange: any }) => {
 
@@ -16,6 +15,15 @@ const AppSlide = ({ exchange, setExchange }: { exchange: Exchange, setExchange: 
     currencyA: { code: codeA, currency: currencyA, country: countryA = '' },
     currencyB: { code: codeB, currency: currencyB, country: countryB = '' }
   } = exchange;
+
+  const handleClick = (e: any) => {
+    ReactGA.event({
+      category: 'Currencies',
+      action: 'Tap to slide card',
+    });
+    e.preventDefault();
+    setExchange(id);
+  };
 
   const priceElement = () => {
     if (rateBuy) {
@@ -47,10 +55,7 @@ const AppSlide = ({ exchange, setExchange }: { exchange: Exchange, setExchange: 
 
   return (
     <li
-      onClick={(e) => {
-        e.preventDefault();
-        setExchange(id);
-      }}
+      onClick={handleClick}
       className="app-slide">
       <div className="app-slide__row">
         <object type="image/svg+xml" data={getIcon(countryB, codeB)} className="app-slide__icon"> </object>

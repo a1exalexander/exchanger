@@ -1,9 +1,14 @@
 import { FETCH_CURRENCIES_REQUEST, FETCH_CURRENCIES_SUCCESS, FETCH_CURRENCIES_FAILURE, SET_EXCHANGE, TOGGLE_EXCHANGE_METHOD } from '../../constants';
 import initialExchange from './initialExchange';
 import { ExchangesState } from '../types';
+import ReactGA from 'react-ga';
 const has: any = require('has');
 
 const toggleExchangeMethod = (method: string) => {
+  ReactGA.event({
+    category: 'Exchange Card',
+    action: 'Toggle rate method',
+  });
   return method === 'buy' ? 'sell' : 'buy';;
 }
 

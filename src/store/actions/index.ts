@@ -8,6 +8,8 @@ import { ActionTypes } from '../types';
 import { Exchange, Currencies } from '../../types';
 import ApiService from '../../services/apiService';
 import { getUahBtc } from '../../utils/formatCurrency';
+import ReactGA from 'react-ga';
+
 const apiService = new ApiService();
 
 const fetchCurrenciesSuccess = (payload: Currencies) => {
@@ -25,6 +27,14 @@ const setExchange = (payload: string | Exchange) => (dispatch: any, getState: an
     exchange = payload;
   }
   localStorage.setItem('exchange', JSON.stringify(exchange));
+  ReactGA.event({
+    category: 'Currencies',
+    action: 'Select currencies',
+  });
+  ReactGA.set({
+    currencyA: `${exchange.currencyA.code || exchange}`,
+    currencyB: `${exchange.currencyB.code || exchange}`,
+  });
   dispatch({
     type: SET_EXCHANGE,
     payload: exchange,

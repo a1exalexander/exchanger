@@ -4,6 +4,10 @@ import App from './app';
 import { Provider } from 'react-redux';
 import store from './store';
 import './scss/style.scss';
+import ReactGA from 'react-ga';
+
+ReactGA.initialize('UA-148524615-1');
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 ReactDOM.render(
   <Provider store={store}>
