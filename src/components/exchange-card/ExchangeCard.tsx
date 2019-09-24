@@ -55,7 +55,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
   };
 
   useEffect(() => {
-    if (valueA) {
+    if (valueA && rates[method]) {
       calcByA(valueA, rates[method], setValueA, setValueB);
     }
   }, [method, exchange.currencyCodeA, exchange.currencyCodeB])

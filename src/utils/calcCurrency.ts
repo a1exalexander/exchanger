@@ -10,7 +10,7 @@ export default class CalcCurrency {
   calcByA = (val: SN | Big, rate: SN | Big, funcA: any, funcB: any) => {
     if (this._isNumber(val)) {
       funcA(val);
-      const result = val !== '' ? new Big(val).mul(rate) : ''
+      const result = val !== '' ? new Big(val).mul(rate) : '';
       funcB(result);
     }
   }
@@ -18,7 +18,7 @@ export default class CalcCurrency {
   calcByB = (val: SN | Big, rate: SN | Big, funcA: any, funcB: any) => {
     if (this._isNumber(val)) {
       funcA(val);
-      const result = val !== '' ? new Big(val).div(rate) : ''
+      const result = val !== '' ? new Big(Number(val)).div(rate) : ''
       funcB(result);
     }
   }
