@@ -113,20 +113,26 @@ $style: select-card;
     border-top-width: 1.02px;
     background-color: $B2;
     outline: none;
-    padding: 24px 12px 12px;
+    min-height: 60px;
     position: relative;
     z-index: 2;
+    @include flex-col(flex-end, stretch);
     pointer-events: none;
-    @include flex-row(space-between, center);
     @include text($H400, 500, $N0);
     background: linear-gradient(271deg, $R2, $Y2, $G1, #17a781, $B2);
     background-size: 1000% 1000%;
     -webkit-animation: AnimationName 39s ease infinite;
     -moz-animation: AnimationName 39s ease infinite;
     animation: AnimationName 39s ease infinite;
-
   }
-  
+  &__placeholder-bar {
+    padding: 24px 12px 12px;
+    @include flex-row(space-between, center);
+  }
+  &__computed-bar {
+    padding: 14px 12px 12px;
+    @include flex-row(space-between, flex-end);
+  }
   &__logo {
     @include svg(14px, $N0);
     svg {
@@ -173,5 +179,9 @@ $style: select-card;
       justify-content: flex-end;
     }
   }
-  
+  &__computed-value {
+    font-size: 20px;
+    position: relative;
+    bottom: -4px;
+  }
 }

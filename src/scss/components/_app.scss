@@ -1,5 +1,6 @@
 .app {
-  min-height: 100vh;
+  height: 100vh;
+  overflow-y: auto;
   padding-bottom: 90px;
   @include media {
     padding-bottom: 32px;

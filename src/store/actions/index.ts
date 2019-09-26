@@ -2,13 +2,16 @@ import {
   FETCH_CURRENCIES_REQUEST,
   FETCH_CURRENCIES_SUCCESS,
   FETCH_CURRENCIES_FAILURE,
-  SET_EXCHANGE
+  SET_EXCHANGE,
+  UPDATE_COMPUTED_PRICE,
+  UPDATE_COMPUTED_CURRENCY
 } from '../../constants';
 import { ActionTypes } from '../types';
-import { Exchange, Currencies } from '../../types';
+import { Exchange, Currencies, SN, Currency } from '../../types';
 import ApiService from '../../services/apiService';
 import { getUahBtc } from '../../utils/formatCurrency';
 import ReactGA from 'react-ga';
+import { toFix } from '../../utils/formatCurrency';
 
 const apiService = new ApiService();
 
@@ -19,25 +22,53 @@ const fetchCurrenciesSuccess = (payload: Currencies) => {
   };
 };
 
-const setExchange = (payload: string | Exchange) => (dispatch: any, getState: any) => {
+const updateComputedPrice = (payload: SN | null) => (
+  dispatch: any,
+  getState: any
+) => {
+  const result =
+    typeof payload === 'number'
+      ? toFix(payload, getState().exchange.precision)
+      : payload;
+  dispatch({
+    type: UPDATE_COMPUTED_PRICE,
+    payload: result
+  });
+};
+
+const updateComputedCurrency = (payload: Currency) => (
+  dispatch: any
+) => {
+  dispatch({
+    type: UPDATE_COMPUTED_CURRENCY,
+    payload
+  });
+};
+
+const setExchange = (payload: string | Exchange) => (
+  dispatch: any,
+  getState: any
+) => {
   let exchange;
   if (typeof payload === 'string' || typeof payload === 'number') {
-    exchange = getState().currencies.find((item: Exchange) => String(item.id) === String(payload));
+    exchange = getState().currencies.find(
+      (item: Exchange) => String(item.id) === String(payload)
+    );
   } else {
     exchange = payload;
   }
   localStorage.setItem('exchange', JSON.stringify(exchange));
   ReactGA.event({
     category: 'Currencies',
-    action: 'Select currencies',
+    action: 'Select currencies'
   });
   ReactGA.set({
     currencyA: `${exchange.currencyA.code || exchange}`,
-    currencyB: `${exchange.currencyB.code || exchange}`,
+    currencyB: `${exchange.currencyB.code || exchange}`
   });
   dispatch({
     type: SET_EXCHANGE,
-    payload: exchange,
+    payload: exchange
   } as ActionTypes);
 };
 
@@ -50,7 +81,10 @@ const fetchCurrencies = () => async (dispatch: any, getState: any) => {
     const currencies = [...cash, ...crypto, uahBtc];
     dispatch(fetchCurrenciesSuccess(currencies));
     const localExchange: string | null = localStorage.getItem('exchange');
-    const ex = localExchange && localExchange !== 'undefined' ? JSON.parse(localExchange) : currencies[0];
+    const ex =
+      localExchange && localExchange !== 'undefined'
+        ? JSON.parse(localExchange)
+        : currencies[0];
     setExchange(ex)(dispatch, getState);
     return;
   } catch (error) {
@@ -59,4 +93,4 @@ const fetchCurrencies = () => async (dispatch: any, getState: any) => {
   }
 };
 
-export { fetchCurrencies, setExchange };
+export { fetchCurrencies, setExchange, updateComputedPrice, updateComputedCurrency };

@@ -22,4 +22,12 @@ export default class CalcCurrency {
       funcB(result);
     }
   }
+
+  calcMul = (num: any, rate: SN) => {
+    return num !== '' ? new Big(num).mul(rate).toString() : '';
+  }
+
+  calcDiv = (num: any, rate: SN) => {
+    return num !== '' ? new Big(num).div(rate).toString() : '';
+  }
 }

@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { Select } from 'antd';
 import { setExchange } from '../../store/actions';
 import { connect } from 'react-redux';
-import { Currencies, Exchange, SN } from '../../types';
+import { Currencies, Exchange, SN, Currency } from '../../types';
 import { ExchangesState } from '../../store/types';
 import getIcon from '../../utils/getIcon';
 import appLogo from '../../assets/images/currencies.svg';
+import { toFix } from '../../utils/formatCurrency';
 
 const { Option }: any = Select;
 
@@ -23,14 +24,56 @@ interface SelectCardProps {
   currencies: Currencies;
   loading: boolean;
   setExchange: any;
+  computedCurrency: Currency;
 }
 
-const SelectCard = ({ exchange, currencies, loading, setExchange }: SelectCardProps) => {
+const SelectCard = ({ exchange, currencies, loading, setExchange, computedCurrency }: SelectCardProps) => {
 
   const {
     currencyA: { code: codeA, currency: currencyA, country: countryA = '' },
     currencyB: { code: codeB, currency: currencyB, country: countryB = '' }
   } = exchange as Exchange;
+
+  const selectBar = (
+    <div className='select-card__placeholder-bar'>
+      <div className='select-card__placeholder-item'>
+        <object
+          type="image/svg+xml"
+          data={getIcon(countryA, codeA)}
+          className="select-card__icon select-card__icon--m-right"
+        >
+        </object>
+        { currencyA }
+      </div>
+      <i className="fas fa-exchange-alt select-card__icon-middle"></i>
+      <div className='select-card__placeholder-item select-card__placeholder-item--right'>
+      { currencyB }
+        <object
+          type="image/svg+xml"
+          data={getIcon(countryB, codeB)}
+          className="select-card__icon select-card__icon--m-left"
+        >
+        </object>
+      </div>
+    </div>
+  );
+
+  const computedBar = (
+    <div className='select-card__computed-bar'>
+      <div className='select-card__row'>
+        <object
+          type="image/svg+xml"
+          data={getIcon(computedCurrency.country || '', computedCurrency.code)}
+          className="select-card__icon select-card__icon--m-right"
+        >
+        </object>
+        { computedCurrency.currency }
+      </div>
+      <span className='select-card__computed-value'>{toFix(computedCurrency.computedPrice, exchange.precision)}</span>
+    </div>
+  );
+
+  const topBar = computedCurrency.computedPrice === null ? selectBar : computedBar;
 
   return (
     <div className="select-card">
@@ -57,26 +100,7 @@ const SelectCard = ({ exchange, currencies, loading, setExchange }: SelectCardPr
         <div className='select-card__select-inner'>
           <div className='select-card__placeholder'>
             <h1 className='select-card__caption'>UAH Excahnger</h1>
-            <div className='select-card__placeholder-item'>
-              <object
-                type="image/svg+xml"
-                data={getIcon(countryA, codeA)}
-                className="select-card__icon select-card__icon--m-right"
-              >
-              </object>
-              { currencyA }
-            </div>
-            <i className="fas fa-exchange-alt select-card__icon-middle"></i>
-            <div className='select-card__placeholder-item select-card__placeholder-item--right'>
-            { currencyB }
-              <object
-                type="image/svg+xml"
-                data={getIcon(countryB, codeB)}
-                className="select-card__icon select-card__icon--m-left"
-              >
-              </object>
-              
-            </div>
+            {topBar}
           </div>
           <select
             name='currencies'
@@ -100,8 +124,8 @@ const SelectCard = ({ exchange, currencies, loading, setExchange }: SelectCardPr
 };
 
 export default connect(
-  ({ exchange, currencies, loading }: ExchangesState) => {
-    return { exchange, currencies, loading }
+  ({ exchange, currencies, loading, computedCurrency }: ExchangesState) => {
+    return { exchange, currencies, loading, computedCurrency }
   },
   { setExchange }
 )(SelectCard);

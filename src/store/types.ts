@@ -1,5 +1,5 @@
 import { SET_EXCHANGE, FETCH_CURRENCIES_SUCCESS } from '../constants';
-import { Exchange, Currencies } from '../types';
+import { Exchange, Currencies, Currency } from '../types';
 
 export type SN = string | number;
 
@@ -11,6 +11,7 @@ export interface ExchangesState {
   hasError: boolean;
   method: string;
   exchange: Exchange;
+  computedCurrency: Currency;
 }
 
 // ACTIONS TYPES

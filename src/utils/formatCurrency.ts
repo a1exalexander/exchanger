@@ -60,6 +60,31 @@ const formatCurrency = (currencyCode: string) => {
   return newItem;
 };
 
-export const toFix = (val: SN | Big, pre = 4) => val ? new Big(val).round(pre) : '';
+const cutNumber = (num: SN, precision: number) => {
+  if (!precision) return num;
+  const x: string = String(num);
+  const idx = x.indexOf('.');
+  const decimals = x.substr(idx + 1, precision);
+  const int = x.slice(0, idx);
+  return `${int}.${decimals}`;
+}
+
+const removeZero = (num: SN) => {
+  let x = String(num);
+  return x.length > 1 && x[0] === '0' ? x.slice(1) : x;
+}
+
+export const toFix = (num: any, precision: number = 4) => {
+  if (Number.isNaN(Number(num))) return '';
+  let x = String(num);
+  return ~x.indexOf('.') ? cutNumber(x, precision) : removeZero(x);
+}
+
+export const setNumber = (fn: any) => (val: any, precision: number) => {
+  const fixedValue = toFix(val, precision);
+  if (fixedValue || val === '' ) {
+    fn(fixedValue);
+  }
+}
 
 export default formatCurrency;

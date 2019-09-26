@@ -1,7 +1,9 @@
-import { FETCH_CURRENCIES_REQUEST, FETCH_CURRENCIES_SUCCESS, FETCH_CURRENCIES_FAILURE, SET_EXCHANGE, TOGGLE_EXCHANGE_METHOD } from '../../constants';
+import { UPDATE_COMPUTED_PRICE, FETCH_CURRENCIES_REQUEST, FETCH_CURRENCIES_SUCCESS, FETCH_CURRENCIES_FAILURE, SET_EXCHANGE, TOGGLE_EXCHANGE_METHOD, UPDATE_COMPUTED_CURRENCY } from '../../constants';
 import initialExchange from './initialExchange';
+import initialCurrency from './initialCurrency';
 import { ExchangesState } from '../types';
 import ReactGA from 'react-ga';
+import { Currency, SN } from '../../types';
 const has: any = require('has');
 
 const toggleExchangeMethod = (method: string) => {
@@ -16,12 +18,15 @@ const setExchangeMethod = (item: object) => {
   return has(item, 'rateBuy') ? 'buy' : 'cross';
 }
 
+const updateComputedPrice = (state: Currency, payload: SN | null) => ({...state, computedPrice: payload});
+
 const initialState: ExchangesState = {
   currencies: [],
   loading: false,
   hasError: false,
   method: setExchangeMethod(initialExchange),
   exchange: {...initialExchange},
+  computedCurrency: {...initialCurrency}, 
 };
 
 const reducer = (
@@ -60,6 +65,16 @@ const reducer = (
       return {
         ...state,
         method: toggleExchangeMethod(state.method),
+      }
+    case UPDATE_COMPUTED_PRICE:
+      return {
+        ...state,
+        computedCurrency: updateComputedPrice(state.computedCurrency, action.payload),
+      }
+    case UPDATE_COMPUTED_CURRENCY:
+      return {
+        ...state,
+        computedCurrency: {...action.payload},
       }
     default:
       return state;

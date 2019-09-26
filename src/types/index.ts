@@ -8,6 +8,7 @@ export interface Currency {
   countries?: Array<string>;
   country?: string | undefined;
   name?: string;
+  computedPrice?: SN | null;
 }
 
 export interface Exchange {
