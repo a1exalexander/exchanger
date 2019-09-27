@@ -21,6 +21,7 @@ interface IStateProps {
   exchange: Exchange;
   method: string,
   loading: boolean;
+  computedCurrency: Currency;
 }
 
 interface IDispatchProps {
@@ -41,6 +42,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
     toggleExchangeMethod,
     updateComputedPrice,
     updateComputedCurrency,
+    computedCurrency,
   } = props;
 
   const {
@@ -149,7 +151,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
 };
 
 export default connect<IStateProps, IDispatchProps, IBaseProps, ExchangesState>(
-  ({exchange, loading, method}: ExchangesState) => ({ exchange, loading, method }),
+  ({exchange, loading, method, computedCurrency}: ExchangesState) => ({ exchange, loading, method, computedCurrency }),
   {
     toggleExchangeMethod: () => TOGGLE_EXCHANGE_METHOD,
     updateComputedPrice,

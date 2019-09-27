@@ -61,10 +61,19 @@
 		border-color: $Y1;
 	}
 }
+
+%animate-gradient {
+  background: linear-gradient(271deg, $R2, $Y2, $G1, #17a781, $B2);
+  background-size: 1000% 1000%;
+  -webkit-animation: AnimationName 39s ease infinite;
+  -moz-animation: AnimationName 39s ease infinite;
+  animation: AnimationName 39s ease infinite;
+}
+
 $style: select-card;
 .#{$style} {
-  position: relative;
   @include media {
+    position: relative;
     top: -32px;
   }
   &__title {
@@ -96,7 +105,6 @@ $style: select-card;
     pointer-events: none;
   }
   &__select-wrapper {
-    margin-bottom: 24px;
     pointer-events: none;
     position: fixed;
     top: 0;
@@ -113,25 +121,27 @@ $style: select-card;
     border-top-width: 1.02px;
     background-color: $B2;
     outline: none;
-    min-height: 60px;
-    position: relative;
     z-index: 2;
-    @include flex-col(flex-end, stretch);
     pointer-events: none;
     @include text($H400, 500, $N0);
-    background: linear-gradient(271deg, $R2, $Y2, $G1, #17a781, $B2);
-    background-size: 1000% 1000%;
-    -webkit-animation: AnimationName 39s ease infinite;
-    -moz-animation: AnimationName 39s ease infinite;
-    animation: AnimationName 39s ease infinite;
-  }
-  &__placeholder-bar {
-    padding: 24px 12px 12px;
+    @extend %animate-gradient;
+    position: relative;
+    padding: 26px 12px 12px;
     @include flex-row(space-between, center);
   }
   &__computed-bar {
-    padding: 14px 12px 12px;
-    @include flex-row(space-between, flex-end);
+    @include flex-row(space-between, center);
+    border-top-width: 1.02px;
+    padding: 6px 12px;
+    @extend %animate-gradient;
+    @include text($H400, 400, $N0);
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    @include media(480px) {
+      display: none;
+    }
   }
   &__logo {
     @include svg(14px, $N0);
@@ -179,9 +189,11 @@ $style: select-card;
       justify-content: flex-end;
     }
   }
+  &__computed-wrapper {
+    display: flex;
+    font-size: 18px;
+  }
   &__computed-value {
-    font-size: 20px;
-    position: relative;
-    bottom: -4px;
+    margin-right: 4px;
   }
 }

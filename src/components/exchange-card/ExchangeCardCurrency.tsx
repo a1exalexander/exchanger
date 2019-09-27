@@ -38,7 +38,7 @@ const ExchangeCardCurrency: FC<ExchangeCardCurrencyProps> = props => {
             type="image/svg+xml"
             data={icon}
             className="exchange-card-currency__icon"
-          ></object>
+          >icon</object>
         </div>
         <div className="exchange-card-currency__rate">
           = {rate} {codeA}

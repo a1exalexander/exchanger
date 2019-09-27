@@ -1,6 +1,5 @@
 .home-page {
   @include container;
-  position: relative;
   @include flex-col(flex-start, stretch);
   @include media {
     @include flex-row;

@@ -1,12 +1,11 @@
 .app {
-  height: 100vh;
-  overflow-y: auto;
-  padding-bottom: 90px;
+  min-height: 100vh;
   @include media {
     padding-bottom: 32px;
   }
   &__carousel {
     @include media {
+      display: none;
       .app-carousel {
         display: none;
       }
