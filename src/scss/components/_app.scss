@@ -1,7 +1,19 @@
 .app {
-  min-height: 100vh;
+  height: 100%;
+  overflow: hidden;
   @include media {
+    overflow: auto;
+    height: auto;
+    min-height: 100vh;
     padding-bottom: 32px;
+  }
+  &__scroller {
+    @include media-max {
+      width: 100%;
+      overflow: scroll;
+      -webkit-overflow-scrolling: touch!important;
+    }
+    height: 100%;
   }
   &__carousel {
     @include media {
