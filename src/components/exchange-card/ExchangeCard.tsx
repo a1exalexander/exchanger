@@ -5,13 +5,12 @@ import { TOGGLE_EXCHANGE_METHOD } from '../../constants';
 import CalcCurrency from '../../utils/calcCurrency';
 import { Skeleton } from 'antd';
 import Big from 'big.js';
-import { Exchange, SN, Currency } from '../../types';
+import { Exchange, SN } from '../../types';
 import { ExchangesState } from '../../store/types';
 import getIcon from '../../utils/getIcon';
 import { toFix, setNumber } from '../../utils/formatCurrency';
-import { updateComputedPrice, updateComputedCurrency } from '../../store/actions';
 
-const { calcByA, calcByB, calcDiv, calcMul } = new CalcCurrency();
+const { calcDiv, calcMul } = new CalcCurrency();
 
 interface IBaseProps {
   className?: string;
@@ -21,13 +20,10 @@ interface IStateProps {
   exchange: Exchange;
   method: string,
   loading: boolean;
-  computedCurrency: Currency;
 }
 
 interface IDispatchProps {
   toggleExchangeMethod: () => string;
-  updateComputedPrice: (v: any) => any;
-  updateComputedCurrency: (v: any) => any;
 }
 
 type IProps = IBaseProps & IStateProps & IDispatchProps;
@@ -40,9 +36,6 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
     method,
     loading,
     toggleExchangeMethod,
-    updateComputedPrice,
-    updateComputedCurrency,
-    computedCurrency,
   } = props;
 
   const {
@@ -69,14 +62,13 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
         setValueB(calcMul(valueA, rateA));
       })(valueA, precision);
     }
-  }, [method, exchange.currencyCodeA, exchange.currencyCodeB])
+  }, [method, rateA, valueA, precision, exchange.currencyCodeA, exchange.currencyCodeB])
 
   const handleChangeA = (e: any): void => {
     const { value } = e.target;
     setNumber((v: any) => {
       setValueA(v);
       setValueB(calcMul(v, rateA));
-      updateComputedPrice(calcMul(v, rateA))
     })(value, precision);
   }
 
@@ -85,18 +77,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
     setNumber((v: any) => {
       setValueB(v);
       setValueA(calcDiv(v, rateA));
-      updateComputedPrice(calcDiv(v, rateA))
     })(value, precision);
-  }
-
-  const startInputA = () => {
-    updateComputedCurrency(exchange.currencyB)
-    updateComputedPrice(valueB)
-  }
-
-  const startInputB = () => {
-    updateComputedCurrency(exchange.currencyA)
-    updateComputedPrice(valueA)
   }
 
   const rateB: SN | Big = loading ? '' : new Big(1).div(rateA).round(precision).toString();
@@ -115,8 +96,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
     <div className={`exchange-card fadeIn ${className}`}>
       <ExchangeCardCurrency
         value={toFix(valueA, precision)}
-        startInput={startInputA}
-        endInput={() => updateComputedPrice(null)}
+        valueB={toFix(valueB, precision)}
         setValue={handleChangeA}
         icon={getIcon(countryA, codeA)}
         rate={rateA}
@@ -137,8 +117,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
       <span className={`exchange-card__method ${method}`}>{method}</span>
       <ExchangeCardCurrency
         value={toFix(valueB, precision)}
-        startInput={startInputB}
-        endInput={() => updateComputedPrice(null)}
+        valueB={toFix(valueA, precision)}
         setValue={handleChangeB}
         icon={getIcon(countryB, codeB)}
         rate={rateB}
@@ -151,10 +130,8 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
 };
 
 export default connect<IStateProps, IDispatchProps, IBaseProps, ExchangesState>(
-  ({exchange, loading, method, computedCurrency}: ExchangesState) => ({ exchange, loading, method, computedCurrency }),
+  ({exchange, loading, method }: ExchangesState) => ({ exchange, loading, method }),
   {
     toggleExchangeMethod: () => TOGGLE_EXCHANGE_METHOD,
-    updateComputedPrice,
-    updateComputedCurrency,
   }
 )(ExchangeCard);

@@ -4,7 +4,6 @@ import { fetchCurrencies } from '../store/actions';
 import { HomePage } from '../pages';
 import AppHeader from '../components/header';
 import AppCarousel from '../components/carousel/AppCarousel';
-import ComputedBar from '../components/computed-bar';
 import 'antd/es/select/style/css';
 import 'antd/es/dropdown/style/css';
 import 'antd/es/skeleton/style/css';
@@ -16,18 +15,15 @@ const App = ({ fetchCurrencies }: any) => {
       await fetchCurrencies();
     }
     fetchData();
-  }, []);
+  }, [fetchCurrencies]);
   
   return (
     <div className="app">
-      <div className='app__scroller'>
-        <AppHeader/>
-        <HomePage/>
-        <div className='app__carousel'>
-          <AppCarousel/>
-        </div>
+      <AppHeader/>
+      <HomePage/>
+      <div className='app__carousel'>
+        <AppCarousel/>
       </div>
-      <ComputedBar/>
     </div>
   );
 };

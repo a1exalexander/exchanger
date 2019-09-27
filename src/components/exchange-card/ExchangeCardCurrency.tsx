@@ -1,21 +1,20 @@
-import React, { useState, FC } from 'react';
+import React, { FC, useState } from 'react';
 import { inputFontSize } from '../../utils/helpers';
 import { SN } from '../../types';
 import Big from 'big.js';
 
-interface ExchangeCardCurrencyProps {
+interface IBaseProps {
   icon: string;
   codeA: string;
   codeB: string;
   currencyB: string;
   rate: SN | Big;
   value: any;
+  valueB: any;
   setValue: any;
-  startInput: () => any;
-  endInput: () => any;
 }
 
-const ExchangeCardCurrency: FC<ExchangeCardCurrencyProps> = props => {
+const ExchangeCardCurrency: FC<IBaseProps> = props => {
   const {
     icon,
     codeA,
@@ -23,10 +22,21 @@ const ExchangeCardCurrency: FC<ExchangeCardCurrencyProps> = props => {
     currencyB,
     rate,
     value,
+    valueB,
     setValue,
-    startInput,
-    endInput
   } = props;
+
+  const [inputStatus, setInputStatus] = useState(false);
+
+  const computedValue = () => {
+    if (inputStatus) {
+      return (
+        <span
+          className="exchange-card-currency__computed fadeIn"
+          >{valueB || 0} {codeA}
+        </span>);
+    }
+  }
 
   return (
     <div className="exchange-card-currency">
@@ -46,8 +56,8 @@ const ExchangeCardCurrency: FC<ExchangeCardCurrencyProps> = props => {
       </div>
       <input
         title="asd"
-        onBlur={endInput}
-        onFocus={startInput}
+        onBlur={() => setInputStatus(false)}
+        onFocus={() => setInputStatus(true)}
         style={{ fontSize: inputFontSize(value) }}
         type="text"
         className="exchange-card-currency__input"
@@ -58,6 +68,7 @@ const ExchangeCardCurrency: FC<ExchangeCardCurrencyProps> = props => {
       <div className="exchange-card-currency__footer">
         1 {codeB} = {rate} {codeA}
       </div>
+      {computedValue()}
     </div>
   );
 };

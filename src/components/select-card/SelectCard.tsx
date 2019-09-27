@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Currencies, Exchange, Currency } from '../../types';
 import { ExchangesState } from '../../store/types';
 import getIcon from '../../utils/getIcon';
-import { toFix } from '../../utils/formatCurrency';
 
 const { Option }: any = Select;
 
@@ -32,7 +31,7 @@ const SelectCard = ({ exchange, currencies, loading, setExchange, computedCurren
     currencyA: { code: codeA, currency: currencyA, country: countryA = '' },
     currencyB: { code: codeB, currency: currencyB, country: countryB = '' }
   } = exchange as Exchange;
-  
+
   return (
     <div className="select-card">
       <p className="select-card__title">Сurrency selection</p>

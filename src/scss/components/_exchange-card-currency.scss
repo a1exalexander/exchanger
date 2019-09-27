@@ -1,6 +1,7 @@
 .exchange-card-currency {
   flex: 0 0 40%;
   align-self: stretch;
+  position: relative;
   @include flex-col(space-between, center);
   &__head {
     width: 100%;
@@ -89,6 +90,13 @@
     @include media {
       text-align: left;
       margin: 0;
+    }
+  }
+  &__computed {
+    position: absolute;
+    bottom: -8px;
+    @include media {
+      display: none;
     }
   }
 }
