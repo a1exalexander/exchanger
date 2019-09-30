@@ -56,13 +56,13 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
   const rateA: SN = rates[method] || 1;
 
   useEffect(() => {
-    if (valueA) {
+    if (![!!valueA, !!rateA, !!precision].includes(false)) {
       setNumber((valueA: any) => {
         setValueA(valueA);
         setValueB(calcMul(valueA, rateA));
       })(valueA, precision);
     }
-  }, [method, rateA, valueA, precision, exchange.currencyCodeA, exchange.currencyCodeB])
+  }, [])
 
   const handleChangeA = (e: any): void => {
     const { value } = e.target;
