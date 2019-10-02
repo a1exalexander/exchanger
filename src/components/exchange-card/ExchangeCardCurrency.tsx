@@ -55,12 +55,21 @@ const ExchangeCardCurrency: FC<IBaseProps> = props => {
         </div>
       </div>
       <input
-        title="asd"
         onBlur={() => setInputStatus(false)}
         onFocus={() => setInputStatus(true)}
         style={{ fontSize: inputFontSize(value) }}
         type="text"
         className="exchange-card-currency__input"
+        value={value}
+        onChange={setValue}
+        placeholder={`Enter "${currencyB}" amount`}
+      />
+      <input
+        onBlur={() => setInputStatus(false)}
+        onFocus={() => setInputStatus(true)}
+        style={{ fontSize: inputFontSize(value) }}
+        type="number"
+        className="exchange-card-currency__input exchange-card-currency__input--mobile"
         value={value}
         onChange={setValue}
         placeholder={`Enter "${currencyB}" amount`}

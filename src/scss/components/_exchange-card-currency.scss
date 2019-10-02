@@ -84,12 +84,20 @@
     margin: 14px 0;
     text-align: center;
     width: 100%;
+    display: none;
     &::placeholder {
       @include text($H400, 400, $N6);
+    }
+    &--mobile {
+      display: block;
     }
     @include media {
       text-align: left;
       margin: 0;
+      display: inline-block;
+      &--mobile {
+        display: none;
+      }
     }
   }
   &__computed {
