@@ -29,11 +29,13 @@
     "react-scripts": "3.1.1",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
-    "typescript": "3.6.3"
+    "typescript": "3.6.3",
+    "uikit": "^3.2.1"
   },
   "scripts": {
-    "start": "env-cmd -f .env.fake react-scripts start",
+    "start": "env-cmd -f .env.development react-scripts start",
     "dev": "env-cmd -f .env.development react-scripts start",
+    "dev:fake": "env-cmd -f .env.fake react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

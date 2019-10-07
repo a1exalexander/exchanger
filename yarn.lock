@@ -11324,6 +11324,11 @@ uglify-js@^3.1.4:
     commander "~2.20.0"
     source-map "~0.6.1"
 
+uikit@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/uikit/-/uikit-3.2.1.tgz#859122a260cb1e482c85a63d564af55ba96b7891"
+  integrity sha512-8mhv3n7m9/kGYv1+YPjTDGbI7HKK1o79wOyhpznoNYVTGhr1cwaTACITVVoUYONJxdqmIIGBA2OkKhMQ8zXwBg==
+
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/unicode-canonical-property-names-ecmascript/-/unicode-canonical-property-names-ecmascript-1.0.4.tgz#2619800c4c825800efdd8343af7dd9933cbe2818"
