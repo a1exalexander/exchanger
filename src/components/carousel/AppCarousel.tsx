@@ -29,9 +29,9 @@ const AppCarousel = ({ loading, currencies }: AppCarouselProps) => {
   }
 
   return (
-    <div uk-slider="center: true; autoplay: true; pause-on-hover: true; autoplay-interval: 3000">
+    <div className='app-carousel' uk-slider="center: true; autoplay: true; autoplay-interval: 0; velocity: 0.1">
       <div className="uk-position-relative uk-visible-toggle">
-        <ul className="uk-slider-items">
+        <ul className="uk-slider-items uk-grid">
         {loading ? loadingCards() : slides()}
         </ul>
       </div>
