@@ -32,14 +32,14 @@ const AppSlide = ({ exchange, setExchange }: { exchange: Exchange, setExchange: 
         <div className="app-slide__row">
           <div>
             <span className="app-slide__label app-slide__label--sell">Sell: </span>
-            <span className="app-slide__value">{toFix(rateSell, 4)}</span>
+            <span className="app-slide__value">{toFix(rateBuy, 4)}</span>
           </div>
           <i className="fas fa-exchange-alt app-slide__icon-exchange"></i>
           <div>
             <span className="app-slide__label app-slide__label--buy">
               Buy:{' '}
             </span>
-            <span className="app-slide__value">{toFix(rateBuy, 4)}</span>
+            <span className="app-slide__value">{toFix(rateSell, 4)}</span>
           </div>
         </div>
       );

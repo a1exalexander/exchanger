@@ -12,10 +12,10 @@ export const getUahBtc = (cash: Array<Exchange>, crypto: Array<Exchange>) => {
   const BTC: any = crypto.find((item) => item.currencyA.code === 'BTC' && item.currencyB.code === 'USD');
   const newExchange = {
     id,
-    precision: 6,
+    precision: 4,
     currencyCodeA: BTC.currencyCodeA,
-    rateBuy: new Big(USD.rateBuy).mul(BTC.rateBuy).round(6).toString(),
-    rateSell: new Big(USD.rateSell).mul(BTC.rateSell).round(6).toString(),
+    rateBuy: new Big(USD.rateBuy).mul(BTC.rateBuy).round(4).toString(),
+    rateSell: new Big(USD.rateSell).mul(BTC.rateSell).round(4).toString(),
     currencyA: BTC.currencyA,
   };
   return Object.assign({}, USD, newExchange);

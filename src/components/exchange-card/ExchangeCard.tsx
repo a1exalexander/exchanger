@@ -48,8 +48,8 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
   const [valueB, setValueB] = useState('' as SN);
 
   const rates: any = {
-    buy: exchange.rateBuy,
-    sell: exchange.rateSell,
+    sell: exchange.rateBuy,
+    buy: exchange.rateSell,
     cross: exchange.rateCross
   };
 
