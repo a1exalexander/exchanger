@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import getIcon from '../../utils/getIcon';
 import { setExchange } from '../../store/actions';
 import ReactGA from 'react-ga';
+import { toFix } from '../../utils/formatCurrency';
 
 const AppSlide = ({ exchange, setExchange }: { exchange: Exchange, setExchange: any }) => {
 
@@ -31,14 +32,14 @@ const AppSlide = ({ exchange, setExchange }: { exchange: Exchange, setExchange: 
         <div className="app-slide__row">
           <div>
             <span className="app-slide__label app-slide__label--sell">Sell: </span>
-            <span className="app-slide__value">{rateSell}</span>
+            <span className="app-slide__value">{toFix(rateBuy, 4)}</span>
           </div>
           <i className="fas fa-exchange-alt app-slide__icon-exchange"></i>
           <div>
             <span className="app-slide__label app-slide__label--buy">
               Buy:{' '}
             </span>
-            <span className="app-slide__value">{rateBuy}</span>
+            <span className="app-slide__value">{toFix(rateSell, 4)}</span>
           </div>
         </div>
       );

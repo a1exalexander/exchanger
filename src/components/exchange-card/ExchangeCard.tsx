@@ -48,8 +48,8 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
   const [valueB, setValueB] = useState('' as SN);
 
   const rates: any = {
-    buy: exchange.rateBuy,
-    sell: exchange.rateSell,
+    sell: exchange.rateBuy,
+    buy: exchange.rateSell,
     cross: exchange.rateCross
   };
 
@@ -62,7 +62,8 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
         setValueB(calcMul(valueA, rateA));
       })(valueA, precision);
     }
-  }, [])
+    // eslint-disable-next-line
+  }, [method])
 
   const handleChangeA = (e: any): void => {
     const { value } = e.target;
@@ -80,7 +81,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
     })(value, precision);
   }
 
-  const rateB: SN | Big = loading ? '' : new Big(1).div(rateA).round(precision).toString();
+  const rateB: SN | Big = loading ? '' : new Big(1).div(rateA).toString();
 
   if (loading) {
     return (
@@ -99,7 +100,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
         valueB={toFix(valueB, precision)}
         setValue={handleChangeA}
         icon={getIcon(countryA, codeA)}
-        rate={rateA}
+        rate={toFix(rateA, precision)}
         codeA={codeB}
         codeB={codeA}
         currencyB={currencyA}
@@ -120,7 +121,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
         valueB={toFix(valueA, precision)}
         setValue={handleChangeB}
         icon={getIcon(countryB, codeB)}
-        rate={rateB}
+        rate={toFix(rateB, precision)}
         codeA={codeA}
         codeB={codeB}
         currencyB={currencyB}
