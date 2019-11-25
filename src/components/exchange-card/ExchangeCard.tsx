@@ -63,7 +63,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
       })(valueA, precision);
     }
     // eslint-disable-next-line
-  }, [method])
+  }, [method, currencyA, currencyB])
 
   const handleChangeA = (e: any): void => {
     const { value } = e.target;
