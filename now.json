@@ -3,7 +3,6 @@
     "autoAlias": false
   },
   "routes": [
-    { "src": "/", "headers": {"cache-control": "no-cache"} },
-    { "src": "*", "headers": {"cache-control": "no-cache"}}
+    { "src": "/", "headers": {"cache-control": "no-cache"} }
   ]
 }
