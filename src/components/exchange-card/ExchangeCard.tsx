@@ -89,7 +89,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
     return (
       <div className={`exchange-card ${className}`}>
         <Skeleton className='exchange-card__skeleton' active paragraph={{rows: 3}} title={false}/>
-        <IconExchange className={classnames('exchange-card__icon-exchange', method)}/>
+        <IconExchange className={classnames('exchange-card__icon-exchange exchange-card__icon-exchange--for-skeleton')}/>
         <Skeleton className='exchange-card__skeleton' active paragraph={{rows: 3}} title={false}/>
       </div>
     )

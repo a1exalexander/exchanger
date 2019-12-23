@@ -84,11 +84,13 @@ $style: exchange-card;
     &.cross {
       fill: $B2;
     }
+    &--for-skeleton {
+      margin: 14px 0 22px;
+    }
   }
   &__skeleton {
-    flex: 0 0 45%;
+    flex: 0 0 40%;
     .ant-skeleton-paragraph {
-      
       @include flex-col(center, stretch);
       li {
         width: 100% !important;
