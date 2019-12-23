@@ -7,11 +7,10 @@ import Big  from 'big.js';
 const cryptocurrencies = require('cryptocurrencies');
 
 export const getUahBtc = (cash: Array<Exchange>, crypto: Array<Exchange>) => {
-  const id = String(Math.floor((Math.random() * Date.now()) + 1));
   const USD: any = cash.find((item) => item.currencyA.code === 'USD' && item.currencyB.code === 'UAH');
   const BTC: any = crypto.find((item) => item.currencyA.code === 'BTC' && item.currencyB.code === 'USD');
   const newExchange = {
-    id,
+    id: `${USD.currencyCodeA}:${BTC.currencyCodeA}`,
     precision: 4,
     currencyCodeA: BTC.currencyCodeA,
     rateBuy: new Big(USD.rateBuy).mul(BTC.rateBuy).round(4).toString(),
@@ -22,13 +21,13 @@ export const getUahBtc = (cash: Array<Exchange>, crypto: Array<Exchange>) => {
 }
 
 export const mapCurrencies = (item: any) => {
-  const id = String(Math.floor((Math.random() * Date.now()) + 1));
+  const { currencyCodeA, currencyCodeB } = item;
   let newItem = {
     ...item,
-    id,
+    id: `${currencyCodeA}:${currencyCodeB}`,
     precision: 4,
-    currencyA: cc.number(item.currencyCodeA),
-    currencyB: cc.number(item.currencyCodeB),
+    currencyA: cc.number(currencyCodeA),
+    currencyB: cc.number(currencyCodeB),
     date: moment(item.date, 'X').format('DD MMMM YYYY'),
   };
   newItem.currencyA.country = getCountry(newItem.currencyA.code);
@@ -37,19 +36,19 @@ export const mapCurrencies = (item: any) => {
 };
 
 export const mapBTC = (item: any) => {
-  const id = String(Math.floor((Math.random() * Date.now()) + 1));
+  const { base_ccy, ccy } = item;
   let newItem:Exchange = {
-    id,
+    id: `${ccy}:${base_ccy}`,
     precision: 6,
-    currencyCodeA: item.ccy,
-    currencyCodeB: item.base_ccy,
+    currencyCodeA: ccy,
+    currencyCodeB: base_ccy,
     rateBuy: Number(item.buy),
     rateSell: Number(item.sale),
     currencyA: {
-      code: item.ccy,
-      currency: cryptocurrencies[item.ccy],
+      code: ccy,
+      currency: cryptocurrencies[ccy],
     },
-    currencyB: cc.code(item.base_ccy),
+    currencyB: cc.code(base_ccy),
   };
   return newItem;
 };
