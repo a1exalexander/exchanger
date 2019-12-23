@@ -1,4 +1,5 @@
-.exchange-card {
+$style: exchange-card;
+.#{$style} {
   @extend %card;
   width: 100%;
   padding: 24px;
@@ -72,8 +73,17 @@
     }
   }
   &__icon-exchange {
-    font-size: 24px;
-    position: relative;
+    @include svg(26px, $N100);
+    @include transition(all);
+    &.sell {
+      fill: $O1;
+    }
+    &.buy {
+      fill: $G3;
+    }
+    &.cross {
+      fill: $B2;
+    }
   }
   &__skeleton {
     flex: 0 0 45%;
@@ -105,15 +115,6 @@
       @include media {
         display: none;
       }
-    }
-    &.sell {
-      color: $O1;
-    }
-    &.buy {
-      color: $G3;
-    }
-    &.cross {
-      color: $B2;
     }
   }
 }

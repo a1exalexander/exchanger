@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Currencies, Exchange, Currency } from '../../types';
 import { ExchangesState } from '../../store/types';
 import getIcon from '../../utils/getIcon';
+import { ReactComponent as IconExchange } from '../../assets/images/exchange-arrows.svg';
 
 const { Option }: any = Select;
 
@@ -66,7 +67,7 @@ const SelectCard = ({ exchange, currencies, loading, setExchange, computedCurren
                 </object>
                 { currencyA }
               </div>
-              <i className="fas fa-exchange-alt select-card__icon-middle"></i>
+              <IconExchange className={'select-card__icon-middle'}/>
               <div className='select-card__placeholder-item select-card__placeholder-item--right'>
               { currencyB }
                 <object

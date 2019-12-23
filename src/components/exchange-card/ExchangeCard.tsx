@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import { TOGGLE_EXCHANGE_METHOD } from '../../constants';
 import CalcCurrency from '../../utils/calcCurrency';
 import { Skeleton } from 'antd';
+import { ReactComponent as IconExchange } from '../../assets/images/exchange-arrows.svg';
 import Big from 'big.js';
+import classnames from 'classnames';
 import { Exchange, SN } from '../../types';
 import { ExchangesState } from '../../store/types';
 import getIcon from '../../utils/getIcon';
@@ -87,7 +89,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
     return (
       <div className={`exchange-card ${className}`}>
         <Skeleton className='exchange-card__skeleton' active paragraph={{rows: 3}} title={false}/>
-        <i className="fas fa-exchange-alt exchange-card__icon-exchange"></i>
+        <IconExchange className={classnames('exchange-card__icon-exchange', method)}/>
         <Skeleton className='exchange-card__skeleton' active paragraph={{rows: 3}} title={false}/>
       </div>
     )
@@ -108,10 +110,10 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
       <div className='exchange-card__toggle-wrapper'>
         <button
           onClick={toggleExchangeMethod}
-          className={`exchange-card__toggle ${method}`}
+          className={`exchange-card__toggle`}
           title={method}
         >
-          <i className="fas fa-exchange-alt exchange-card__icon-exchange"></i>
+          <IconExchange className={classnames('exchange-card__icon-exchange', method)}/>
         </button>
         <span className={`exchange-card__method  exchange-card__method--mobile ${method}`}>{method}</span>
       </div>

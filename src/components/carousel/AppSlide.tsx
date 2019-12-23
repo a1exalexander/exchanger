@@ -3,6 +3,7 @@ import { Exchange } from '../../types';
 import { connect } from 'react-redux';
 import getIcon from '../../utils/getIcon';
 import { setExchange } from '../../store/actions';
+import { ReactComponent as IconExchange } from '../../assets/images/exchange-arrows.svg';
 import ReactGA from 'react-ga';
 import { toFix } from '../../utils/formatCurrency';
 
@@ -34,7 +35,7 @@ const AppSlide = ({ exchange, setExchange }: { exchange: Exchange, setExchange: 
             <span className="app-slide__label app-slide__label--sell">Sell: </span>
             <span className="app-slide__value">{toFix(rateBuy, 4)}</span>
           </div>
-          <i className="fas fa-exchange-alt app-slide__icon-exchange"></i>
+          <IconExchange className={'app-slide__icon-exchange'}/>
           <div>
             <span className="app-slide__label app-slide__label--buy">
               Buy:{' '}

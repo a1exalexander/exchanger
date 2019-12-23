@@ -91,7 +91,7 @@ $style: select-card;
     margin: 0 16px;
   }
   &__icon-middle {
-    font-size: 13px;
+    @include svg(18px, $N0)
   }
   &__select {
     display: none;
@@ -184,7 +184,7 @@ $style: select-card;
   }
   &__placeholder-item {
     @include flex-row(flex-start, center);
-    flex: 0 0 48%;
+    flex: 1 1 calc(50% - 18px);
     &--right {
       justify-content: flex-end;
     }
