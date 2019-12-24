@@ -90,8 +90,10 @@ $style: exchange-card;
     }
   }
   &__skeleton {
-    width: calc(50% - 48px);
-    flex: 1 1 calc(50% - 48px);
+    @include media {
+      width: calc(50% - 48px);
+      flex: 1 1 calc(50% - 48px);
+    }
     .ant-skeleton-paragraph {
       @include flex-col(center, stretch);
       li {
