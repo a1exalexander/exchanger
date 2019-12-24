@@ -14,7 +14,6 @@ const getCryptoIcon = (currency: string) => {
 };
 const getIcon = (a: string, b: string) => {
   const name = a ? a.replace( /(\s|,|')/g, "-" ) : b ? b.replace( /(\s|,|')/g, "-" ) : '';
-  console.log(name)
   if (!name) return '';
   return a ? getCountryIcon(name) : getCryptoIcon(name)
 };

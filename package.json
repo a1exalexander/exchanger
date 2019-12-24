@@ -29,6 +29,7 @@
     "react-html-parser": "^2.0.2",
     "react-redux": "^7.1.1",
     "react-scripts": "3.1.1",
+    "react-snap": "^1.23.0",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "typescript": "3.6.3",
@@ -43,10 +44,14 @@
     "eject": "react-scripts eject",
     "server": "json-server --watch fake-server/db.json --routes fake-server/routes.json --port 3004",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "postbuild": "react-snap"
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "reactSnap": {
+    "inlineCss": true
   },
   "browserslist": {
     "production": [
