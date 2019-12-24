@@ -37,13 +37,14 @@
   "scripts": {
     "start": "env-cmd -f .env.development react-scripts start",
     "dev": "env-cmd -f .env.development react-scripts start",
+    "dev:ssr": "env-cmd -f .env.development react-app-rewired start",
     "dev:fake": "env-cmd -f .env.fake react-scripts start",
     "build": "react-scripts build",
     "build:ssr": "react-app-rewired build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "json-server --watch fake-server/db.json --routes fake-server/routes.json --port 3004",
-    "predeploy": "npm run build",
+    "predeploy": "npm run build:ssr",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
@@ -51,17 +52,16 @@
   },
   "browserslist": {
     "production": [
-      "last 5 chrome version",
-      "last 5 firefox version",
-      "last 5 safari version",
-      "last 5 opera version",
-      ">0.2%",
-      "not dead"
+      "last 2 chrome version",
+      "last 2 firefox version",
+      "last 2 safari version",
+      "last 2 opera version",
+      ">0.2%"
     ],
     "development": [
-      "last 5 chrome version",
-      "last 5 firefox version",
-      "last 5 safari version"
+      "last 2 chrome version",
+      "last 2 firefox version",
+      "last 2 safari version"
     ]
   },
   "devDependencies": {

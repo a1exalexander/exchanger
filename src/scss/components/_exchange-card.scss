@@ -2,6 +2,7 @@ $style: exchange-card;
 .#{$style} {
   @extend %card;
   width: 100%;
+  max-width: 100%;
   padding: 24px;
   @include flex-col(flex-start, center);
   z-index: 2;
@@ -89,7 +90,8 @@ $style: exchange-card;
     }
   }
   &__skeleton {
-    flex: 0 0 40%;
+    width: calc(50% - 48px);
+    flex: 1 1 calc(50% - 48px);
     .ant-skeleton-paragraph {
       @include flex-col(center, stretch);
       li {
