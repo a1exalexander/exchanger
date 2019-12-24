@@ -64,6 +64,7 @@
     ]
   },
   "devDependencies": {
+    "has": "^1.0.3",
     "react-app-env": "^1.2.3"
   }
 }

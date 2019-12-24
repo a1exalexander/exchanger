@@ -12,3 +12,8 @@ export const inputFontSize = (val: SN | Big = '') => {
   }
   return `${result}rem`;
 }
+
+export const has = (obj: object, key: string) => {
+  if (typeof obj !== 'object') return false;
+  return Object.prototype.hasOwnProperty.call(obj, key);
+}

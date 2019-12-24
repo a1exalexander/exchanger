@@ -1,8 +1,22 @@
-const getCountryIcon = (country: string) => require(`../assets/flags/${country}.svg`) || '';
-const getCryptoIcon = (currency: string) => require(`../assets/crypto/${currency.toLowerCase()}.svg`) || '';
+const getCountryIcon = (country: string) => {
+  try {
+    return require(`../assets/flags/${country}.svg`) || ''
+  } catch(e) {
+    return '';
+  }
+};
+const getCryptoIcon = (currency: string) => {
+  try {
+    return require(`../assets/crypto/${currency.toLowerCase()}.svg`) || ''
+  } catch(e) {
+    return '';
+  }
+};
 const getIcon = (a: string, b: string) => {
-  if (!a && !b) return '';
-  return a ? getCountryIcon(a) : getCryptoIcon(b)
+  const name = a ? a.replace( /(\s|,|')/g, "-" ) : b ? b.replace( /(\s|,|')/g, "-" ) : '';
+  console.log(name)
+  if (!name) return '';
+  return a ? getCountryIcon(name) : getCryptoIcon(name)
 };
 
 export default getIcon;

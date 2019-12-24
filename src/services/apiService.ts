@@ -1,6 +1,6 @@
 import api from '../api';
 import { logError, logSuccess } from './logger';
-import { mapCurrencies, mapBTC } from '../utils/formatCurrency';
+import { mapCurrencies, filterCurrencies, mapBTC } from '../utils/formatCurrency';
 const http: any = require('axios');
 
 if (process.env.REACT_APP_API_MODE === 'fake') {
@@ -32,7 +32,7 @@ export default class ApiService {
   fetchCurrencies = async () => {
     try {
       const data = await this._fetchData('get', api.currencies);
-      const formatedData = data.map(mapCurrencies);
+      const formatedData = data.map(mapCurrencies).filter(filterCurrencies);
       return formatedData;
     } catch(error) {
       throw error;

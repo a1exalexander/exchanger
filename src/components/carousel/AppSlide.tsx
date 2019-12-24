@@ -60,13 +60,13 @@ const AppSlide = ({ exchange, setExchange }: { exchange: Exchange, setExchange: 
       onClick={handleClick}
       className="app-slide">
       <div className="app-slide__row">
-        <object type="image/svg+xml" data={getIcon(countryB, codeB)} className="app-slide__icon"> </object>
+        <img className="app-slide__icon" alt='' uk-img={`data-src: ${getIcon(countryB, codeB)}`} uk-svg/>
         <span className="app-slide__currency">{codeB}</span>
         <span className="app-slide__currency-name">{currencyB}</span>
       </div>
       {priceElement()}
       <div className="app-slide__row">
-        <object type="image/svg+xml" data={getIcon(countryA, codeA)} className="app-slide__icon"> </object>
+        <img className="app-slide__icon" alt='' uk-img={`data-src: ${getIcon(countryA, codeA)}`} uk-svg/>
         <span className="app-slide__currency">{codeA}</span>
         <span className="app-slide__currency-name">{currencyA}</span>
       </div>

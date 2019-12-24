@@ -3,6 +3,7 @@ import moment from 'moment';
 import getCountry from './currencyList';
 import { Exchange, SN } from '../types';
 import Big  from 'big.js';
+import { has } from './helpers';
 
 const cryptocurrencies = require('cryptocurrencies');
 
@@ -26,13 +27,18 @@ export const mapCurrencies = (item: any) => {
     ...item,
     id: `${currencyCodeA}:${currencyCodeB}`,
     precision: 4,
-    currencyA: cc.number(currencyCodeA),
-    currencyB: cc.number(currencyCodeB),
+    currencyA: cc.number(currencyCodeA) || {},
+    currencyB: cc.number(currencyCodeB) || {},
     date: moment(item.date, 'X').format('DD MMMM YYYY'),
   };
-  newItem.currencyA.country = getCountry(newItem.currencyA.code);
-  newItem.currencyB.country = getCountry(newItem.currencyB.code);
+  newItem.currencyA.country = has(newItem.currencyA, 'code') ? getCountry(newItem.currencyA.code) : '';
+  newItem.currencyB.country = has(newItem.currencyB, 'code') ? getCountry(newItem.currencyB.code) : '';
   return newItem;
+};
+
+export const filterCurrencies = (item: any) => {
+  const { currencyA, currencyB } = item;
+  return has(currencyA, 'code') && has(currencyB, 'code');
 };
 
 export const mapBTC = (item: any) => {
