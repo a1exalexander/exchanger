@@ -1,5 +1,5 @@
 const getCountryIcon = (country: string) => {
-  return `/public/flags/${country}.svg`;
+  return `/images/flags/${country}.svg`;
   // try {
   //   return require(`../assets/flags/${country}.svg`) || ''
   // } catch(e) {
@@ -7,7 +7,7 @@ const getCountryIcon = (country: string) => {
   // }
 };
 const getCryptoIcon = (currency: string) => {
-  return `/public/crypto/${currency.toLowerCase()}.svg`;
+  return `/images/crypto/${currency.toLowerCase()}.svg`;
   // try {
   //   return require(`../assets/crypto/${currency.toLowerCase()}.svg`) || ''
   // } catch(e) {
