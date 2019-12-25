@@ -35,16 +35,16 @@
     "uikit": "^3.2.1"
   },
   "scripts": {
-    "start": "env-cmd -f .env.development react-scripts start",
-    "dev": "env-cmd -f .env.development react-scripts start",
-    "dev:ssr": "env-cmd -f .env.development react-app-rewired start",
-    "dev:fake": "env-cmd -f .env.fake react-scripts start",
-    "build": "react-scripts build",
-    "build:ssr": "react-app-rewired build",
+    "start": "env-cmd -f .env.development react-app-rewired start",
+    "dev": "env-cmd -f .env.development react-app-rewired start",
+    "dev:prod": "env-cmd -f .env.production react-app-rewired start",
+    "dev:fake": "env-cmd -f .env.fake react-app-rewired start",
+    "build": "react-app-rewired build",
+    "build:nossr": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "json-server --watch fake-server/db.json --routes fake-server/routes.json --port 3004",
-    "predeploy": "npm run build:ssr",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
@@ -65,7 +65,10 @@
     ]
   },
   "devDependencies": {
+    "babel-plugin-root-import": "^6.4.1",
     "has": "^1.0.3",
+    "imagemin-svgo": "^7.0.0",
+    "imagemin-webpack-plugin": "^2.4.2",
     "prerender-spa-plugin": "^3.4.0",
     "react-app-env": "^1.2.3",
     "react-app-rewired": "^2.1.5"

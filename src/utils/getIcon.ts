@@ -1,16 +1,18 @@
 const getCountryIcon = (country: string) => {
-  try {
-    return require(`../assets/flags/${country}.svg`) || ''
-  } catch(e) {
-    return '';
-  }
+  return `/public/flags/${country}.svg`;
+  // try {
+  //   return require(`../assets/flags/${country}.svg`) || ''
+  // } catch(e) {
+  //   return '';
+  // }
 };
 const getCryptoIcon = (currency: string) => {
-  try {
-    return require(`../assets/crypto/${currency.toLowerCase()}.svg`) || ''
-  } catch(e) {
-    return '';
-  }
+  return `/public/crypto/${currency.toLowerCase()}.svg`;
+  // try {
+  //   return require(`../assets/crypto/${currency.toLowerCase()}.svg`) || ''
+  // } catch(e) {
+  //   return '';
+  // }
 };
 const getIcon = (a: string, b: string) => {
   const name = a ? a.replace( /(\s|,|')/g, "-" ) : b ? b.replace( /(\s|,|')/g, "-" ) : '';
