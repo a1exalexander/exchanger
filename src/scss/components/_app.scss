@@ -1,5 +1,6 @@
 .app {
   min-height: 100vh;
+  @include flex-col(stretch, stretch);
   padding-bottom: 32px;
   &__carousel {
     @include media {
@@ -8,5 +9,16 @@
         display: none;
       }
     }
+  }
+  &__footer {
+    flex: 1 1;
+    @include flex-row(flex-end, flex-end);
+    padding: 0 32px;
+  }
+  &__date-card {
+    font-size: $H200;
+  }
+  &__date {
+    color: $N100;
   }
 }

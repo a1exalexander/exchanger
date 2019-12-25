@@ -6,6 +6,7 @@ export type SN = string | number;
 // STATE TYPES
 
 export interface ExchangesState {
+  lastUpdate: string;
   currencies: Currencies;
   loading: boolean;
   hasError: boolean;

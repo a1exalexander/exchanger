@@ -20,7 +20,7 @@ interface IBaseProps {
 
 interface IStateProps {
   exchange: Exchange;
-  method: string,
+  method: string;
   loading: boolean;
 }
 
@@ -56,6 +56,8 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
   };
 
   const rateA: SN = rates[method] || 1;
+  const rateB: SN | Big = new Big(1).div(rateA).toString();
+  const hasExchange = codeA && codeB;
 
   useEffect(() => {
     if (![!!valueA, !!rateA, !!precision].includes(false)) {
@@ -83,9 +85,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
     })(value, precision);
   }
 
-  const rateB: SN | Big = loading ? '' : new Big(1).div(rateA).toString();
-
-  if (loading) {
+  if (loading && !hasExchange) {
     return (
       <div className={`exchange-card ${className}`}>
         <Skeleton className='exchange-card__skeleton' active paragraph={{rows: 3}} title={false}/>

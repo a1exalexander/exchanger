@@ -13,7 +13,7 @@ module.exports = (config, env) => {
       new ImageminPlugin({
         plugins: [
           imageminSvgo({
-            removeViewBox: false
+            removeViewBox: false,
           })
         ]
       }),
