@@ -96,10 +96,9 @@ const fetchCurrencies = () => async (dispatch: any, getState: any) => {
         : currencies[0];
     setExchange(ex)(dispatch, getState);
     dispatch(fetchCurrenciesSuccess(currencies));
-    dispatch(setUpdatedDate())
+    dispatch(setUpdatedDate());
   } catch (error) {
     dispatch(FETCH_CURRENCIES_FAILURE);
-    localStorage.removeItem('exchanger-updated');
   }
 };
 

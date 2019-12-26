@@ -44,11 +44,7 @@ const ExchangeCardCurrency: FC<IBaseProps> = props => {
         <span className="exchange-card-currency__currency">{codeB}</span>
         <div className="exchange-card-currency__row">
           <span className="exchange-card-currency__info">{currencyB}</span>
-          <object
-            type="image/svg+xml"
-            data={icon}
-            className="exchange-card-currency__icon"
-          >icon</object>
+          <img className="exchange-card-currency__icon" src={icon} alt=""/>
         </div>
         <div className="exchange-card-currency__rate">
           = {rate} {codeA}
