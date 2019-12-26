@@ -18,6 +18,7 @@ import moment from 'moment';
 const apiService = new ApiService();
 
 const fetchCurrenciesSuccess = (payload: Currencies) => {
+  localStorage.setItem('exchanger-currenices', JSON.stringify(payload));
   return {
     type: FETCH_CURRENCIES_SUCCESS,
     payload
