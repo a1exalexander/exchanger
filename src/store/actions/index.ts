@@ -4,7 +4,8 @@ import {
   FETCH_CURRENCIES_FAILURE,
   SET_EXCHANGE,
   UPDATE_COMPUTED_PRICE,
-  UPDATE_COMPUTED_CURRENCY
+  UPDATE_COMPUTED_CURRENCY,
+  SET_LAST_UPDATE
 } from '../../constants';
 import { ActionTypes } from '../types';
 import { Exchange, Currencies, SN, Currency } from '../../types';
@@ -73,6 +74,12 @@ const setExchange = (payload: string | Exchange) => (
   } as ActionTypes);
 };
 
+export const setUpdatedDate = () => {
+  const date = moment().format('DD.MM.YYYY hh:mm');
+  localStorage.setItem('exchanger-updated', date);
+  return { type: SET_LAST_UPDATE, payload: date };
+}
+
 const fetchCurrencies = () => async (dispatch: any, getState: any) => {
   dispatch(FETCH_CURRENCIES_REQUEST);
   try {
@@ -80,19 +87,18 @@ const fetchCurrencies = () => async (dispatch: any, getState: any) => {
     const crypto = await apiService.fetchBTC();
     const uahBtc = getUahBtc(cash, crypto);
     const currencies = [...cash, ...crypto, uahBtc];
-    dispatch(fetchCurrenciesSuccess(currencies));
+    
     const localExchange: string | null = localStorage.getItem('exchange');
     const ex =
       localExchange && localExchange !== 'undefined'
         ? JSON.parse(localExchange)
         : currencies[0];
     setExchange(ex)(dispatch, getState);
-    localStorage.setItem('exchanger-updated', moment().format('DD.MM.YYYY HH:mm'));
-    return;
+    dispatch(fetchCurrenciesSuccess(currencies));
+    dispatch(setUpdatedDate())
   } catch (error) {
     dispatch(FETCH_CURRENCIES_FAILURE);
     localStorage.removeItem('exchanger-updated');
-    throw error;
   }
 };
 

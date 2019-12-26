@@ -1,19 +1,27 @@
-import { SN } from '../types';
-import Big from 'big.js';
+import { SN } from "../types";
+import Big from "big.js";
+import moment from "moment";
 
-export const inputFontSize = (val: SN | Big = '') => {
+export const inputFontSize = (val: SN | Big = "") => {
   const length = String(val).length;
   const Kof = 24;
   let result: SN | Big = 1.5;
   if (length > 16 && length < 40) {
-    result = new Big(Kof).div(length); 
+    result = new Big(Kof).div(length);
   } else if (length > 40) {
-    result = 0.6; 
+    result = 0.6;
   }
   return `${result}rem`;
-}
+};
 
 export const has = (obj: object, key: string) => {
-  if (typeof obj !== 'object') return false;
+  if (typeof obj !== "object") return false;
   return Object.prototype.hasOwnProperty.call(obj, key);
-}
+};
+
+export const needUpdate = (date: string) => {
+  return !!(
+    !moment(date, "DD.MM.YYYY hh:mm").isValid() ||
+    (moment().diff(moment(date, "DD.MM.YYYY hh:mm"), "hours") > 1)
+  );
+};

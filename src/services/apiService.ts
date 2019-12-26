@@ -16,12 +16,12 @@ if (process.env.REACT_APP_API_MODE === 'fake') {
   );
 }
 
-http.interceptors.request.use((config: any) => {
-  config.headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-  return config;
-}, (error: Error) => {
-  return Promise.reject(error);
-});
+// http.interceptors.request.use((config: any) => {
+//   config.headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+//   return config;
+// }, (error: Error) => {
+//   return Promise.reject(error);
+// });
 
 export default class ApiService {
 

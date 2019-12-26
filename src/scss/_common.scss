@@ -4,6 +4,10 @@
 //   bottom: 0;
 // }
 
+html {
+  touch-action: manipulation;
+}
+
 body, a, textarea, input, button {
   font-family: $base-font;
 }
