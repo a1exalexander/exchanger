@@ -36,7 +36,6 @@ const App: FC<IProps> = props => {
   });
 
   useEffect(() => {
-    console.log(lastUpdate);
     if (needUpdate(lastUpdate)) fetchCurrencies();
   }, [lastUpdate, method, computedCurrency, fetchCurrencies, exchange]);
 

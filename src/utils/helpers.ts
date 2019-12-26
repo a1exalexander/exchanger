@@ -20,8 +20,8 @@ export const has = (obj: object, key: string) => {
 };
 
 export const needUpdate = (date: string) => {
-  return !!(
-    !moment(date, "DD.MM.YYYY hh:mm").isValid() ||
-    (moment().diff(moment(date, "DD.MM.YYYY hh:mm"), "hours") > 1)
-  );
+  const isValid = moment(date, "DD.MM.YYYY kk:mm").isValid();
+  const difference = moment().diff(moment(date, "DD.MM.YYYY kk:mm"), "hours");
+  const isOld = difference > 1;
+  return !isValid || isOld;
 };
