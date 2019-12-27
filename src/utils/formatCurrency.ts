@@ -66,7 +66,7 @@ const formatCurrency = (currencyCode: string) => {
 };
 
 const cutNumber = (num: SN, precision: number) => {
-  if (!precision) return num;
+  if (!precision) return Math.round(Number(num));
   const x: string = String(num);
   const idx = x.indexOf('.');
   const decimals = x.substr(idx + 1, precision);
