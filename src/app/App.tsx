@@ -7,6 +7,7 @@ import AppCarousel from "../components/carousel/AppCarousel";
 import "antd/es/select/style/css";
 import "antd/es/dropdown/style/css";
 import "antd/es/skeleton/style/css";
+import "antd/es/popover/style/css";
 import { ExchangesState } from "../store/types";
 import { needUpdate } from "../utils/helpers";
 

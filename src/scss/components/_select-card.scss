@@ -189,4 +189,8 @@ $style: select-card;
       justify-content: flex-end;
     }
   }
+  &__countries {
+    list-style: none;
+    padding: 0;
+  }
 }

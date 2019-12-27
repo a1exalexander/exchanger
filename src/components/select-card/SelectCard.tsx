@@ -1,21 +1,28 @@
-import React from 'react';
-import { Select } from 'antd';
-import { setExchange } from '../../store/actions';
-import { connect } from 'react-redux';
-import { Currencies, Exchange, Currency } from '../../types';
-import { ExchangesState } from '../../store/types';
-import getIcon from '../../utils/getIcon';
-import { ReactComponent as IconExchange } from '../../assets/images/exchange-arrows.svg';
+import React from "react";
+import { Select, Popover } from "antd";
+import { setExchange } from "../../store/actions";
+import { connect } from "react-redux";
+import { Currencies, Exchange, Currency, SN } from "../../types";
+import { ExchangesState } from "../../store/types";
+import getIcon from "../../utils/getIcon";
+import { ReactComponent as IconExchange } from "../../assets/images/exchange-arrows.svg";
 
 const { Option }: any = Select;
 
 const filterOption = (inputValue: string, option: any) => {
-  return option.props.children.some((item: any) => {
-    if (typeof item === 'string') {
-      return item.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0;
-    }
-    return item.props.children.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0;
-  })
+  // console.log(option);
+  // return true;
+  return (
+    option.props.label.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0 ||
+    option.props.children.props.children.some((item: any) => {
+      if (typeof item === "string") {
+        return item.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0;
+      }
+      return (
+        item.props.children.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0
+      );
+    })
+  );
 };
 
 interface SelectCardProps {
@@ -26,12 +33,60 @@ interface SelectCardProps {
   computedCurrency: Currency;
 }
 
-const SelectCard = ({ exchange, currencies, loading, setExchange, computedCurrency }: SelectCardProps) => {
-
+const SelectCard = ({
+  exchange,
+  currencies,
+  loading,
+  setExchange
+}: SelectCardProps) => {
   const {
-    currencyA: { code: codeA, currency: currencyA, country: countryA = '' },
-    currencyB: { code: codeB, currency: currencyB, country: countryB = '' }
+    currencyA: { code: codeA, currency: currencyA, country: countryA = "" },
+    currencyB: { code: codeB, currency: currencyB, country: countryB = "" }
   } = exchange as Exchange;
+
+  const CountriesList = ({ cid }: { cid: SN }) => {
+    const exchange = currencies.find(({ id }: Exchange) => id === cid) || {
+      currencyA: { countries: [] }
+    };
+
+    const { countries = [] } = exchange.currencyA;
+
+    return (
+      <ul className="select-card__countries">
+        {countries.map(country => (
+          <li key={country}>
+            <a
+              rel="noopener noreferrer"
+              href={`https://www.google.com/search?q=${country}`}
+              target="_blank"
+            >
+              {country}
+            </a>
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
+  const selectList = currencies.map((item, index) => {
+    const {
+      currencyA: { code, currency },
+      id,
+      currencyB
+    }: Exchange = item;
+    return (
+      <Option key={id} value={id} label={code}>
+        <Popover
+          placement="left"
+          title={currency}
+          content={<CountriesList cid={id} />}
+          trigger="hover"
+        >
+          <b>{currencyB.code}</b> - <b>{code}</b> {currency}
+        </Popover>
+      </Option>
+    );
+  });
 
   return (
     <div className="select-card">
@@ -43,55 +98,57 @@ const SelectCard = ({ exchange, currencies, loading, setExchange, computedCurren
         optionFilterProp="children"
         defaultValue={exchange.id}
         optionLabelProp="label"
-        size='large'
+        size="large"
         loading={loading}
         value={`${exchange.currencyB.code} - ${exchange.currencyA.code} ${exchange.currencyA.currency}`}
         onChange={setExchange}
         filterOption={filterOption}
       >
-        {currencies.map((item, index) => { 
-          const { currencyA: { code, currency }, id, currencyB, }: Exchange = item;
-          return (<Option key={id} value={id} label={code}><b>{currencyB.code}</b> - <b>{code}</b> {currency}</Option>)
-        })}
+        {selectList}
       </Select>
-      <div className={`select-card__select-wrapper`} id='select'>
-        <div className='select-card__select-inner'>
-          <div className='select-card__placeholder'>
-            <h1 className='select-card__caption'>UAH Excahnger</h1>
-              <div className='select-card__placeholder-item'>
-                <object
-                  type="image/svg+xml"
-                  data={getIcon(countryA, codeA)}
-                  className="select-card__icon select-card__icon--m-right"
-                >
-                </object>
-                { currencyA }
-              </div>
-              <IconExchange className={'select-card__icon-middle'}/>
-              <div className='select-card__placeholder-item select-card__placeholder-item--right'>
-              { currencyB }
-                <object
-                  type="image/svg+xml"
-                  data={getIcon(countryB, codeB)}
-                  className="select-card__icon select-card__icon--m-left"
-                >
-                </object>
+      <div className={`select-card__select-wrapper`} id="select">
+        <div className="select-card__select-inner">
+          <div className="select-card__placeholder">
+            <h1 className="select-card__caption">UAH Excahnger</h1>
+            <div className="select-card__placeholder-item">
+              <img
+                className="select-card__icon select-card__icon--m-right"
+                src={getIcon(countryA, codeA)}
+                alt=""
+              />
+              {currencyA}
+            </div>
+            <IconExchange className={"select-card__icon-middle"} />
+            <div className="select-card__placeholder-item select-card__placeholder-item--right">
+              {currencyB}
+              <img
+                className="select-card__icon select-card__icon--m-left"
+                src={getIcon(countryB, codeB)}
+                alt=""
+              />
             </div>
           </div>
           <select
-            name='currencies'
+            name="currencies"
             value={exchange.id}
             onChange={(e: any) => {
               const v = e.target.value;
               setExchange(v);
             }}
-            className='select-card__select-input'>
-            {
-              currencies.map((item) => { 
-                const { currencyA: { code, currency }, id, currencyB, }: Exchange = item;
-                return (<option key={id} value={id}>{currencyB.code} - {code} {currency}</option>)
-              })
-            }
+            className="select-card__select-input"
+          >
+            {currencies.map(item => {
+              const {
+                currencyA: { code, currency },
+                id,
+                currencyB
+              }: Exchange = item;
+              return (
+                <option key={id} value={id}>
+                  {currencyB.code} - {code} {currency}
+                </option>
+              );
+            })}
           </select>
         </div>
       </div>
@@ -101,7 +158,7 @@ const SelectCard = ({ exchange, currencies, loading, setExchange, computedCurren
 
 export default connect(
   ({ exchange, currencies, loading, computedCurrency }: ExchangesState) => {
-    return { exchange, currencies, loading, computedCurrency }
+    return { exchange, currencies, loading, computedCurrency };
   },
   { setExchange }
 )(SelectCard);

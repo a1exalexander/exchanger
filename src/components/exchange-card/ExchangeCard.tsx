@@ -111,6 +111,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
         <button
           onClick={toggleExchangeMethod}
           className={`exchange-card__toggle`}
+          disabled={method === 'cross'}
           title={method}
         >
           <IconExchange className={classnames('exchange-card__icon-exchange', method)}/>

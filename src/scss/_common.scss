@@ -1,8 +1,23 @@
-// * {
-//   box-sizing: border-box;
-//   margin: 0;
-//   bottom: 0;
-// }
+* {
+  scrollbar-color: $N6 transparent;
+  scrollbar-width: thin;
+  ::-webkit-scrollbar {
+    width: 2px;
+    border-radius: 1px;
+    min-width: 2px;
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    width: 2px;
+    border-radius: 1px;
+    min-width: 2px;
+    background: $N6;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    background-clip: content-box;
+  }
+}
 
 html {
   touch-action: manipulation;
@@ -33,5 +48,23 @@ a, button {
   &:focus {
     box-shadow: none;
     outline: none;
+  }
+}
+.ant-select-dropdown-menu-item > span {
+  display: block;
+}
+.ant-popover-placement-left {
+  
+  .ant-popover-content {
+    box-shadow: 0 0 2px 0 rgba($color: #000000, $alpha: 0.03) !important;
+    margin-right: 12px !important;
+    
+  }
+  .ant-popover-inner-content {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  .ant-popover-arrow {
+    margin-right: 12px !important;
   }
 }
