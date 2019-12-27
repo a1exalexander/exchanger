@@ -67,8 +67,8 @@ const AppSlide = ({ exchange, setExchange }: { exchange: Exchange, setExchange: 
       {priceElement()}
       <div className="app-slide__row">
         <img className="app-slide__icon" alt='' uk-img={`data-src: ${getIcon(countryA, codeA)}`} uk-svg='true'/>
-        <span className="app-slide__currency">{codeA}</span>
-        <span className="app-slide__currency-name">{currencyA}</span>
+        <h3 className="app-slide__currency">{codeA}</h3>
+        <h4 className="app-slide__currency-name">{currencyA}</h4>
       </div>
     </li>
   );

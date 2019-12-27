@@ -12,8 +12,23 @@
   }
   &__footer {
     flex: 1 1;
-    @include flex-row(flex-end, flex-end);
+    @include flex-col(space-between, flex-end);
     padding: 0 32px;
+    @include media {
+      @include flex-row(space-between, flex-end);
+    }
+  }
+  &__description {
+    font-size: $H400;
+    font-family: $second-font;
+    font-weight: 300;
+    margin-bottom: 24px;
+    text-align: center;
+    line-height: 1.4;
+    @include media {
+      text-align-last: left;
+      margin-bottom: 0;
+    }
   }
   &__date-card {
     font-size: $H200;

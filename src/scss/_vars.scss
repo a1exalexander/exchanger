@@ -61,7 +61,9 @@ $R2: #ff5858;
 
 
 /* ---FONR FAMILY--- */
-$base-font: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto;
+$second-font: 'e-Ukraine-Head', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+  'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+$base-font: -apple-system, system-ui, BlinkMacSystemFont, Roboto, "Segoe UI";
 
 /* ---FONT SIZE--- */
 $H900: 2rem; // 32px

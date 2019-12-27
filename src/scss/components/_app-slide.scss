@@ -33,10 +33,14 @@
     @include svg(14px);
   }
   &__currency {
+    line-height: 1;
+    margin: 0;
     @include text($H500, 500);
     margin-right: 4px;
   }
   &__currency-name {
+    line-height: 1;
+    margin: 0;
     @include text($H500, 400);
   }
   &__label {
