@@ -53,10 +53,12 @@ const App: FC<IProps> = props => {
         <AppCarousel />
       </div>
       <footer className="app__footer">
-        <h2 className='app__description'>Конвертуй іноземну валюту та українську гривню</h2>
+        <div className="app__info-card">
+          <h2 className='app__description'>Конвертуй іноземну валюту та українську гривню</h2>
+        </div>
         {lastUpdate && (
           <div className="app__date-card">
-            <span>Last update:</span>{" "}
+            <span>Отсаннє оновлення:</span>{" "}
             <span className="app__date">{lastUpdate}</span>
           </div>
         )}

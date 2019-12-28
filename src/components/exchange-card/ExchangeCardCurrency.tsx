@@ -33,7 +33,7 @@ const ExchangeCardCurrency: FC<IBaseProps> = props => {
       return (
         <span
           className="exchange-card-currency__computed fadeIn"
-          >{valueB || 0} {codeA}
+          >{valueB} {codeA}
         </span>);
     }
   }

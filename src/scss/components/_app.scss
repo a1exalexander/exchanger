@@ -12,7 +12,7 @@
   }
   &__footer {
     flex: 1 1;
-    @include flex-col(space-between, flex-end);
+    @include flex-col(space-between, stretch);
     padding: 0 32px;
     @include media {
       @include flex-row(space-between, flex-end);
@@ -20,18 +20,35 @@
   }
   &__description {
     font-size: $H400;
+    color: $N0;
     font-family: $second-font;
     font-weight: 300;
-    margin-bottom: 24px;
     text-align: center;
     line-height: 1.4;
+    margin-bottom: 0;
     @include media {
+      color: $N100;
       text-align-last: left;
-      margin-bottom: 0;
     }
   }
   &__date-card {
+    align-self: flex-end;
+    font-family: $second-font;
+    font-weight: 200;
     font-size: $H200;
+  }
+  &__info-card {
+    @extend %card;
+    min-height: auto;
+    background-color: $B3;
+    padding: 12px 24px;
+    margin-bottom: 24px;
+    @include media {
+      margin-bottom: 0;
+      background-color: $N0;
+      padding: 0;
+      box-shadow: none;
+    }
   }
   &__date {
     color: $N100;
