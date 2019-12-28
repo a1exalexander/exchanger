@@ -14,7 +14,8 @@
     right: 0;
     position: fixed;
     top: 60px;
-    @include text($H300, 400, $N6);
+    font-family: $second-font;
+    @include text($H300, 200, $N6);
     z-index: 0;
     @include media {
       display: none;

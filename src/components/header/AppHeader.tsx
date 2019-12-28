@@ -5,7 +5,7 @@ import { ReactComponent as AppLogo } from '../../assets/images/currencies.svg';
 const AppHeader = () => {
   return (
     <header className="app-header">
-      <span className='app-header__help'>Tap here to select currencies</span>
+      <span className='app-header__help'>Натисни тут, щоб вибрати валюту</span>
       <nav className='app-header__nav'>
         <a href="/" className="app-header__link">
           <AppLogo className="app-header__logo"/>
