@@ -16,7 +16,7 @@ const exchange: Exchange = {
   }
 };
 
-const localExchanges: any = localStorage.getItem('exchange');
+const localExchanges: any = localStorage.getItem('exchange-v2');
 
 const initialExchange: Exchange = localExchanges && localExchanges !== 'undefined'
   ? JSON.parse(localExchanges)

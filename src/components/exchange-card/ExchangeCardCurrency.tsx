@@ -9,10 +9,11 @@ interface IHelperProps {
   codeA: string;
   valueB: SN;
   valueNBU: SN;
+  NB?: null | NBRate;
 }
 
 const HelperCount: FC<IHelperProps> = props => {
-  const { codeA, valueB, valueNBU } = props;
+  const { codeA, valueB, NB, valueNBU } = props;
 
   const [rerender, setRerender] = useState(true);
   
@@ -28,7 +29,7 @@ const HelperCount: FC<IHelperProps> = props => {
 
   return rerender ? (
     <span className="exchange-card-currency__computed fadeIn">
-      {valueB} {codeA} {valueNBU !== valueB && `(${valueNBU} по НБУ)`}
+      {valueB} {codeA} {(NB && valueNBU !== valueB) && `(${valueNBU} по НБУ)`}
     </span>
   ) : null;
 };
@@ -86,7 +87,7 @@ const ExchangeCardCurrency: FC<IBaseProps> = props => {
         onChange={setValue}
         placeholder={`Enter "${currencyB}" amount`}
       />
-      <div className='exchange-card-currency__input-wrapper'>
+      <div className='exchange-card-currency__input-wrapper is-mobile'>
         <input
           onBlur={() => setInputStatus(false)}
           onFocus={() => setInputStatus(true)}
@@ -110,7 +111,7 @@ const ExchangeCardCurrency: FC<IBaseProps> = props => {
           onChange={setValue}
           placeholder={`Enter "${currencyB}" amount`}
         />
-        <div className="exchange-card-currency__input-wrapper">
+        <div className="exchange-card-currency__input-wrapper is-mobile">
           <input
             onBlur={() => setInputStatus(false)}
             onFocus={() => setInputStatus(true)}
@@ -130,7 +131,7 @@ const ExchangeCardCurrency: FC<IBaseProps> = props => {
       {/* <div className="exchange-card-currency__footer">
         1 {codeB} = {rate} {codeA}
       </div> */}
-      {inputStatus && <HelperCount codeA={codeA} valueB={valueB} valueNBU={valueNBU2}/>}
+      {inputStatus && <HelperCount codeA={codeA} NB={NB} valueB={valueB} valueNBU={valueNBU2}/>}
     </div>
   );
 };

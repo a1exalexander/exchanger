@@ -33,8 +33,8 @@ const updateComputedPrice = (state: Currency, payload: SN | null) => ({
 });
 
 const initialState: ExchangesState = {
-  lastUpdate: localStorage.getItem("exchanger-updated") || "",
-  currencies: [...JSON.parse(localStorage.getItem('exchanger-currenices') || '[]')],
+  lastUpdate: localStorage.getItem("exchanger-updated-v2") || "",
+  currencies: [...JSON.parse(localStorage.getItem('exchanger-currenices-v2') || '[]')],
   loading: false,
   hasError: false,
   method: setExchangeMethod(initialExchange),

@@ -186,27 +186,33 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
           <p className="exchange-card__description">
             Я зможу { method === "buy" ? 'придбати' : 'продати'}{" "}
             <span>
-              {toFix(valueA, 2)} {codeA} {valueNBU !== valueA && `(${toFix(valueNBU, 2)} ${codeA} за курсом НБУ)`}
+              {toFix(valueA, 2)} {codeA}
+            </span>{" "}
+            <span>
+              {(NB && valueNBU !== valueA) && `(${toFix(valueNBU, 2)} ${codeA} за курсом НБУ)`}
             </span>{" "}
             за{" "}
             <span>
               {toFix(valueB, 2)} {codeB}
             </span>{" "}
             <span>
-              {valueNBU2 !== valueB && `(${toFix(valueNBU2, 2)} ${codeB} за курсом НБУ)`}
+              {(NB && valueNBU2 !== valueB) && `(${toFix(valueNBU2, 2)} ${codeB} за курсом НБУ)`}
             </span>
           </p>
         ) : (
           <p className="exchange-card__description">
             <span>
-              {toFix(valueA, 2)} {codeA} {valueNBU !== valueA && `(${toFix(valueNBU, 2)} ${codeA} за курсом НБУ)`}
+              {toFix(valueA, 2)} {codeA}
+            </span>{" "}
+            <span>
+              {(NB && valueNBU !== valueA) && `(${toFix(valueNBU, 2)} ${codeA} за курсом НБУ)`}
             </span>{" "}
             коштує{" "}
             <span>
               {toFix(valueB, 2)} {codeB}
             </span>{" "}
             <span>
-              {valueNBU2 !== valueB && `(${toFix(valueNBU2, 2)} ${codeB} за курсом НБУ)`}
+              {(NB && valueNBU2 !== valueB) && `(${toFix(valueNBU2, 2)} ${codeB} за курсом НБУ)`}
             </span>
           </p>
         )}

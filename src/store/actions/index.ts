@@ -18,7 +18,7 @@ import moment from 'moment';
 const apiService = new ApiService();
 
 const fetchCurrenciesSuccess = (payload: Currencies) => {
-  localStorage.setItem('exchanger-currenices', JSON.stringify(payload));
+  localStorage.setItem('exchanger-currenices-v2', JSON.stringify(payload));
   return {
     type: FETCH_CURRENCIES_SUCCESS,
     payload
@@ -60,7 +60,7 @@ const setExchange = (payload: string | Exchange) => (
   } else {
     exchange = payload;
   }
-  localStorage.setItem('exchange', JSON.stringify(exchange));
+  localStorage.setItem('exchange-v2', JSON.stringify(exchange));
   ReactGA.event({
     category: 'Currencies',
     action: 'Select currencies'
@@ -77,7 +77,7 @@ const setExchange = (payload: string | Exchange) => (
 
 export const setUpdatedDate = () => {
   const date = moment().format('DD.MM.YYYY kk:mm');
-  localStorage.setItem('exchanger-updated', date);
+  localStorage.setItem('exchanger-updated-v2', date);
   return { type: SET_LAST_UPDATE, payload: date };
 }
 
@@ -90,7 +90,7 @@ const fetchCurrencies = () => async (dispatch: any, getState: any) => {
     const uahBtc = getUahBtc(cash, crypto);
     const syncCash = getSyncCash(cash, NBCurrencies);
     const currencies = [...syncCash, ...crypto, uahBtc];
-    const localExchange: string | null = localStorage.getItem('exchange');
+    const localExchange: string | null = localStorage.getItem('exchange-v2');
     const ex =
       localExchange && localExchange !== 'undefined'
         ? JSON.parse(localExchange)
