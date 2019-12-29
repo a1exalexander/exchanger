@@ -115,13 +115,14 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
       <div className="exchange-card__main">
         <ExchangeCardCurrency
           value={toFix(valueA, precision)}
-          valueB={toFix(valueB, precision)}
+          valueB={valueB}
           setValue={handleChangeA}
           icon={getIcon(countryA, codeA)}
           rate={toFix(rateA, precision)}
           codeA={codeB}
           codeB={codeA}
           currencyB={currencyA}
+          precision={precision}
         />
         <div className="exchange-card__toggle-wrapper">
           <button
@@ -143,13 +144,14 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
         <span className={`exchange-card__method ${method}`}>{method}</span>
         <ExchangeCardCurrency
           value={toFix(valueB, precision)}
-          valueB={toFix(valueA, precision)}
+          valueB={valueA}
           setValue={handleChangeB}
           icon={getIcon(countryB, codeB)}
           rate={toFix(rateB, precision)}
           codeA={codeA}
           codeB={codeB}
           currencyB={currencyB}
+          precision={precision}
         />
       </div>
       <div className="exchange-card__description-wrapper">

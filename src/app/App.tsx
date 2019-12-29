@@ -46,16 +46,16 @@ const App: FC<IProps> = props => {
   }, []);
 
   return (
-    <div className="app">
+    <div id='app' className="app">
       <AppHeader />
       <HomePage />
       <div className="app__carousel">
         <AppCarousel />
       </div>
       <footer className="app__footer">
-        <div className="app__info-card">
+        <a href='#app' className="app__info-card">
           <h2 className='app__description'>Конвертуй іноземну валюту та українську гривню</h2>
-        </div>
+        </a>
         {lastUpdate && (
           <div className="app__date-card">
             <span>Отсаннє оновлення:</span>{" "}

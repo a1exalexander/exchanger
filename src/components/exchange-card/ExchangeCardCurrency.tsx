@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 import { inputFontSize } from '../../utils/helpers';
 import { SN } from '../../types';
 import Big from 'big.js';
+import { toFix } from '../../utils/formatCurrency';
 
 interface IBaseProps {
   icon: string;
@@ -11,6 +12,7 @@ interface IBaseProps {
   rate: SN | Big;
   value: any;
   valueB: any;
+  precision: number;
   setValue: any;
 }
 
@@ -19,6 +21,7 @@ const ExchangeCardCurrency: FC<IBaseProps> = props => {
     icon,
     codeA,
     codeB,
+    precision,
     currencyB,
     rate,
     value,
@@ -27,16 +30,6 @@ const ExchangeCardCurrency: FC<IBaseProps> = props => {
   } = props;
 
   const [inputStatus, setInputStatus] = useState(false);
-
-  const computedValue = () => {
-    if (inputStatus) {
-      return (
-        <span
-          className="exchange-card-currency__computed fadeIn"
-          >{valueB} {codeA}
-        </span>);
-    }
-  }
 
   return (
     <div className="exchange-card-currency">
@@ -73,7 +66,11 @@ const ExchangeCardCurrency: FC<IBaseProps> = props => {
       <div className="exchange-card-currency__footer">
         1 {codeB} = {rate} {codeA}
       </div>
-      {computedValue()}
+      {inputStatus && (
+        <span
+          className="exchange-card-currency__computed fadeIn"
+          >{toFix(valueB, precision)} {codeA}
+        </span>)}
     </div>
   );
 };

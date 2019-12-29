@@ -78,12 +78,14 @@ const SelectCard = ({
       <Option key={id} value={id} label={code}>
         <Popover
           placement="left"
+          className='select-card__popover'
           title={currency}
           content={<CountriesList cid={id} />}
           trigger="hover"
         >
           <b>{currencyB.code}</b> - <b>{code}</b> {currency}
         </Popover>
+        <span className='select-card__name'><b>{currencyB.code}</b> - <b>{code}</b> {currency}</span>
       </Option>
     );
   });

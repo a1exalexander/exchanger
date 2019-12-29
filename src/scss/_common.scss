@@ -1,6 +1,8 @@
 * {
   scrollbar-color: $N6 transparent;
   scrollbar-width: thin;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
   ::-webkit-scrollbar {
     width: 2px;
     border-radius: 1px;

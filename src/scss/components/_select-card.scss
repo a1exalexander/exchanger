@@ -193,4 +193,15 @@ $style: select-card;
     list-style: none;
     padding: 0;
   }
+  &__popover {
+    display: none !important;
+    @include media {
+      display: block;
+    }
+  }
+  &__name {
+    @include media {
+      display: none;
+    }
+  }
 }

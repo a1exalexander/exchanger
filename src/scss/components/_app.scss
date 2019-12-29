@@ -38,6 +38,7 @@
     font-size: $H200;
   }
   &__info-card {
+    display: block;
     @extend %card;
     min-height: auto;
     background-color: $B3;
