@@ -1,58 +1,64 @@
 import api from '../api';
 import { logError, logSuccess } from './logger';
 import { mapCurrencies, filterCurrencies, mapBTC } from '../utils/formatCurrency';
+import moment from 'moment';
 const http: any = require('axios');
 
-if (process.env.REACT_APP_API_MODE === 'fake') {
-  http.interceptors.response.use(
-    (response: any) => {
-      return new Promise(resolve => {
-        setTimeout(() => resolve(response), 1500);
-      });
-    },
-    (error: any) => {
-      return Promise.reject(error);
-    },
-  );
-}
+http.interceptors.response.use(
+  (response: any) => {
+    logSuccess(response.config.url, response.data);
+    return Promise.resolve(response);
+  },
+  (error: any) => {
+    logError(error.response.config.url || 'FUCK', error);
+    return Promise.reject(error);
+  },
+);
 
 // http.interceptors.request.use((config: any) => {
-//   config.headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+//   config.headers["Access-Control-Allow-Origin"] = "*";
 //   return config;
 // }, (error: Error) => {
 //   return Promise.reject(error);
 // });
 
 export default class ApiService {
-
-  _fetchData = async (method: string, url: string, params: string | number = '') => {
-    try {
-      const { data } = await http[method](url, params);
-      logSuccess(url, data);
-      return data;
-    } catch(error) {
-      logError(url, error);
-      throw new Error(error);
-    }
-  }
   
   fetchCurrencies = async () => {
     try {
-      const data = await this._fetchData('get', api.currencies);
+      const { data } = await http.get(api.currencies);
       const formatedData = data.map(mapCurrencies).filter(filterCurrencies);
       return formatedData;
     } catch(error) {
-      throw error;
+      return [];
     }
   }
 
   fetchBTC = async () => {
     try {
-      const data = await this._fetchData('get', api.btc);
+      const { data } = await http.get(api.btc);
       const formatedData = data.map(mapBTC);
       return formatedData;
     } catch(error) {
-      throw error;
+      return [];
     }
   }
+
+  fetchPBCurrencies = async () => {
+    try {
+      const { data: { exchangeRate = [] } = {} } = await http.get(api.PBCurrencies(moment().format('DD.MM.YYYY'))) || {};
+      return exchangeRate;
+    } catch(error) {
+      return [];
+    }
+  }
+
+  fetchNBCurrencies = async () => {
+    try {
+      const { data } = await http.get(api.NBCurrencies);
+      return data;
+    } catch(error) {
+      return [];
+    }
+  } 
 }

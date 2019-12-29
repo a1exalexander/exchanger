@@ -36,6 +36,18 @@ export const mapCurrencies = (item: any) => {
   return newItem;
 };
 
+export const getSyncCash = (MONOCurrencies = [], NBCurrencies = []) => {
+  const result = MONOCurrencies.map((item: Exchange) => {
+    const { currencyA: { code = '' } } = item;
+    const extra = NBCurrencies.find(({ cc = '' }) => cc === code);
+    return {
+      ...item,
+      NB: extra || null,
+    }
+  });
+  return result;
+}
+
 export const filterCurrencies = (item: any) => {
   const { currencyA, currencyB } = item;
   return has(currencyA, 'code') && has(currencyB, 'code');

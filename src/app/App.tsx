@@ -13,7 +13,6 @@ import { needUpdate } from "../utils/helpers";
 
 interface IStateProps {
   lastUpdate: string;
-  computedCurrency: object;
   exchange: object;
   method: string;
 }
@@ -24,21 +23,11 @@ interface IDispatchProps {
 type IProps = IStateProps & IDispatchProps;
 
 const App: FC<IProps> = props => {
-  const {
-    method,
-    computedCurrency,
-    exchange,
-    lastUpdate,
-    fetchCurrencies
-  } = props;
+  const { method, exchange, lastUpdate, fetchCurrencies } = props;
 
   useEffect(() => {
-    if (needUpdate(lastUpdate)) fetchCurrencies();
-  });
-
-  useEffect(() => {
-    if (needUpdate(lastUpdate)) fetchCurrencies();
-  }, [lastUpdate, method, computedCurrency, fetchCurrencies, exchange]);
+    if (lastUpdate && needUpdate(lastUpdate)) fetchCurrencies();
+  }, [lastUpdate, method, exchange, fetchCurrencies]);
 
   useEffect(() => {
     fetchCurrencies();
@@ -46,15 +35,19 @@ const App: FC<IProps> = props => {
   }, []);
 
   return (
-    <div id='app' className="app">
+    <div id="app" className="app">
       <AppHeader />
       <HomePage />
       <div className="app__carousel">
         <AppCarousel />
       </div>
       <footer className="app__footer">
-        <a href='#app' className="app__info-card">
-          <h2 className='app__description'>Конвертуй іноземну валюту та українську гривню</h2>
+        <a href="#app" className="app__info-card">
+          <h2 className="app__description">
+            Конвертуй іноземну валюту та українську гривню за курсом{" "}
+            <span className="app__description--eng">Monobank</span> та{" "}
+            <span className="app__description--mark">НБУ</span>
+          </h2>
         </a>
         {lastUpdate && (
           <div className="app__date-card">
@@ -68,11 +61,10 @@ const App: FC<IProps> = props => {
 };
 
 export default connect<IStateProps, IDispatchProps, object, ExchangesState>(
-  ({ computedCurrency, method, exchange, lastUpdate }) => ({
+  ({ method, exchange, lastUpdate }) => ({
     method,
-    computedCurrency,
     exchange,
-    lastUpdate,
+    lastUpdate
   }),
   { fetchCurrencies }
 )(App);

@@ -15,6 +15,8 @@ logInfo(`ROOT URL ${process.env.REACT_APP_API_MODE}: ${ROOT_URL}`);
 const api = {
   currencies: `${ROOT_URL}/bank/currency`,
   btc: `https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=1`,
+  PBCurrencies: (date: string = '01.01.2018') => `https://api.privatbank.ua/p24api/exchange_rates?json&date=${date}`,
+  NBCurrencies: `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json`,
 }
 
 export default api;

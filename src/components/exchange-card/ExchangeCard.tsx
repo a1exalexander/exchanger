@@ -1,4 +1,5 @@
 import React, { useState, useEffect, FC } from "react";
+import classNames from 'classnames';
 import ExchangeCardCurrency from "./ExchangeCardCurrency";
 import { connect } from "react-redux";
 import { TOGGLE_EXCHANGE_METHOD } from "../../constants";
@@ -11,6 +12,7 @@ import { Exchange, SN } from "../../types";
 import { ExchangesState } from "../../store/types";
 import getIcon from "../../utils/getIcon";
 import { toFix, setNumber } from "../../utils/formatCurrency";
+import { methodsTranslate } from "../../utils/helpers";
 
 const { calcDiv, calcMul } = new CalcCurrency();
 
@@ -42,6 +44,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
   const {
     currencyA: { code: codeA, currency: currencyA, country: countryA = "" },
     currencyB: { code: codeB, currency: currencyB, country: countryB = "" },
+    NB,
     precision = 4
   } = exchange as Exchange;
 
@@ -115,14 +118,13 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
       <div className="exchange-card__main">
         <ExchangeCardCurrency
           value={toFix(valueA, precision)}
-          valueB={valueB}
+          valueB={toFix(valueB, precision)}
           setValue={handleChangeA}
           icon={getIcon(countryA, codeA)}
           rate={toFix(rateA, precision)}
           codeA={codeB}
           codeB={codeA}
-          currencyB={currencyA}
-          precision={precision}
+          currencyB={NB ? NB.txt : currencyA}
         />
         <div className="exchange-card__toggle-wrapper">
           <button
@@ -138,23 +140,22 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
           <span
             className={`exchange-card__method  exchange-card__method--mobile ${method}`}
           >
-            {method}
+            {methodsTranslate[method]}
           </span>
         </div>
-        <span className={`exchange-card__method ${method}`}>{method}</span>
+        <span className={`exchange-card__method ${method}`}>{methodsTranslate[method]}</span>
         <ExchangeCardCurrency
           value={toFix(valueB, precision)}
-          valueB={valueA}
+          valueB={toFix(valueA, precision)}
           setValue={handleChangeB}
           icon={getIcon(countryB, codeB)}
           rate={toFix(rateB, precision)}
           codeA={codeA}
           codeB={codeB}
-          currencyB={currencyB}
-          precision={precision}
+          currencyB={currencyB === 'Hryvnia' ? 'Українська гривня' : currencyB}
         />
       </div>
-      <div className="exchange-card__description-wrapper">
+      <button onClick={toggleExchangeMethod} className={classNames("exchange-card__description-wrapper", method)}>
         {method !== "cross" ? (
           <p className="exchange-card__description">
             Я зможу { method === "buy" ? 'придбати' : 'продати'}{" "}
@@ -177,7 +178,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
             </span>
           </p>
         )}
-      </div>
+      </button>
     </div>
   );
 };

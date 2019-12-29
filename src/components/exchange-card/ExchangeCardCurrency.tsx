@@ -1,8 +1,34 @@
-import React, { FC, useState } from 'react';
-import { inputFontSize } from '../../utils/helpers';
-import { SN } from '../../types';
-import Big from 'big.js';
-import { toFix } from '../../utils/formatCurrency';
+import React, { FC, useState, useEffect } from "react";
+import { inputFontSize } from "../../utils/helpers";
+import { SN } from "../../types";
+import Big from "big.js";
+
+interface IHelperProps {
+  codeA: string;
+  valueB: SN;
+}
+
+const HelperCount: FC<IHelperProps> = props => {
+  const { codeA, valueB } = props;
+
+  const [rerender, setRerender] = useState(true);
+  
+  useEffect(() => {
+    const forceUpdate = async () => {
+      if (rerender) setRerender(false);
+      setTimeout(() => setRerender(true));
+      return;
+    };
+    forceUpdate();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [valueB]);
+
+  return rerender ? (
+    <span className="exchange-card-currency__computed fadeIn">
+      {valueB} {codeA}
+    </span>
+  ) : null;
+};
 
 interface IBaseProps {
   icon: string;
@@ -12,7 +38,6 @@ interface IBaseProps {
   rate: SN | Big;
   value: any;
   valueB: any;
-  precision: number;
   setValue: any;
 }
 
@@ -21,12 +46,11 @@ const ExchangeCardCurrency: FC<IBaseProps> = props => {
     icon,
     codeA,
     codeB,
-    precision,
     currencyB,
     rate,
     value,
     valueB,
-    setValue,
+    setValue
   } = props;
 
   const [inputStatus, setInputStatus] = useState(false);
@@ -37,7 +61,7 @@ const ExchangeCardCurrency: FC<IBaseProps> = props => {
         <span className="exchange-card-currency__currency">{codeB}</span>
         <div className="exchange-card-currency__row">
           <span className="exchange-card-currency__info">{currencyB}</span>
-          <img className="exchange-card-currency__icon" src={icon} alt=""/>
+          <img className="exchange-card-currency__icon" src={icon} alt="" />
         </div>
         <div className="exchange-card-currency__rate">
           = {rate} {codeA}
@@ -66,11 +90,7 @@ const ExchangeCardCurrency: FC<IBaseProps> = props => {
       <div className="exchange-card-currency__footer">
         1 {codeB} = {rate} {codeA}
       </div>
-      {inputStatus && (
-        <span
-          className="exchange-card-currency__computed fadeIn"
-          >{toFix(valueB, precision)} {codeA}
-        </span>)}
+      {inputStatus && <HelperCount codeA={codeA} valueB={valueB} />}
     </div>
   );
 };

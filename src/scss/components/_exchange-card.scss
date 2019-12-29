@@ -1,9 +1,9 @@
 $style: exchange-card;
 .#{$style} {
   @extend %card;
+  padding: 0;
   width: 100%;
   max-width: 100%;
-  padding: 24px;
   z-index: 2;
   @include media {
     position: relative;
@@ -13,11 +13,15 @@ $style: exchange-card;
     // min-height: 200px;
   }
   &__main {
+    padding: 24px 24px 0;
     @include flex-col(flex-start, center);
-    margin-bottom: 22px;
+    margin-bottom: 14px;
     @include media {
-      @include flex-row(space-between, center);
+      margin-bottom: 22px;
       min-height: 152px;
+    }
+    @include media($screen-desktop) {
+      @include flex-row(space-between, center);
     }
   }
   &__ontop-button {
@@ -55,10 +59,10 @@ $style: exchange-card;
       color: $O1;
     }
     &.buy {
-      color: $G3;
+      color: $G2;
     }
     &.cross {
-      color: $N100;
+      color: $B2;
       pointer-events: none;
       cursor: default;
     }
@@ -86,7 +90,7 @@ $style: exchange-card;
       fill: $O1;
     }
     &.buy {
-      fill: $G3;
+      fill: $G2;
     }
     &.cross {
       fill: $B2;
@@ -111,8 +115,11 @@ $style: exchange-card;
     text-transform: capitalize;
     position: absolute;
     display: none;
+    text-align: center;
+    font-size: $H300;
     @include media {
-      bottom: 80px;
+      max-width: 100px;
+      top: 105px;
       display: block;
       left: 50%;
       transform: translateX(-50%);
@@ -120,25 +127,49 @@ $style: exchange-card;
     &--mobile {
       display: block;
       left: 110%;
+      width: 100%;
+      white-space: nowrap;
       top: 0;
       bottom: 0;
       transform: translateY(2px);
-      margin-right: 6px;
       @include media {
         display: none;
       }
     }
   }
-
+  &__description-wrapper {
+    border-radius: 0 0 8px 8px;
+    padding: 12px;
+    @include transition(background-color);
+    transition-duration: 0.1s;
+    cursor: pointer;
+    outline: none;
+    width: 100%;
+    box-shadow: none;
+    border: none;
+    @include flex-row(center, center);
+    &.sell {
+      background-color: $O1;
+    }
+    &.buy {
+      background-color: $G2;
+    }
+    &.cross {
+      background-color: $B2;
+      pointer-events: none;
+      cursor: default;
+    }
+  }
   &__description {
     margin: 0;
     text-align: center;
     font-family: $second-font;
-    font-size: $H300;
-    font-weight: 300;
+    @include text($H400, 300, $N0);
     span {
       white-space: nowrap;
     }
-    // @include text($H300, 300, );
+    @include media {
+      font-size: $H300;
+    }
   }
 }

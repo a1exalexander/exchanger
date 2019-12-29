@@ -44,7 +44,7 @@
     @include text($H500, 400);
   }
   &__label {
-    @include text($H400, 500);
+    @include text($H300, 500);
     margin-right: 4px;
     &--sell {
       color: $O1;

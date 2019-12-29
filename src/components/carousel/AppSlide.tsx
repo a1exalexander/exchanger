@@ -14,6 +14,7 @@ const AppSlide = ({ exchange, setExchange }: { exchange: Exchange, setExchange: 
     rateBuy = '',
     rateSell = '',
     rateCross = '',
+    NB,
     currencyA: { code: codeA, currency: currencyA, country: countryA = '' },
     currencyB: { code: codeB, currency: currencyB, country: countryB = '' }
   } = exchange;
@@ -32,15 +33,15 @@ const AppSlide = ({ exchange, setExchange }: { exchange: Exchange, setExchange: 
       return (
         <div className="app-slide__row">
           <div>
-            <span className="app-slide__label app-slide__label--sell">Sell: </span>
-            <span className="app-slide__value">{toFix(rateBuy, 4)}</span>
+            <span className="app-slide__label app-slide__label--sell">Продаж: </span>
+            <span className="app-slide__value">{toFix(rateBuy, 2)}</span>
           </div>
           <IconExchange className={'app-slide__icon-exchange'}/>
           <div>
             <span className="app-slide__label app-slide__label--buy">
-              Buy:{' '}
+              Купівля:{' '}
             </span>
-            <span className="app-slide__value">{toFix(rateSell, 4)}</span>
+            <span className="app-slide__value">{toFix(rateSell, 2)}</span>
           </div>
         </div>
       );
@@ -48,7 +49,7 @@ const AppSlide = ({ exchange, setExchange }: { exchange: Exchange, setExchange: 
     return (
       <div className="app-slide__row">
         <span className="app-slide__label app-slide__label--cross">
-          Rate cross:{' '}
+          Перехресний курс:{' '}
         </span>
         <span className="app-slide__value">{rateCross}</span>
       </div>
@@ -62,13 +63,13 @@ const AppSlide = ({ exchange, setExchange }: { exchange: Exchange, setExchange: 
       <div className="app-slide__row">
         <img className="app-slide__icon" alt='' uk-img={`data-src: ${getIcon(countryB, codeB)}`} uk-svg='true'/>
         <span className="app-slide__currency">{codeB}</span>
-        <span className="app-slide__currency-name">{currencyB}</span>
+        <span className="app-slide__currency-name">{currencyB === 'Hryvnia' ? 'Українська гривня' : currencyB}</span>
       </div>
       {priceElement()}
       <div className="app-slide__row">
         <img className="app-slide__icon" alt='' uk-img={`data-src: ${getIcon(countryA, codeA)}`} uk-svg='true'/>
         <h3 className="app-slide__currency">{codeA}</h3>
-        <h4 className="app-slide__currency-name">{currencyA}</h4>
+        <h4 className="app-slide__currency-name">{NB ? NB.txt : currencyA}</h4>
       </div>
     </li>
   );

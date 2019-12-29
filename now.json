@@ -1,9 +1,5 @@
 {
   "github": {
     "autoAlias": false
-  },
-  "routes": [
-    { "src": "/custom-page", "headers": {"cache-control": "max-age=1000"}},
-    { "src": "/.*", "headers": {"cache-control": "max-age=1000"} }
-  ]
+  }
 }

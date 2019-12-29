@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Select, Popover } from "antd";
 import { setExchange } from "../../store/actions";
 import { connect } from "react-redux";
@@ -10,8 +10,6 @@ import { ReactComponent as IconExchange } from "../../assets/images/exchange-arr
 const { Option }: any = Select;
 
 const filterOption = (inputValue: string, option: any) => {
-  // console.log(option);
-  // return true;
   return (
     option.props.label.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0 ||
     option.props.children.props.children.some((item: any) => {
@@ -19,7 +17,7 @@ const filterOption = (inputValue: string, option: any) => {
         return item.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0;
       }
       return (
-        item.props.children.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0
+        String(item.props.children).toLowerCase().indexOf(inputValue.toLowerCase()) >= 0
       );
     })
   );
@@ -72,27 +70,39 @@ const SelectCard = ({
     const {
       currencyA: { code, currency },
       id,
-      currencyB
+      currencyB,
+      NB
     }: Exchange = item;
     return (
       <Option key={id} value={id} label={code}>
         <Popover
           placement="left"
-          className='select-card__popover'
           title={currency}
           content={<CountriesList cid={id} />}
           trigger="hover"
         >
-          <b>{currencyB.code}</b> - <b>{code}</b> {currency}
+          {currencyB.code !== "UAH" ? (
+            <Fragment>
+              <b>{currencyB.code}</b> {currencyB.currency}
+              {" - "}
+            </Fragment>
+          ) : (
+            ""
+          )}
+          <b>{code}</b> {NB ? NB.txt : currency}
         </Popover>
-        <span className='select-card__name'><b>{currencyB.code}</b> - <b>{code}</b> {currency}</span>
       </Option>
     );
   });
 
+  const getValue = (exchange: Exchange) => {
+    const { NB, currencyB: { code }, currencyA } = exchange;
+    return `${code !== 'UAH' ? code + ' - ' : ''}${currencyA.code} ${NB ? NB.txt : currencyA.currency}`;
+  }
+
   return (
     <div className="select-card">
-      <p className="select-card__title">Сurrency selection</p>
+      <p className="select-card__title">Обери валюту</p>
       <Select
         showSearch
         className="select-card__select"
@@ -102,7 +112,7 @@ const SelectCard = ({
         optionLabelProp="label"
         size="large"
         loading={loading}
-        value={`${exchange.currencyB.code} - ${exchange.currencyA.code} ${exchange.currencyA.currency}`}
+        value={getValue(exchange)}
         onChange={setExchange}
         filterOption={filterOption}
       >
@@ -140,15 +150,8 @@ const SelectCard = ({
             className="select-card__select-input"
           >
             {currencies.map(item => {
-              const {
-                currencyA: { code, currency },
-                id,
-                currencyB
-              }: Exchange = item;
               return (
-                <option key={id} value={id}>
-                  {currencyB.code} - {code} {currency}
-                </option>
+                <option key={item.id} value={item.id}>{getValue(item)}</option>
               );
             })}
           </select>

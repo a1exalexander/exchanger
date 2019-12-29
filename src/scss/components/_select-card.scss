@@ -80,7 +80,8 @@ $style: select-card;
     display: none;
     @include media {
       display: block;
-      @include text($H500, 400);
+      font-family: $second-font;
+      @include text($H400, 300);
       margin-bottom: 32px;
     } 
   }
@@ -97,7 +98,13 @@ $style: select-card;
     display: none;
     @include media {
       display: block;
-      width: 260px;
+      width: 220px;
+    }
+    @include media($screen-desktop) {
+      width: 240px;
+    }
+    @include media($screen-desktop-large) {
+      width: 280px;
     }
   }
   &__select-inner {
@@ -192,16 +199,5 @@ $style: select-card;
   &__countries {
     list-style: none;
     padding: 0;
-  }
-  &__popover {
-    display: none !important;
-    @include media {
-      display: block;
-    }
-  }
-  &__name {
-    @include media {
-      display: none;
-    }
   }
 }

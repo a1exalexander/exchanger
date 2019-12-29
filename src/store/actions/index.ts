@@ -10,7 +10,7 @@ import {
 import { ActionTypes } from '../types';
 import { Exchange, Currencies, SN, Currency } from '../../types';
 import ApiService from '../../services/apiService';
-import { getUahBtc } from '../../utils/formatCurrency';
+import { getUahBtc, getSyncCash } from '../../utils/formatCurrency';
 import ReactGA from 'react-ga';
 import { toFix } from '../../utils/formatCurrency';
 import moment from 'moment';
@@ -86,9 +86,10 @@ const fetchCurrencies = () => async (dispatch: any, getState: any) => {
   try {
     const cash = await apiService.fetchCurrencies();
     const crypto = await apiService.fetchBTC();
+    const NBCurrencies = await apiService.fetchNBCurrencies();
     const uahBtc = getUahBtc(cash, crypto);
-    const currencies = [...cash, ...crypto, uahBtc];
-    
+    const syncCash = getSyncCash(cash, NBCurrencies);
+    const currencies = [...syncCash, ...crypto, uahBtc];
     const localExchange: string | null = localStorage.getItem('exchange');
     const ex =
       localExchange && localExchange !== 'undefined'

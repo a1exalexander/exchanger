@@ -13,7 +13,7 @@
   &__footer {
     flex: 1 1;
     @include flex-col(space-between, stretch);
-    padding: 0 32px;
+    padding: 0 24px;
     @include media {
       @include flex-row(space-between, flex-end);
     }
@@ -22,11 +22,22 @@
     font-size: $H400;
     color: $N0;
     font-family: $second-font;
-    font-weight: 300;
+    font-weight: 200;
     text-align: center;
     line-height: 1.4;
     margin-bottom: 0;
+    &--eng {
+      font-family: $base-font;
+      font-weight: 600;
+      @include media {
+        font-size: $H400;
+      }
+    }
+    &--mark {
+      font-weight: 500;
+    }
     @include media {
+      font-size: $H300;
       color: $N100;
       text-align-last: left;
     }

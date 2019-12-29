@@ -11,6 +11,14 @@ export interface Currency {
   computedPrice?: SN | null;
 }
 
+export interface NBRate {
+  r030: number;
+  txt: string;
+  rate: number;
+  cc: string;
+  exchangedate: string;
+}
+
 export interface Exchange {
   id: SN;
   currencyCodeA: SN;
@@ -22,6 +30,7 @@ export interface Exchange {
   currencyA: Currency;
   currencyB: Currency;
   precision?: number;
+  NB?: NBRate | null;
 }
 
 export type Currencies = Array<Exchange>;

@@ -25,3 +25,9 @@ export const needUpdate = (date: string) => {
   const isOld = difference > 1;
   return !isValid || isOld;
 };
+
+export const methodsTranslate: { [key: string]: string; } = {
+  buy: 'Купівля',
+  sell: 'Продаж',
+  cross: 'Перехресний курс',
+}

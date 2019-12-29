@@ -14,7 +14,7 @@
     display: none;
     @include media {
       display: block;
-      font-size: $H500;
+      font-size: $H400;
       align-self: flex-start;
     }
   }
@@ -72,6 +72,7 @@
   }
   &__rate {
     margin-left: 12px;
+    font-size: $H400;
     @include media {
       display: none;
     }
