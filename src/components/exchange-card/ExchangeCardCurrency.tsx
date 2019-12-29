@@ -1,15 +1,18 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, Fragment } from "react";
 import { inputFontSize } from "../../utils/helpers";
-import { SN } from "../../types";
+import classNames from 'classnames';
+import { SN, NBRate } from "../../types";
+import { ReactComponent as IconMono } from '../../assets/images/mono.svg';
 import Big from "big.js";
 
 interface IHelperProps {
   codeA: string;
   valueB: SN;
+  valueNBU: SN;
 }
 
 const HelperCount: FC<IHelperProps> = props => {
-  const { codeA, valueB } = props;
+  const { codeA, valueB, valueNBU } = props;
 
   const [rerender, setRerender] = useState(true);
   
@@ -25,7 +28,7 @@ const HelperCount: FC<IHelperProps> = props => {
 
   return rerender ? (
     <span className="exchange-card-currency__computed fadeIn">
-      {valueB} {codeA}
+      {valueB} {codeA} {valueNBU !== valueB && `(${valueNBU} по НБУ)`}
     </span>
   ) : null;
 };
@@ -36,9 +39,12 @@ interface IBaseProps {
   codeB: string;
   currencyB: string;
   rate: SN | Big;
-  value: any;
-  valueB: any;
+  value: SN;
+  valueB: SN;
+  NB?: null | NBRate;
   setValue: any;
+  valueNBU: SN;
+  valueNBU2: SN;
 }
 
 const ExchangeCardCurrency: FC<IBaseProps> = props => {
@@ -47,10 +53,13 @@ const ExchangeCardCurrency: FC<IBaseProps> = props => {
     codeA,
     codeB,
     currencyB,
+    NB,
     rate,
     value,
     valueB,
-    setValue
+    setValue,
+    valueNBU,
+    valueNBU2,
   } = props;
 
   const [inputStatus, setInputStatus] = useState(false);
@@ -60,7 +69,7 @@ const ExchangeCardCurrency: FC<IBaseProps> = props => {
       <div className="exchange-card-currency__head">
         <span className="exchange-card-currency__currency">{codeB}</span>
         <div className="exchange-card-currency__row">
-          <span className="exchange-card-currency__info">{currencyB}</span>
+          <span className="exchange-card-currency__info">{codeB === 'UAH' ? 'Українська гривня' : NB ? NB.txt : currencyB}</span>
           <img className="exchange-card-currency__icon" src={icon} alt="" />
         </div>
         <div className="exchange-card-currency__rate">
@@ -77,20 +86,51 @@ const ExchangeCardCurrency: FC<IBaseProps> = props => {
         onChange={setValue}
         placeholder={`Enter "${currencyB}" amount`}
       />
-      <input
-        onBlur={() => setInputStatus(false)}
-        onFocus={() => setInputStatus(true)}
-        style={{ fontSize: inputFontSize(value) }}
-        type="number"
-        className="exchange-card-currency__input exchange-card-currency__input--mobile"
-        value={value}
-        onChange={setValue}
-        placeholder={`Enter "${currencyB}" amount`}
-      />
-      <div className="exchange-card-currency__footer">
-        1 {codeB} = {rate} {codeA}
+      <div className='exchange-card-currency__input-wrapper'>
+        <input
+          onBlur={() => setInputStatus(false)}
+          onFocus={() => setInputStatus(true)}
+          style={{ fontSize: inputFontSize(value) }}
+          type="number"
+          className="exchange-card-currency__input exchange-card-currency__input--mobile"
+          value={value}
+          onChange={setValue}
+          placeholder={`Enter "${currencyB}" amount`}
+        />
+        <IconMono className={classNames('exchange-card-currency__icon-mono is-mobile', { 'single': !NB })}/>
       </div>
-      {inputStatus && <HelperCount codeA={codeA} valueB={valueB} />}
+      {NB && (<Fragment>
+        <input
+          onBlur={() => setInputStatus(false)}
+          onFocus={() => setInputStatus(true)}
+          style={{ fontSize: inputFontSize(value) }}
+          type="text"
+          className="exchange-card-currency__input"
+          value={valueNBU}
+          onChange={setValue}
+          placeholder={`Enter "${currencyB}" amount`}
+        />
+        <div className="exchange-card-currency__input-wrapper">
+          <input
+            onBlur={() => setInputStatus(false)}
+            onFocus={() => setInputStatus(true)}
+            style={{ fontSize: inputFontSize(value) }}
+            type="number"
+            className="exchange-card-currency__input exchange-card-currency__input--mobile"
+            value={valueNBU}
+            onChange={setValue}
+            placeholder={`Enter "${currencyB}" amount`}
+          />
+          {NB && (<div className='exchange-card-currency__icon-nbu is-mobile'>
+            <img src={require('../../assets/images/nb.png')} alt=""/>
+            <span>НБУ</span>
+          </div>)}
+        </div>
+      </Fragment>)}
+      {/* <div className="exchange-card-currency__footer">
+        1 {codeB} = {rate} {codeA}
+      </div> */}
+      {inputStatus && <HelperCount codeA={codeA} valueB={valueB} valueNBU={valueNBU2}/>}
     </div>
   );
 };

@@ -29,5 +29,5 @@ export const needUpdate = (date: string) => {
 export const methodsTranslate: { [key: string]: string; } = {
   buy: 'Купівля',
   sell: 'Продаж',
-  cross: 'Перехресний курс',
+  cross: '',
 }

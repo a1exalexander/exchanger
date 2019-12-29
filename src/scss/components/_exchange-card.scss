@@ -81,6 +81,7 @@ $style: exchange-card;
     margin: 24px 0;
     @include media {
       margin: 0 24px;
+      bottom: 54px;
     }
   }
   &__icon-exchange {
@@ -119,7 +120,7 @@ $style: exchange-card;
     font-size: $H300;
     @include media {
       max-width: 100px;
-      top: 105px;
+      top: 44px;
       display: block;
       left: 50%;
       transform: translateX(-50%);
@@ -170,6 +171,39 @@ $style: exchange-card;
     }
     @include media {
       font-size: $H300;
+    }
+  }
+  &__icon-mono {
+    position: absolute;
+    top: 74px;
+    @include size(38px);
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0 auto;
+    &.single {
+      top: 114px;
+    }
+  }
+  &__icon-nbu {
+    position: absolute;
+    top: 118px;
+    height: 34px;
+    padding: 4px 6px;
+    min-width: 38px;
+    border-radius: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0 auto;
+    @include flex-row(center, center);
+    border: 1px solid $G4;
+    img {
+      max-height: 100%;
+      width: auto;
+      object-fit: contain;
+      margin-right: 4px;
+    }
+    span {
+      @include text($H500, 500, $G4);
     }
   }
 }

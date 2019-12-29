@@ -56,7 +56,7 @@ export const filterCurrencies = (item: any) => {
 export const mapBTC = (item: any) => {
   const { base_ccy, ccy } = item;
   let newItem:Exchange = {
-    id: `${ccy}:${base_ccy}`,
+    id: `crypto:${ccy}:${base_ccy}`,
     precision: 6,
     currencyCodeA: ccy,
     currencyCodeB: base_ccy,

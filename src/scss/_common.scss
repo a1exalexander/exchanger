@@ -70,3 +70,34 @@ a, button {
     margin-right: 12px !important;
   }
 }
+
+.is-mobile {
+  @include media {
+    display: none !important;
+  }
+}
+
+.is-none {
+  display: none !important;
+}
+
+.is-desktop {
+  display: none !important;
+  @include media {
+    display: block !important;
+  }
+}
+
+.is-desktop-block {
+  display: none !important;
+  @include media {
+    display: block !important;
+  }
+}
+
+.is-desktop-flex {
+  display: none !important;
+  @include media {
+    display: flex !important;
+  }
+}

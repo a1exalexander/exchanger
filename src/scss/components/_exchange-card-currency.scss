@@ -90,7 +90,10 @@
       @include text($H400, 400, $N6);
     }
     &--mobile {
+      width: 100%;
+      margin: 0;
       display: block;
+      // padding: 0 56px;
     }
     @include media {
       text-align: left;
@@ -106,6 +109,34 @@
     bottom: -8px;
     @include media {
       display: none;
+    }
+  }
+  &__input-wrapper {
+    margin: 14px 0;
+    @include flex-row(stretch, center);
+    position: relative;
+  }
+  &__icon-mono {
+    @include size(34px);
+    position: absolute;
+    right: 0;
+  }
+  &__icon-nbu {
+    position: absolute;
+    right: 0;
+    padding: 2px 4px;
+    height: 28px;
+    border-radius: 6px;
+    @include flex-row(center, center);
+    border: 1px solid $G4;
+    img {
+      max-height: 100%;
+      width: auto;
+      object-fit: contain;
+      margin-right: 4px;
+    }
+    span {
+      @include text($H500, 500, $G4);
     }
   }
 }

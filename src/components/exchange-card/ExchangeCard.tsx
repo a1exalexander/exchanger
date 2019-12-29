@@ -13,6 +13,7 @@ import { ExchangesState } from "../../store/types";
 import getIcon from "../../utils/getIcon";
 import { toFix, setNumber } from "../../utils/formatCurrency";
 import { methodsTranslate } from "../../utils/helpers";
+import { ReactComponent as IconMono } from '../../assets/images/mono.svg';
 
 const { calcDiv, calcMul } = new CalcCurrency();
 
@@ -50,6 +51,8 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
 
   const [valueA, setValueA] = useState(1 as SN);
   const [valueB, setValueB] = useState("" as SN);
+  const [valueNBU, setValueNBU] = useState(1 as SN);
+  const [valueNBU2, setValueNBU2] = useState("" as SN);
 
   const rates: any = {
     sell: exchange.rateBuy,
@@ -66,16 +69,24 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
       setNumber((valueA: any) => {
         setValueA(valueA);
         setValueB(calcMul(valueA, rateA));
+        if (NB) {
+          setValueNBU(valueA);
+          setValueNBU2(calcMul(valueA, NB.rate))
+        };
       })(valueA, precision);
     }
     // eslint-disable-next-line
-  }, [method, currencyA, currencyB]);
+  }, [method, NB, currencyA, currencyB]);
 
   const handleChangeA = (e: any): void => {
     const { value } = e.target;
     setNumber((v: any) => {
       setValueA(v);
       setValueB(calcMul(v, rateA));
+      if (NB) {
+        setValueNBU(v);
+        setValueNBU2(calcMul(v, NB.rate));
+      };
     })(value, precision);
   };
 
@@ -84,6 +95,10 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
     setNumber((v: any) => {
       setValueB(v);
       setValueA(calcDiv(v, rateA));
+      if (NB) {
+        setValueNBU2(v);
+        setValueNBU(calcDiv(v, NB.rate));
+      };
     })(value, precision);
   };
 
@@ -119,14 +134,17 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
         <ExchangeCardCurrency
           value={toFix(valueA, precision)}
           valueB={toFix(valueB, precision)}
+          valueNBU={toFix(valueNBU, precision)}
+          valueNBU2={toFix(valueNBU2, precision)}
           setValue={handleChangeA}
           icon={getIcon(countryA, codeA)}
           rate={toFix(rateA, precision)}
           codeA={codeB}
           codeB={codeA}
-          currencyB={NB ? NB.txt : currencyA}
+          NB={NB}
+          currencyB={currencyA}
         />
-        <div className="exchange-card__toggle-wrapper">
+        <div className={classNames("exchange-card__toggle-wrapper")}>
           <button
             onClick={toggleExchangeMethod}
             className={`exchange-card__toggle`}
@@ -143,16 +161,24 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
             {methodsTranslate[method]}
           </span>
         </div>
+        <IconMono className={classNames('exchange-card__icon-mono is-desktop', { 'single': !NB })}/>
+        {NB && (<div className='exchange-card__icon-nbu is-desktop'>
+          <img src={require('../../assets/images/nb.png')} alt=""/>
+          <span>НБУ</span>
+        </div>)}
         <span className={`exchange-card__method ${method}`}>{methodsTranslate[method]}</span>
         <ExchangeCardCurrency
           value={toFix(valueB, precision)}
           valueB={toFix(valueA, precision)}
+          valueNBU={toFix(valueNBU2, precision)}
+          valueNBU2={toFix(valueNBU, precision)}
           setValue={handleChangeB}
           icon={getIcon(countryB, codeB)}
           rate={toFix(rateB, precision)}
           codeA={codeA}
           codeB={codeB}
-          currencyB={currencyB === 'Hryvnia' ? 'Українська гривня' : currencyB}
+          NB={NB}
+          currencyB={currencyB}
         />
       </div>
       <button onClick={toggleExchangeMethod} className={classNames("exchange-card__description-wrapper", method)}>
@@ -160,21 +186,27 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
           <p className="exchange-card__description">
             Я зможу { method === "buy" ? 'придбати' : 'продати'}{" "}
             <span>
-              {toFix(valueA, 2)} {codeA}
+              {toFix(valueA, 2)} {codeA} {valueNBU !== valueA && `(${toFix(valueNBU, 2)} ${codeA} за курсом НБУ)`}
             </span>{" "}
             за{" "}
             <span>
               {toFix(valueB, 2)} {codeB}
+            </span>{" "}
+            <span>
+              {valueNBU2 !== valueB && `(${toFix(valueNBU2, 2)} ${codeB} за курсом НБУ)`}
             </span>
           </p>
         ) : (
           <p className="exchange-card__description">
             <span>
-              {toFix(valueA, 2)} {codeA}
+              {toFix(valueA, 2)} {codeA} {valueNBU !== valueA && `(${toFix(valueNBU, 2)} ${codeA} за курсом НБУ)`}
             </span>{" "}
             коштує{" "}
             <span>
               {toFix(valueB, 2)} {codeB}
+            </span>{" "}
+            <span>
+              {valueNBU2 !== valueB && `(${toFix(valueNBU2, 2)} ${codeB} за курсом НБУ)`}
             </span>
           </p>
         )}
