@@ -116,7 +116,9 @@ $style: exchange-card;
     position: absolute;
     display: none;
     text-align: center;
-    font-size: $H300;
+    font-family: $second-font;
+    font-size: $H200;
+    font-weight: 300;
     @include media {
       max-width: 100px;
       top: 105px;

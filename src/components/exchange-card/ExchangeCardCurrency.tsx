@@ -75,7 +75,7 @@ const ExchangeCardCurrency: FC<IBaseProps> = props => {
         className="exchange-card-currency__input"
         value={value}
         onChange={setValue}
-        placeholder={`Enter "${currencyB}" amount`}
+        placeholder={`Введи кількість "${currencyB}"`}
       />
       <input
         onBlur={() => setInputStatus(false)}
@@ -85,7 +85,7 @@ const ExchangeCardCurrency: FC<IBaseProps> = props => {
         className="exchange-card-currency__input exchange-card-currency__input--mobile"
         value={value}
         onChange={setValue}
-        placeholder={`Enter "${currencyB}" amount`}
+        placeholder={`Введи кількість "${currencyB}"`}
       />
       <div className="exchange-card-currency__footer">
         1 {codeB} = {rate} {codeA}

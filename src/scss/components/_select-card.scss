@@ -130,7 +130,8 @@ $style: select-card;
     outline: none;
     z-index: 2;
     pointer-events: none;
-    @include text($H400, 500, $N0);
+    font-family: $second-font;
+    @include text($H200, 300, $N0);
     @extend %animate-gradient;
     position: relative;
     padding: 26px 12px 12px;
@@ -141,7 +142,8 @@ $style: select-card;
     border-top-width: 1.02px;
     padding: 6px 12px;
     @extend %animate-gradient;
-    @include text($H400, 400, $N0);
+    font-family: $second-font;
+    @include text($H200, 300, $N0);
     position: absolute;
     bottom: 0;
     right: 0;
@@ -162,8 +164,9 @@ $style: select-card;
     width: 100%;
     left: 0;
     right: 0;
-    top: 2px;
-    @include text($H300, 500, $N0);
+    top: 6px;
+    font-family: $second-font;
+    @include text($H200, 300, $N0);
     text-align: center;
   }
   &__select-input {
@@ -179,6 +182,9 @@ $style: select-card;
     outline: none;
     padding: 6px 12px;
     pointer-events: all;
+    font-family: $second-font;
+    font-size: $H300;
+    font-weight: 300;
   }
   &__icon {
     @include size(20px);

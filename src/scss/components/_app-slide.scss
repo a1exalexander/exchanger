@@ -41,10 +41,12 @@
   &__currency-name {
     line-height: 1;
     margin: 0;
-    @include text($H500, 400);
+    font-family: $second-font;
+    @include text($H300, 300);
   }
   &__label {
-    @include text($H300, 500);
+    font-family: $second-font;
+    @include text($H200, 400);
     margin-right: 4px;
     &--sell {
       color: $O1;

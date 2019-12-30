@@ -22,9 +22,10 @@
     @include flex-row(center, center);
   }
   &__info {
-    font-size: $H500;
+    font-family: $second-font;
+    font-size: $H300;
+    font-weight: 300;
     margin-right: 6px;
-    
   }
   &__icon {
     @include size(20px);
@@ -80,14 +81,15 @@
   &__input {
     border: none;
     outline: none;
-    @include text($H800, 500);
+    @include text($H500, 400);
     border-bottom: 1px solid $N1;
     margin: 14px 0;
     text-align: center;
     width: 100%;
     display: none;
+    font-family: $second-font;
     &::placeholder {
-      @include text($H400, 400, $N6);
+      @include text($H200, 200, $N6);
     }
     &--mobile {
       display: block;

@@ -52,8 +52,22 @@ a, button {
     outline: none;
   }
 }
-.ant-select-dropdown-menu-item > span {
-  display: block;
+.ant-select-dropdown-menu-item {
+  font-family: $second-font;
+  font-size: $H300;
+  font-weight: 300;
+  b {
+    font-weight: 600;
+  }
+  & > span {
+    display: block;
+  }
+}
+.ant-select-selection-selected-value {
+  font-family: $second-font;
+  font-size: $H300;
+  font-weight: 300;
+  color: $N100;
 }
 .ant-popover-placement-left {
   
