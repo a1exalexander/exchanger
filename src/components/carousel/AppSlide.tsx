@@ -32,12 +32,12 @@ const AppSlide = ({ exchange, setExchange }: { exchange: Exchange, setExchange: 
     if (rateBuy) {
       return (
         <div className="app-slide__row">
-          <div>
+          <div className='app-slide__inner'>
             <span className="app-slide__label app-slide__label--sell">Продаж: </span>
             <span className="app-slide__value">{toFix(rateBuy, 2)}</span>
           </div>
           <IconExchange className={'app-slide__icon-exchange'}/>
-          <div>
+          <div className='app-slide__inner'>
             <span className="app-slide__label app-slide__label--buy">
               Купівля:{' '}
             </span>
