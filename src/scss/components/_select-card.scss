@@ -183,8 +183,8 @@ $style: select-card;
     padding: 6px 12px;
     pointer-events: all;
     font-family: $second-font;
-    font-size: $H300;
-    font-weight: 300;
+    font-size: 16px;
+    font-weight: 200;
   }
   &__icon {
     @include size(20px);
