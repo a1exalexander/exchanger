@@ -6,11 +6,9 @@ import 'uikit/dist/css/uikit.min.css';
 import store from './store';
 import './scss/style.scss';
 import ReactGA from 'react-ga';
-import { hotjar } from 'react-hotjar';
 import 'uikit/dist/js/uikit.min.js';
 import * as serviceWorker from './serviceWorker';
 
-hotjar.initialize(1979145, 6);
 ReactGA.initialize('UA-148524615-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
