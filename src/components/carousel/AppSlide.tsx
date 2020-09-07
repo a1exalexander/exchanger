@@ -68,8 +68,7 @@ const AppSlide: FC<Props> = ({ exchange, setExchange }) => {
         <img
           className="app-slide__icon"
           alt=""
-          uk-img={`data-src: ${getIcon(countryB, codeB)}`}
-          uk-svg="true"
+          src={getIcon(countryB, codeB)}
         />
         <span className="app-slide__currency">{codeB}</span>
         <span className="app-slide__currency-name">
@@ -81,8 +80,7 @@ const AppSlide: FC<Props> = ({ exchange, setExchange }) => {
         <img
           className="app-slide__icon"
           alt=""
-          uk-img={`data-src: ${getIcon(countryA, codeA)}`}
-          uk-svg="true"
+          src={getIcon(countryA, codeA)}
         />
         <h3 className="app-slide__currency">{codeA}</h3>
         <h4 className="app-slide__currency-name">{NB ? NB.txt : currencyA}</h4>
