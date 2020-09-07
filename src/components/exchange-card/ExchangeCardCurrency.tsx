@@ -1,34 +1,7 @@
-import React, { FC, useState, useEffect } from "react";
-import { inputFontSize } from "../../utils/helpers";
-import { SN } from "../../types";
-import Big from "big.js";
-
-interface IHelperProps {
-  codeA: string;
-  valueB: SN;
-}
-
-const HelperCount: FC<IHelperProps> = props => {
-  const { codeA, valueB } = props;
-
-  const [rerender, setRerender] = useState(true);
-  
-  useEffect(() => {
-    const forceUpdate = async () => {
-      if (rerender) setRerender(false);
-      setTimeout(() => setRerender(true));
-      return;
-    };
-    forceUpdate();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [valueB]);
-
-  return rerender ? (
-    <span className="exchange-card-currency__computed fadeIn">
-      {valueB} {codeA}
-    </span>
-  ) : null;
-};
+import React, { FC, useState } from 'react';
+import { inputFontSize } from '../../utils/helpers';
+import { SN } from '../../types';
+import Big from 'big.js';
 
 interface IBaseProps {
   icon: string;
@@ -41,7 +14,7 @@ interface IBaseProps {
   setValue: any;
 }
 
-const ExchangeCardCurrency: FC<IBaseProps> = props => {
+const ExchangeCardCurrency: FC<IBaseProps> = (props) => {
   const {
     icon,
     codeA,
@@ -50,7 +23,7 @@ const ExchangeCardCurrency: FC<IBaseProps> = props => {
     rate,
     value,
     valueB,
-    setValue
+    setValue,
   } = props;
 
   const [inputStatus, setInputStatus] = useState(false);
@@ -90,7 +63,11 @@ const ExchangeCardCurrency: FC<IBaseProps> = props => {
       <div className="exchange-card-currency__footer">
         1 {codeB} = {rate} {codeA}
       </div>
-      {inputStatus && <HelperCount codeA={codeA} valueB={valueB} />}
+      {inputStatus && (
+        <span className="exchange-card-currency__computed fadeIn">
+          {valueB} {codeA}
+        </span>
+      )}
     </div>
   );
 };
