@@ -9,3 +9,24 @@
   font-size: $H400;
   background-color: $N0;
 }
+
+%link-underline {
+  position: relative;
+  &:after {
+    content: '';
+    display: block;
+    height: 1px;
+    background-color: $N100;
+    position: absolute;
+    left: 0;
+    width: 0;
+    bottom: 0;
+    @include transition(width);
+  }
+  &:hover {
+    color: inherit;
+    &:after {
+      width: 100%;
+    }
+  }
+}

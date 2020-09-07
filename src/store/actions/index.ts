@@ -48,7 +48,7 @@ const updateComputedCurrency = (payload: Currency) => (
   });
 };
 
-const setExchange = (payload: string | Exchange) => (
+const setExchange = (payload: SN | Exchange) => (
   dispatch: any,
   getState: any,
 ) => {
@@ -76,7 +76,7 @@ const setExchange = (payload: string | Exchange) => (
 };
 
 export const setUpdatedDate = () => {
-  const date = moment().format('DD.MM.YYYY kk:mm');
+  const date = moment().format('DD.MM.YYYY');
   localStorage.setItem('exchanger-updated', date);
   return { type: SET_LAST_UPDATE, payload: date };
 }

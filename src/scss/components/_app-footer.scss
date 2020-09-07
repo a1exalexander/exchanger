@@ -1,33 +1,39 @@
-.app {
-  height: 100vh;
-  overflow-y: auto;
-  touch-action: manipulation;
-  -webkit-overflow-scrolling: touch;
-  @include flex-col(flex-start, stretch);
-  ::-webkit-scrollbar {
-    width: 0;
-    min-width: 0;
-  }
-  ::-webkit-scrollbar-thumb {
-    width: 0;
-    min-width: 0;
-  }
-  &__carousel {
-    @include media {
-      display: none;
-      &.app-carousel {
-        display: none;
-      }
-    }
-  }
-  &__footer {
-    flex: 1 1;
+$style: app-footer;
+
+.#{$style} {
+  &__inner {
+    padding: 24px 24px 0;
+    margin-bottom: 24px;
     @include flex-col(space-between, stretch);
-    padding: 0 24px;
     @include media {
       @include flex-row(space-between, flex-end);
     }
   }
+  &__icon {
+    @include size(20px);
+    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
+  }
+
+  &__icon-wrapper {
+    margin-right: 12px;
+  }
+
+  &__author {
+    padding: 12px 24px;
+    background-color: $O1;
+    @include text($H200, 400, $N100);
+    @extend %animate-gradient;
+    @include flex-row(flex-start, center);
+  }
+
+  &__author-link {
+    background-color: transparent;
+    padding: 0;
+    font-weight: 600;
+    color: inherit;
+    @extend %link-underline;
+  }
+
   &__description {
     font-size: $H400;
     color: $N0;
@@ -36,6 +42,7 @@
     text-align: center;
     line-height: 1.4;
     margin-bottom: 0;
+    display: inline-block;
     &--eng {
       font-family: $base-font;
       font-weight: 600;
@@ -45,6 +52,16 @@
     }
     &--mark {
       font-weight: 500;
+    }
+    &--link {
+      @extend %link-underline;
+
+      &:after {
+        background-color: $N0;
+        @include media {
+          background-color: $N100;
+        }
+      }
     }
     @include media {
       font-size: $H300;

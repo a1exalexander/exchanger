@@ -23,6 +23,14 @@
 
 html {
   touch-action: manipulation;
+  ::-webkit-scrollbar {
+    width: 0;
+    min-width: 0;
+  }
+  ::-webkit-scrollbar-thumb {
+    width: 0;
+    min-width: 0;
+  }
 }
 
 body, a, textarea, input, button {
@@ -83,4 +91,20 @@ a, button {
   .ant-popover-arrow {
     margin-right: 12px !important;
   }
+}
+
+@-webkit-keyframes AnimationGradient {
+  0%{background-position:0% 81%}
+  50%{background-position:100% 20%}
+  100%{background-position:0% 81%}
+}
+@-moz-keyframes AnimationGradient {
+  0%{background-position:0% 81%}
+  50%{background-position:100% 20%}
+  100%{background-position:0% 81%}
+}
+@keyframes AnimationGradient {
+  0%{background-position:0% 81%}
+  50%{background-position:100% 20%}
+  100%{background-position:0% 81%}
 }
