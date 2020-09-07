@@ -1,17 +1,6 @@
 .app {
-  height: 100vh;
-  overflow-y: auto;
-  touch-action: manipulation;
-  -webkit-overflow-scrolling: touch;
+  min-height: 100vh;
   @include flex-col(flex-start, stretch);
-  ::-webkit-scrollbar {
-    width: 0;
-    min-width: 0;
-  }
-  ::-webkit-scrollbar-thumb {
-    width: 0;
-    min-width: 0;
-  }
   &__carousel {
     @include media {
       display: none;
