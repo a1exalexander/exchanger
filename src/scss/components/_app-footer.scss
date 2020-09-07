@@ -19,11 +19,15 @@ $style: app-footer;
   }
 
   &__author {
-    padding: 12px 24px;
+    padding: 18px 24px 32px;
     background-color: $O1;
     @include text($H200, 400, $N100);
     @extend %animate-gradient;
-    @include flex-row(flex-start, center);
+    @include flex-row(center, center);
+    @include media {
+      padding: 12px 24px;
+      justify-content: flex-start;
+    }
   }
 
   &__author-link {
