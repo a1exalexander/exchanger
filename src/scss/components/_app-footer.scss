@@ -1,0 +1,98 @@
+$style: app-footer;
+
+.#{$style} {
+  &__inner {
+    background-color: $N0;
+    padding: 24px;
+    @include flex-col(space-between, stretch);
+    @include media {
+      @include flex-row(space-between, flex-end);
+    }
+  }
+  &__icon {
+    @include size(20px);
+    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
+  }
+
+  &__icon-wrapper {
+    margin-right: 12px;
+  }
+
+  &__author {
+    padding: 18px 24px 32px;
+    background-color: transparent;
+    @include text($H200, 400, $N100);
+    @include flex-row(center, center);
+    @include media {
+      padding: 12px 24px;
+      justify-content: flex-start;
+    }
+  }
+
+  &__author-link {
+    background-color: transparent;
+    padding: 0;
+    font-weight: 600;
+    color: inherit;
+    @extend %link-underline;
+  }
+
+  &__description {
+    font-size: $H400;
+    color: $N0;
+    font-family: $second-font;
+    font-weight: 200;
+    text-align: center;
+    line-height: 1.4;
+    margin-bottom: 0;
+    display: inline-block;
+    &--eng {
+      font-family: $base-font;
+      font-weight: 600;
+      @include media {
+        font-size: $H400;
+      }
+    }
+    &--mark {
+      font-weight: 500;
+    }
+    &--link {
+      @extend %link-underline;
+
+      &:after {
+        background-color: $N0;
+        @include media {
+          background-color: $N100;
+        }
+      }
+    }
+    @include media {
+      font-size: $H300;
+      color: $N100;
+      text-align-last: left;
+    }
+  }
+  &__date-card {
+    align-self: flex-end;
+    font-family: $second-font;
+    font-weight: 200;
+    font-size: $H200;
+  }
+  &__info-card {
+    display: block;
+    @extend %card;
+    min-height: auto;
+    background-color: $B3;
+    padding: 12px 24px;
+    margin-bottom: 24px;
+    @include media {
+      margin-bottom: 0;
+      background-color: $N0;
+      padding: 0;
+      box-shadow: none;
+    }
+  }
+  &__date {
+    color: $N100;
+  }
+}

@@ -1,19 +1,77 @@
 {
-  "name": "exchanger.backend",
-  "version": "0.0.0",
+  "name": "exchanger",
+  "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "start": "node ./bin/www",
-    "build": "sh ./build.sh",
-    "dev": "npm start"
-  },
   "dependencies": {
-    "axios": "^0.20.0",
-    "cookie-parser": "~1.4.4",
-    "cors": "^2.8.5",
-    "date-fns": "^2.16.1",
-    "debug": "~2.6.9",
-    "express": "~4.16.1",
-    "morgan": "~1.9.1"
+    "@types/big.js": "^4.0.5",
+    "@types/classnames": "^2.2.9",
+    "@types/jest": "24.0.18",
+    "@types/lodash": "^4.14.161",
+    "@types/node": "12.7.5",
+    "@types/react": "16.9.2",
+    "@types/react-dom": "16.9.0",
+    "@types/react-ga": "^2.3.0",
+    "@types/react-redux": "^7.1.2",
+    "antd": "^3.23.2",
+    "axios": "^0.19.0",
+    "classnames": "^2.2.6",
+    "cryptocurrencies": "^7.0.0",
+    "cryptocurrency-icons": "^0.16.1",
+    "currency-codes": "^1.5.0",
+    "decimal.js": "^10.2.0",
+    "env-cmd": "^10.0.1",
+    "gh-pages": "^2.1.1",
+    "json-server": "^0.15.1",
+    "lodash": "^4.17.20",
+    "moment": "^2.24.0",
+    "node-sass": "^4.13.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-html-parser": "^2.0.2",
+    "react-redux": "^7.1.1",
+    "react-scripts": "3.1.1",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0",
+    "typescript": "3.6.3",
+    "uikit": "^3.2.1"
+  },
+  "scripts": {
+    "start": "env-cmd -f .env.development react-app-rewired start",
+    "dev": "env-cmd -f .env.development react-app-rewired start",
+    "dev:prod": "env-cmd -f .env.production react-app-rewired start",
+    "dev:fake": "env-cmd -f .env.fake react-app-rewired start",
+    "build": "react-app-rewired build",
+    "build:nossr": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "server": "json-server --watch fake-server/db.json --routes fake-server/routes.json --port 3004",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      "last 2 chrome version",
+      "last 2 firefox version",
+      "last 2 safari version",
+      "last 2 opera version"
+    ],
+    "development": [
+      "last 2 chrome version",
+      "last 2 firefox version",
+      "last 2 safari version",
+      "last 2 opera version"
+    ]
+  },
+  "devDependencies": {
+    "babel-plugin-root-import": "^6.4.1",
+    "has": "^1.0.3",
+    "imagemin-svgo": "^7.0.0",
+    "imagemin-webpack-plugin": "^2.4.2",
+    "prerender-spa-plugin": "^3.4.0",
+    "react-app-env": "^1.2.3",
+    "react-app-rewired": "^2.1.5"
   }
 }

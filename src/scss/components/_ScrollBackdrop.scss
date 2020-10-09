@@ -1,0 +1,21 @@
+$style: ScrollBackdrop;
+
+.#{$style} {
+  content: '';
+  position: fixed;
+  z-index: -1;
+  height: 100vh;
+  width: 100%;
+  @include position;
+  
+  &__top {
+    height: 50vh;
+    width: 100%;
+    background-color: $N0;
+  }
+  &__bottom {
+    height: 50vh;
+    width: 100%;
+    @extend %animate-gradient;
+  }
+}

@@ -1,0 +1,135 @@
+.exchange-card-currency {
+  flex: 0 0 40%;
+  align-self: stretch;
+  position: relative;
+  @include flex-col(space-between, center);
+  &__head {
+    width: 100%;
+    @include flex-row(space-between, center);
+    @include media {
+      @include flex-col(flex-start, center);
+    }
+  }
+  &__footer {
+    position: relative;
+    display: none;
+    @include media {
+      display: block;
+      font-size: $H400;
+      align-self: flex-start;
+    }
+  }
+  &__row {
+    @include flex-row(center, center);
+  }
+  &__info {
+    font-family: $second-font;
+    font-size: $H300;
+    font-weight: 300;
+    margin-right: 6px;
+  }
+  &__icon {
+    @include size(20px);
+    order: -1;
+    margin-right: 8px;
+    @include media {
+      order: 2;
+      margin-right: 0;
+    }
+  }
+  &__toggle {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    @include transition(filter, transform);
+    &.sell {
+      color: $O1;
+    }
+    &.buy {
+      color: $G3;
+    }
+    @include media {
+      &:hover {
+        filter: brightness(1.1);
+      }
+    }
+    &:active {
+      filter: brightness(0.9);
+      transform: rotate(360deg);
+    }
+  }
+  &__icon-exchange {
+    font-size: 24px;
+    position: relative;
+  }
+  &__currency {
+    position: relative;
+    display: none;
+    @include media {
+      display: inline-block;
+      @include text($H500, 500);
+      margin-right: 0;
+    }
+  }
+  &__rate {
+    margin-left: 12px;
+    font-size: $H400;
+    white-space: nowrap;
+    @include media {
+      display: none;
+    }
+  }
+  &__input {
+    border: none;
+    outline: none;
+    @include text($H500, 400);
+    border-bottom: 1px solid $N1;
+    margin: 14px 0;
+    text-align: center;
+    width: 100%;
+    display: none;
+    font-family: $second-font;
+    &::placeholder {
+      @include text($H200, 200, $N6);
+    }
+    &--mobile {
+      display: block;
+    }
+    @include media {
+      text-align: left;
+      margin: 0;
+      display: inline-block;
+      &--mobile {
+        display: none;
+      }
+    }
+  }
+  &__computed {
+    position: absolute;
+    bottom: -8px;
+    @include media {
+      display: none;
+    }
+  }
+  &__grow {
+    @include svg(16px, $A1);
+    transform: rotate(45deg);
+    margin-right: 12px;
+    &._absolute {
+      position: absolute;
+      left: calc(100% + 12px);
+      top: 3px;
+      margin-right: 0;
+    }
+    &._up {
+      fill: $G1;
+      transform: rotate(0deg);
+    }
+    &._down {
+      fill: $P1;
+      transform: rotateX(180deg);
+    }
+  }
+}

@@ -1,0 +1,245 @@
+@mixin flex-row($justify: flex-start, $align: flex-start) {
+  display: flex;
+  flex-direction: row;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin flex-col($justify: flex-start, $align: flex-start) {
+  display: flex;
+  flex-direction: column;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin text($size, $weight: 400, $color: black) {
+  font: {
+    size: $size;
+    weight: $weight;
+  }
+  color: $color;
+}
+
+@mixin size($size, $round: false) {
+  width: $size;
+  height: $size;
+  flex-shrink: 0;
+  @if $round {
+    border-radius: 50%;
+  }
+  @content;
+}
+
+@mixin svg($size: 16px, $color: black) {
+  width: $size;
+  height: $size;
+  fill: $color;
+  flex-shrink: 0;
+  transition-property: fill, opacity, transform, stroke, transform;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+  @content;
+}
+
+@mixin background-gradient($color1, $color2) {
+  background: -webkit-linear-gradient(90deg, $color1, $color2);
+  background: -moz-linear-gradient(90deg, $color1, $color2);
+  background: -o-linear-gradient(90deg, $color1, $color2);
+  background: linear-gradient(90deg, $color1, $color2);
+  transition-duration: 0.5s;
+}
+
+@mixin padding-hack($padding, $object-fit: cover) {
+  position: relative;
+  padding-top: $padding;
+  width: 100%;
+  @content;
+
+  & > img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: $object-fit;
+    object-position: center;
+  }
+  @content;
+}
+
+@mixin transition($types...) {
+  transition-property: $types;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+  @content;
+}
+
+@mixin button-loading($color) {
+  pointer-events: none;
+  color: transparent;
+  position: relative;
+  cursor: pointer;
+  p,
+  span,
+  svg {
+    opacity: 0;
+    visibility: hidden;
+    fill: transparent;
+  }
+  &:hover {
+    color: transparent;
+    p,
+    span,
+    svg {
+      opacity: 0;
+      visibility: hidden;
+      fill: transparent;
+    }
+  }
+  &:after {
+    align-self: center;
+    content: '';
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid $color;
+    border-radius: 290486px;
+    border-right-color: transparent;
+    animation: button-loading 0.6s linear infinite;
+    pointer-events: none;
+  }
+}
+
+@mixin css-triangle(
+  $color,
+  $direction,
+  $size: 6px,
+  $position: absolute,
+  $round: false
+) {
+  @include pseudo($pos: $position);
+  width: 0;
+  height: 0;
+  @if $round {
+    border-radius: 3px;
+  }
+  @if $direction == down {
+    border-left: $size solid transparent;
+    border-right: $size solid transparent;
+    border-top: $size solid $color;
+    margin-top: 0 - round($size / 2.5);
+  } @else if $direction == up {
+    border-left: $size solid transparent;
+    border-right: $size solid transparent;
+    border-bottom: $size solid $color;
+    margin-bottom: 0 - round($size / 2.5);
+  } @else if $direction == right {
+    border-top: $size solid transparent;
+    border-bottom: $size solid transparent;
+    border-left: $size solid $color;
+    margin-right: -$size;
+  } @else if $direction == left {
+    border-top: $size solid transparent;
+    border-bottom: $size solid transparent;
+    border-right: $size solid $color;
+    margin-left: -$size;
+  }
+}
+
+@mixin truncate($truncation-boundary) {
+  max-width: $truncation-boundary;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin scroll-text($max-width: 36px) {
+  display: block;
+  max-width: $max-width;
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
+@mixin grid-child($col-start, $col-end, $row-start, $row-end) {
+  -ms-grid-column: $col-start;
+  -ms-grid-column-span: $col-end - $col-start;
+  -ms-grid-row: $row-start;
+  -ms-grid-row-span: $row-end - $row-start;
+  grid-column: #{$col-start}/#{$col-end};
+  grid-row: #{$row-start}/#{$row-end};
+}
+
+$z-index: (
+  immortal: 100,
+  superpopup: 20,
+  popup: 15,
+  drawer: 12,
+  navigation: 10,
+  popover: 5,
+  dropdown: 2,
+  wrapper: 1,
+  default: 0,
+  under: -1
+);
+
+@mixin z-index($key: default) {
+  z-index: z-index($key);
+}
+
+@function z-index($key) {
+  @return map-get($z-index, $key);
+}
+
+@mixin media($screen: 860px) {
+  @media screen and (min-width: $screen) {
+    @content;
+  }
+}
+
+@mixin media-max($screen: 480px) {
+  @media screen and (max-width: $screen) {
+    @content;
+  }
+}
+
+@mixin position($top: 0, $right: 0, $bottom: 0, $left: 0) {
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}
+
+@mixin container($max-size: 1440px) {
+  max-width: 100%;
+  padding: {
+    right: 24px;
+    left: 24px;
+  }
+  @include media {
+    padding: {
+      right: 8%;
+      left: 8%;
+    }
+  }
+  @include media($screen-fullhd) {
+    padding: {
+      right: 12%;
+      left: 12%;
+    }
+  }
+  @include media($screen-retina) {
+    padding: {
+      right: 20%;
+      left: 20%;
+    }
+  }
+  @content;
+}

@@ -1,0 +1,20 @@
+.home-page {
+  background-color: $N0;
+  flex: 1 1;
+  @include container;
+  @include flex-col(flex-start, stretch);
+  @include media {
+    padding-top: 0;
+    @include flex-row;
+  }
+  &__exchange-card {
+    order: 2;
+    z-index: 2;
+    @include media {
+      margin-right: 72px;
+      position: relative;
+      top: -52px;
+      order: 0;
+    }
+  }
+}

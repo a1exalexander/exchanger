@@ -1,0 +1,74 @@
+.app-header {
+  margin-bottom: 16px;
+  height: 82px;
+  position: relative;
+  background-color: $N0;
+  @include media {
+    height: auto;
+    border-bottom: 1px solid $N1;
+    margin-bottom: 0;
+    padding-bottom: 62px;
+  }
+  &__help {
+    text-align: center;
+    left: 0;
+    right: 0;
+    position: fixed;
+    top: 60px;
+    font-family: $second-font;
+    @include text($H300, 200, $N6);
+    z-index: 0;
+    @include media {
+      display: none;
+    }
+  }
+  .app-carousel {
+    display: none;
+    @include media {
+      display: block;
+    }
+  }
+  &__logo {
+    @include svg(20px);
+    margin-right: 8px;
+    @include media {
+      @include svg(32px);
+      display: block;
+      margin-right: 12px;
+    }
+  }
+  &__nav {
+    @include container;
+    $size: 12px;
+    padding-top: $size;
+    padding-bottom: $size;
+    @extend %bb;
+    margin: 0;
+    display: none;
+    @include media {
+      display: block;
+      $size: 14px;
+      padding-top: $size;
+      padding-bottom: $size;
+    }
+  }
+  &__link {
+    @include transition(color);
+    @include flex-row(flex-start, center);
+    @include media {
+      &:hover > * {
+        color: lighten($N100, 20%);
+      }
+    }
+    &:active > * {
+      color: $N100;
+    }
+  }
+  &__title {
+    @include text($H500, 500);
+    margin: 0;
+    @include media {
+      font-size: $H900;
+    }
+  }
+}

@@ -1,0 +1,111 @@
+* {
+  scrollbar-color: $N6 transparent;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+  ::-webkit-scrollbar {
+    width: 2px;
+    border-radius: 1px;
+    min-width: 2px;
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    width: 2px;
+    border-radius: 1px;
+    min-width: 2px;
+    background: $N6;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    background-clip: content-box;
+  }
+}
+
+html {
+  touch-action: manipulation;
+  ::-webkit-scrollbar {
+    width: 0;
+    min-width: 0;
+  }
+  ::-webkit-scrollbar-thumb {
+    width: 0;
+    min-width: 0;
+  }
+}
+
+body, a, textarea, input, button {
+  font-family: $base-font;
+}
+
+body {
+  background-color: transparent;
+}
+
+a, button {
+  display: inline-flex;
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+}
+.ant-select-open, .ant-select-focused {
+  .ant-select-selection {
+    border-color: $N7;
+    box-shadow: none;
+    outline: none;
+  }
+}
+.ant-select-selection  {
+  &:hover {
+    border-color: $N7;
+  }
+  &:focus {
+    box-shadow: none;
+    outline: none;
+  }
+}
+.ant-select-dropdown-menu-item {
+  font-family: $second-font;
+  font-size: $H300;
+  font-weight: 300;
+  b {
+    font-weight: 600;
+  }
+  & > span {
+    display: block;
+  }
+}
+.ant-select-selection-selected-value {
+  font-family: $second-font;
+  font-size: $H300;
+  font-weight: 300;
+  color: $N100;
+}
+.ant-popover-placement-left {
+  
+  .ant-popover-content {
+    box-shadow: 0 0 2px 0 rgba($color: #000000, $alpha: 0.03) !important;
+    margin-right: 12px !important;
+    
+  }
+  .ant-popover-inner-content {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  .ant-popover-arrow {
+    margin-right: 12px !important;
+  }
+}
+.hidden-text {
+  font-size: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  display: inline-block !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  border: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  clip: rect(1px, 1px, 1px, 1px) !important;
+}

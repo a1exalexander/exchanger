@@ -1,0 +1,69 @@
+.app {
+  min-height: 100vh;
+  background-color: transparent;
+  @include flex-col(flex-start, stretch);
+  &__carousel {
+    background-color: $N0;
+    @include media {
+      display: none;
+      &.app-carousel {
+        display: none;
+      }
+    }
+  }
+  &__footer {
+    flex: 1 1;
+    @include flex-col(space-between, stretch);
+    padding: 0 24px;
+    @include media {
+      @include flex-row(space-between, flex-end);
+    }
+  }
+  &__description {
+    font-size: $H400;
+    color: $N0;
+    font-family: $second-font;
+    font-weight: 200;
+    text-align: center;
+    line-height: 1.4;
+    margin-bottom: 0;
+    &--eng {
+      font-family: $base-font;
+      font-weight: 600;
+      @include media {
+        font-size: $H400;
+      }
+    }
+    &--mark {
+      font-weight: 500;
+    }
+    @include media {
+      font-size: $H300;
+      color: $N100;
+      text-align-last: left;
+    }
+  }
+  &__date-card {
+    align-self: flex-end;
+    font-family: $second-font;
+    font-weight: 200;
+    font-size: $H200;
+  }
+  &__info-card {
+    display: block;
+    @extend %card;
+    min-height: auto;
+    background-color: $B3;
+    padding: 12px 24px;
+    margin-bottom: 24px;
+    @include media {
+      margin-bottom: 0;
+      background-color: $N0;
+      padding: 0;
+      box-shadow: none;
+    }
+  }
+  &__date {
+    color: $N100;
+  }
+}

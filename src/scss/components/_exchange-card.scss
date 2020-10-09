@@ -1,0 +1,178 @@
+$style: exchange-card;
+.#{$style} {
+  @extend %card;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  z-index: 2;
+  @include media {
+    position: relative;
+    flex: 0 1 660px;
+    max-width: 660px;
+    top: -52px;
+    // min-height: 200px;
+  }
+  &__main {
+    padding: 24px 24px 0;
+    @include flex-col(flex-start, center);
+    margin-bottom: 14px;
+    @include media {
+      margin-bottom: 22px;
+      min-height: 152px;
+    }
+    @include media($screen-desktop) {
+      @include flex-row(space-between, center);
+    }
+  }
+  &__ontop-button {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+  }
+  &__side {
+    flex: 0 0 42%;
+    align-self: stretch;
+    @include flex-col(space-between, center);
+  }
+  &__row {
+    @include flex-row(center, center);
+  }
+  &__info {
+    font-size: $H500;
+    margin-right: 6px;
+  }
+  &__icon {
+    @include size(20px);
+  }
+  &__toggle {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    @include transition(filter, transform);
+    transition-duration: 0.6s;
+    @include media {
+      transition-duration: 0.2s;
+    }
+    &.sell {
+      color: $O1;
+    }
+    &.buy {
+      color: $G2;
+    }
+    &.cross {
+      color: $B2;
+      pointer-events: none;
+      cursor: default;
+    }
+    @include media {
+      &:hover  {
+        filter: brightness(1.1);
+      }
+    }
+    &:active  {
+      filter: brightness(0.9);
+      transform: rotate(360deg);
+    }
+  }
+  &__toggle-wrapper {
+    position: relative;
+    margin: 24px 0;
+    @include media {
+      margin: 0 24px;
+      @include flex-col(center, center);
+    }
+  }
+  &__icon-exchange {
+    @include svg(26px, $N100);
+    @include transition(all);
+    &.sell {
+      fill: $O1;
+    }
+    &.buy {
+      fill: $G2;
+    }
+    &.cross {
+      fill: $B2;
+    }
+    &--for-skeleton {
+      margin: 14px 0 22px;
+    }
+  }
+  &__skeleton {
+    @include media {
+      width: calc(50% - 52px);
+      flex: 0 1 calc(50% - 52px);
+    }
+    .ant-skeleton-paragraph {
+      @include flex-col(center, stretch);
+      li {
+        width: 100% !important;
+      }
+    }
+  }
+  &__method {
+    text-transform: capitalize;
+    position: absolute;
+    display: none;
+    text-align: center;
+    font-family: $second-font;
+    font-size: $H200;
+    font-weight: 300;
+    @include media {
+      max-width: 100px;
+      top: 105px;
+      display: block;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    &--mobile {
+      display: block;
+      left: 110%;
+      width: 100%;
+      white-space: nowrap;
+      top: 0;
+      bottom: 0;
+      transform: translateY(2px);
+      @include media {
+        display: none;
+      }
+    }
+  }
+  &__description-wrapper {
+    border-radius: 0 0 8px 8px;
+    padding: 12px;
+    @include transition(background-color);
+    transition-duration: 0.1s;
+    cursor: pointer;
+    outline: none;
+    width: 100%;
+    box-shadow: none;
+    border: none;
+    @include flex-row(center, center);
+    &.sell {
+      background-color: $O1;
+    }
+    &.buy {
+      background-color: $G2;
+    }
+    &.cross {
+      background-color: $B2;
+      pointer-events: none;
+      cursor: default;
+    }
+  }
+  &__description {
+    margin: 0;
+    text-align: center;
+    font-family: $second-font;
+    @include text($H400, 300, $N0);
+    span {
+      white-space: nowrap;
+    }
+    @include media {
+      font-size: $H300;
+    }
+  }
+}
