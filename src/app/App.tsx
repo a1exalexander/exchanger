@@ -22,11 +22,11 @@ interface IDispatchProps {
 type IProps = IStateProps & IDispatchProps;
 
 const App: FC<IProps> = (props) => {
-  const { lastUpdate, fetchCurrencies } = props;
+  const { fetchCurrencies } = props;
 
   useEffect(() => {
     fetchCurrencies();
-  }, [lastUpdate, fetchCurrencies]);
+  }, [fetchCurrencies]);
 
   return (
     <div id="app" className="app">
