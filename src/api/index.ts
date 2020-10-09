@@ -16,10 +16,7 @@ logInfo(`MODE: ${process.env.NODE_ENV}`);
 logInfo(`ROOT URL ${process.env.REACT_APP_API_MODE}: ${ROOT_URL}`);
 
 const api = {
-  currencies: `${ROOT_URL}/monobank`,
-  btc: `${ROOT_URL}/btc`,
-  PBCurrencies: `${ROOT_URL}/privatbank`,
-  NBCurrencies: `${ROOT_URL}/nationalbank`,
+  currencies: `${ROOT_URL}/currencies`,
   lastUpdate: `${ROOT_URL}/date`,
 };
 

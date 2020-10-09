@@ -10,16 +10,11 @@ import {
 import { ActionTypes } from '../types';
 import { Exchange, Currencies, SN, Currency } from '../../types';
 import ApiService from '../../services/apiService';
-import { getUahBtc, getSyncCash } from '../../utils/formatCurrency';
 import ReactGA from 'react-ga';
 import moment from 'moment';
 import { toFix } from '../../utils/formatCurrency';
 import { logError } from '../../services/logger';
-import {
-  currenciesStorage,
-  exchangeStorage,
-  historyStorage,
-} from '../../services';
+import { currenciesStorage, exchangeStorage } from '../../services';
 import { Dispatch } from 'redux';
 
 const apiService = new ApiService();
@@ -91,37 +86,11 @@ export const setUpdatedDate = async (dispatch: Dispatch) => {
 const fetchCurrencies = () => async (dispatch: Dispatch, getState: any) => {
   dispatch({ type: FETCH_CURRENCIES_REQUEST });
   try {
-    const monoCurrencies = await apiService.fetchCurrencies();
-    const crypto = await apiService.fetchBTC();
-    const NBCurrencies = await apiService.fetchNBCurrencies();
-    const uahBtc = getUahBtc(monoCurrencies, crypto);
-    const syncCash = getSyncCash(monoCurrencies, NBCurrencies);
-    const currencies = [...syncCash, ...crypto];
-    if (uahBtc) {
-      currencies.push(uahBtc);
-    }
+    const currencies = await apiService.fetchCurrencies();
     const localExchange: Exchange | null = exchangeStorage.get();
     const ex = localExchange ? localExchange : currencies[0];
     setExchange(ex)(dispatch, getState);
-    const prevCurrencies: Exchange[] = [...(historyStorage.get() || [])];
-    const result = currencies.map((exchange) => {
-      const getGrow = () => {
-        const { rateSell, grow } =
-          prevCurrencies.find(({ id }) => id === exchange.id) || {};
-        if (!rateSell) {
-          return 0;
-        } else if (Number(exchange.rateSell) < Number(rateSell)) {
-          return -1;
-        } else if (Number(exchange.rateSell) > Number(rateSell)) {
-          return 1;
-        } else {
-          return grow;
-        }
-      };
-      return { ...exchange, grow: getGrow() };
-    });
-    historyStorage.set(result);
-    dispatch(fetchCurrenciesSuccess(result));
+    dispatch(fetchCurrenciesSuccess(currencies));
     setUpdatedDate(dispatch);
   } catch (error) {
     logError('fetchCurrencies', error);
