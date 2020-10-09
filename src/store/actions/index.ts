@@ -79,7 +79,7 @@ export const setUpdatedDate = async (dispatch: Dispatch) => {
   const lastUpdate = await apiService.fetchLastUpdate();
   dispatch({
     type: SET_LAST_UPDATE,
-    payload: moment(lastUpdate).format('DD MMMM, YYYY'),
+    payload: lastUpdate ? moment(lastUpdate).format('DD MMMM, YYYY') : '',
   });
 };
 
