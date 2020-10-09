@@ -1,14 +1,16 @@
 import { logInfo } from '../services/logger';
 
-const apiType: any = {
-  prod: 'https://api.monobank.ua' as string,
-  fake: 'http://localhost:3004' as string,
-  dev: 'http://localhost:8080/api' as string,
+const apiType: { [key: string]: string } = {
+  prod: 'https://exchanger-uah.herokuapp.com/api',
+  fake: 'http://localhost:3004',
+  dev: 'http://localhost:8080/api',
 };
 
-const env: any = process.env.REACT_APP_API_MODE;
+type API_MODE_TYPE = 'prod' | 'fake' | 'dev';
+const env: API_MODE_TYPE =
+  (process.env.REACT_APP_API_MODE as API_MODE_TYPE) || 'dev';
 
-const ROOT_URL: string | undefined = apiType[env];
+const ROOT_URL: string = apiType[env];
 
 logInfo(`MODE: ${process.env.NODE_ENV}`);
 logInfo(`ROOT URL ${process.env.REACT_APP_API_MODE}: ${ROOT_URL}`);
