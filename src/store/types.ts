@@ -10,7 +10,7 @@ export interface ExchangesState {
   currencies: Currencies;
   loading: boolean;
   hasError: boolean;
-  method: string;
+  method: 'sell' | 'buy' | 'cross';
   exchange: Exchange;
   computedCurrency: Currency;
 }
@@ -28,4 +28,8 @@ interface FetchCurrenciesSuccessAction {
 }
 
 type StringAction = string;
-export type ActionTypes = SetExchangeAction | FetchCurrenciesSuccessAction | StringAction | void;
+export type ActionTypes =
+  | SetExchangeAction
+  | FetchCurrenciesSuccessAction
+  | StringAction
+  | void;

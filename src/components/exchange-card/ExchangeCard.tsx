@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC } from 'react';
+import React, { useState, useEffect, FC, useMemo } from 'react';
 import classNames from 'classnames';
 import ExchangeCardCurrency from './ExchangeCardCurrency';
 import { connect } from 'react-redux';
@@ -22,12 +22,18 @@ interface IBaseProps {
 
 interface IStateProps {
   exchange: Exchange;
-  method: string;
+  method: ExchangesState['method'];
   loading: boolean;
 }
 
 interface IDispatchProps {
   toggleExchangeMethod: () => string;
+}
+
+interface RatesType {
+  sell?: SN;
+  buy?: SN;
+  cross?: SN;
 }
 
 type IProps = IBaseProps & IStateProps & IDispatchProps;
@@ -47,16 +53,21 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
     NB,
     precision = 4,
     grow,
+    rateBuy,
+    rateCross,
+    rateSell,
   } = exchange as Exchange;
 
   const [valueA, setValueA] = useState(1 as SN);
   const [valueB, setValueB] = useState('' as SN);
 
-  const rates: any = {
-    sell: exchange.rateBuy,
-    buy: exchange.rateSell,
-    cross: exchange.rateCross,
-  };
+  const rates: RatesType = useMemo(() => {
+    return {
+      sell: rateBuy,
+      buy: rateSell,
+      cross: rateCross,
+    };
+  }, [rateBuy, rateCross, rateSell]);
 
   const rateA: SN = rates[method] || 1;
   const rateB: SN | Big = new Big(1).div(rateA).toString();
