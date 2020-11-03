@@ -80,8 +80,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
         setValueB(calcMul(valueA, rateA));
       })(valueA, precision);
     }
-    // eslint-disable-next-line
-  }, [method, currencyA, currencyB]);
+  }, [method, currencyA, currencyB, rateA, valueA, precision]);
 
   const handleChangeA = (e: any): void => {
     const { value } = e.target;

@@ -10,11 +10,13 @@ class Storage {
   }
 
   set(data: StorageDataType) {
-    if (this.alias) localStorage.setItem(this.alias, JSON.stringify(data));
+    if (this.alias && data) {
+      localStorage.setItem(this.alias, JSON.stringify(data));
+    }
   }
   get() {
     const storageData = localStorage.getItem(this.alias);
-    if (storageData) {
+    if (storageData && storageData !== 'undefined') {
       return JSON.parse(storageData);
     }
     return null;

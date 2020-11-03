@@ -16,6 +16,7 @@ import { toFix } from '../../utils/formatCurrency';
 import { logError } from '../../services/logger';
 import { currenciesStorage, exchangeStorage } from '../../services';
 import { Dispatch } from 'redux';
+import { has, isObject } from 'lodash';
 
 const apiService = new ApiService();
 
@@ -52,7 +53,7 @@ const setExchange = (payload: SN | Exchange) => (
   dispatch: any,
   getState: any
 ) => {
-  let exchange;
+  let exchange: Exchange;
   if (typeof payload === 'string' || typeof payload === 'number') {
     exchange = getState().currencies.find(
       (item: Exchange) => String(item.id) === String(payload)
@@ -60,19 +61,26 @@ const setExchange = (payload: SN | Exchange) => (
   } else {
     exchange = payload;
   }
-  exchangeStorage.set(exchange);
+
   ReactGA.event({
     category: 'Currencies',
     action: 'Select currencies',
   });
-  ReactGA.set({
-    currencyA: `${exchange.currencyA.code || exchange}`,
-    currencyB: `${exchange.currencyB.code || exchange}`,
-  });
-  dispatch({
-    type: SET_EXCHANGE,
-    payload: exchange,
-  } as ActionTypes);
+  if (
+    isObject(exchange) &&
+    has(exchange, 'currencyA') &&
+    has(exchange, 'currencyB')
+  ) {
+    exchangeStorage.set(exchange);
+    ReactGA.set({
+      currencyA: `${exchange.currencyA.code || exchange}`,
+      currencyB: `${exchange.currencyB.code || exchange}`,
+    });
+    dispatch({
+      type: SET_EXCHANGE,
+      payload: exchange,
+    } as ActionTypes);
+  }
 };
 
 export const setUpdatedDate = async (dispatch: Dispatch) => {
