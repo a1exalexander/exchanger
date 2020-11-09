@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC, useMemo } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import classNames from 'classnames';
 import ExchangeCardCurrency from './ExchangeCardCurrency';
 import { connect } from 'react-redux';
@@ -61,13 +61,11 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
   const [valueA, setValueA] = useState(1 as SN);
   const [valueB, setValueB] = useState('' as SN);
 
-  const rates: RatesType = useMemo(() => {
-    return {
-      sell: rateBuy,
-      buy: rateSell,
-      cross: rateCross,
-    };
-  }, [rateBuy, rateCross, rateSell]);
+  const rates = {
+    sell: rateBuy,
+    buy: rateSell,
+    cross: rateCross,
+  };
 
   const rateA: SN = rates[method] || 1;
   const rateB: SN | Big = new Big(1).div(rateA).toString();
@@ -80,7 +78,8 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
         setValueB(calcMul(valueA, rateA));
       })(valueA, precision);
     }
-  }, [method, currencyA, currencyB, rateA, valueA, precision]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [method, currencyA, currencyB]);
 
   const handleChangeA = (e: any): void => {
     const { value } = e.target;

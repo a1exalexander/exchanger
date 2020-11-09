@@ -37,8 +37,8 @@
   },
   "scripts": {
     "start": "env-cmd -f .env.development react-app-rewired start",
-    "dev": "env-cmd -f .env.development react-app-rewired start",
-    "dev:prod": "env-cmd -f .env.production react-app-rewired start",
+    "dev:dev": "env-cmd -f .env.development react-app-rewired start",
+    "dev": "env-cmd -f .env.production react-app-rewired start",
     "dev:fake": "env-cmd -f .env.fake react-app-rewired start",
     "build": "react-app-rewired build",
     "build:nossr": "react-scripts build",
