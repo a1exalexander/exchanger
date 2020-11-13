@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC } from 'react';
+import React, { useState, useEffect, FC, useMemo } from 'react';
 import classNames from 'classnames';
 import ExchangeCardCurrency from './ExchangeCardCurrency';
 import { connect } from 'react-redux';
@@ -8,7 +8,7 @@ import { Skeleton } from 'antd';
 import { ReactComponent as IconExchange } from '../../assets/images/exchange-arrows.svg';
 import Big from 'big.js';
 import classnames from 'classnames';
-import { Exchange, SN } from '../../types';
+import { Currencies, Exchange, SN } from '../../types';
 import { ExchangesState } from '../../store/types';
 import getIcon from '../../utils/getIcon';
 import { toFix, setNumber } from '../../utils/formatCurrency';
@@ -24,6 +24,7 @@ interface IStateProps {
   exchange: Exchange;
   method: ExchangesState['method'];
   loading: boolean;
+  currencies: Currencies;
 }
 
 interface IDispatchProps {
@@ -45,21 +46,25 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
     method,
     loading,
     toggleExchangeMethod,
+    currencies,
   } = props;
 
   const {
     currencyA: { code: codeA, currency: currencyA, country: countryA = '' },
     currencyB: { code: codeB, currency: currencyB, country: countryB = '' },
     NB,
+    id,
     precision = 4,
     grow,
-    rateBuy,
-    rateCross,
-    rateSell,
   } = exchange as Exchange;
 
   const [valueA, setValueA] = useState(1 as SN);
   const [valueB, setValueB] = useState('' as SN);
+
+  const { rateBuy, rateCross, rateSell } = useMemo(() => {
+    const matchedExchange = currencies.find((el) => el.id === id);
+    return matchedExchange || { rateBuy: 0, rateCross: 0, rateSell: 0 };
+  }, [currencies, id]);
 
   const rates = {
     sell: rateBuy,
@@ -78,7 +83,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
         setValueB(calcMul(valueA, rateA));
       })(valueA, precision);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [method, currencyA, currencyB]);
 
   const handleChangeA = (e: any): void => {
@@ -203,10 +208,11 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
 };
 
 export default connect<IStateProps, IDispatchProps, IBaseProps, ExchangesState>(
-  ({ exchange, loading, method }: ExchangesState) => ({
+  ({ exchange, loading, method, currencies }: ExchangesState) => ({
     exchange,
     loading,
     method,
+    currencies,
   }),
   {
     toggleExchangeMethod: () => TOGGLE_EXCHANGE_METHOD,
