@@ -55,15 +55,16 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
     NB,
     id,
     precision = 4,
-    grow,
   } = exchange as Exchange;
 
   const [valueA, setValueA] = useState(1 as SN);
   const [valueB, setValueB] = useState('' as SN);
 
-  const { rateBuy, rateCross, rateSell } = useMemo(() => {
+  const { rateBuy, rateCross, rateSell, grow } = useMemo(() => {
     const matchedExchange = currencies.find((el) => el.id === id);
-    return matchedExchange || { rateBuy: 0, rateCross: 0, rateSell: 0 };
+    return (
+      matchedExchange || ({ rateBuy: 0, rateCross: 0, rateSell: 0 } as Exchange)
+    );
   }, [currencies, id]);
 
   const rates = {
