@@ -13,7 +13,7 @@
     "@types/react-ga": "^2.3.0",
     "@types/react-redux": "^7.1.2",
     "antd": "^3.23.2",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "classnames": "^2.2.6",
     "cryptocurrencies": "^7.0.0",
     "cryptocurrency-icons": "^0.16.1",
