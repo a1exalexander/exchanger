@@ -43,14 +43,9 @@ export const AppFooter: FC<Props> = ({ className = '' }) => {
         )}
       </div>
       <div className="app-footer__author">
-        <a
-          href="https://merge.rocks/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="app-footer__icon-wrapper"
-        >
+        <div className="app-footer__icon-wrapper">
           <IconMerge className="app-footer__icon" />
-        </a>
+        </div>
         Developed by&nbsp;
         <a
           className="app-footer__author-link"
