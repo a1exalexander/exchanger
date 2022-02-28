@@ -121,7 +121,7 @@ const SelectCard = ({
       <div className={`select-card__select-wrapper`} id="select">
         <div className="select-card__select-inner">
           <div className="select-card__placeholder">
-            <h1 className="select-card__caption">UAH Excahnger</h1>
+            <h1 className="select-card__caption">Русский корабль, иди нахуй!</h1>
             <div className="select-card__placeholder-item">
               <img
                 className="select-card__icon select-card__icon--m-right"
