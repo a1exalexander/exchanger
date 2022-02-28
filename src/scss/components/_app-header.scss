@@ -38,14 +38,14 @@
     }
   }
   &__nav {
+    @include container;
+    $size: 12px;
+    padding-top: $size;
+    padding-bottom: $size;
+    @extend %bb;
+    margin: 0;
     display: none;
     @include media {
-      @include container;
-      $size: 12px;
-      padding-top: $size;
-      padding-bottom: $size;
-      @extend %bb;
-      margin: 0;
       display: block;
       $size: 14px;
       padding-top: $size;
