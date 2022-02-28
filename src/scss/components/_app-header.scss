@@ -67,6 +67,7 @@
   &__title {
     @include text($H500, 500);
     margin: 0;
+    text-transform: uppercase;
     @include media {
       font-size: $H900;
     }
