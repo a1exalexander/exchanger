@@ -76,15 +76,17 @@ const ExchangeCardCurrency: FC<IBaseProps> = (props) => {
         placeholder={`Введи кількість "${currencyB}"`}
       />
       <div className="exchange-card-currency__footer">
-        1 {codeB} = {rate} {codeA}
-        {!growTop && (
-          <IconArrow
-            className={classNames('exchange-card-currency__grow _absolute', {
-              _up: grow === 1,
-              _down: grow === -1,
-            })}
-          />
-        )}
+        <>
+          1 {codeB} = {rate} {codeA}
+          {!growTop && (
+            <IconArrow
+              className={classNames('exchange-card-currency__grow _absolute', {
+                _up: grow === 1,
+                _down: grow === -1,
+              })}
+            />
+          )}
+        </>
       </div>
       {inputStatus && (
         <span className="exchange-card-currency__computed fadeIn">
