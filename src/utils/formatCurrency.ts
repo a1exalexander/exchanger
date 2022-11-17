@@ -1,7 +1,7 @@
 import * as cc from 'currency-codes';
 import moment from 'moment';
 import getCountry from './currencyList';
-import { Exchange, NBRate, SN } from '../types';
+import { Currency, Exchange, NBRate, SN } from '../types';
 import Big from 'big.js';
 import { has } from './helpers';
 
@@ -88,7 +88,7 @@ export const mapBTC = (item: any) => {
       code: ccy,
       currency: cryptocurrencies[ccy],
     },
-    currencyB: cc.code(base_ccy),
+    currencyB: cc.code(base_ccy) as Currency,
   };
   return newItem;
 };

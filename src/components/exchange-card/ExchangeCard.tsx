@@ -31,12 +31,6 @@ interface IDispatchProps {
   toggleExchangeMethod: () => string;
 }
 
-interface RatesType {
-  sell?: SN;
-  buy?: SN;
-  cross?: SN;
-}
-
 type IProps = IBaseProps & IStateProps & IDispatchProps;
 
 const ExchangeCard: FC<IProps> = (props: IProps) => {
@@ -149,15 +143,13 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
             onClick={toggleExchangeMethod}
             className={`exchange-card__toggle`}
             disabled={method === 'cross'}
-            title={method}
-          >
+            title={method}>
             <IconExchange
               className={classnames('exchange-card__icon-exchange', method)}
             />
           </button>
           <span
-            className={`exchange-card__method  exchange-card__method--mobile ${method}`}
-          >
+            className={`exchange-card__method  exchange-card__method--mobile ${method}`}>
             {methodsTranslate[method]}
           </span>
         </div>
@@ -179,8 +171,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
       </div>
       <button
         onClick={toggleExchangeMethod}
-        className={classNames('exchange-card__description-wrapper', method)}
-      >
+        className={classNames('exchange-card__description-wrapper', method)}>
         {method !== 'cross' ? (
           <p className="exchange-card__description">
             Я зможу {method === 'buy' ? 'придбати' : 'продати'}{' '}

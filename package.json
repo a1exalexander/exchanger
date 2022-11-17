@@ -2,15 +2,14 @@
   "name": "exchanger",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": ">=16.0.0"
+  "eslintConfig": {
+    "extends": "react-app"
   },
   "dependencies": {
     "@types/big.js": "^4.0.5",
     "@types/classnames": "^2.2.9",
     "@types/jest": "24.0.18",
     "@types/lodash": "^4.14.161",
-    "@types/node": "18.12.1",
     "@types/react": "16.9.2",
     "@types/react-dom": "16.9.0",
     "@types/react-ga": "^2.3.0",
@@ -27,14 +26,14 @@
     "json-server": "^0.15.1",
     "lodash": "^4.17.20",
     "moment": "^2.24.0",
-    "node-sass": "^4.13.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-html-parser": "^2.0.2",
     "react-redux": "^7.1.1",
-    "react-scripts": "3.1.1",
+    "react-scripts": "^5.0.1",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
+    "sass": "^1.56.1",
     "typescript": "3.6.3",
     "uikit": "^3.2.1"
   },
@@ -50,9 +49,6 @@
     "server": "json-server --watch fake-server/db.json --routes fake-server/routes.json --port 3004",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": {
     "production": [
