@@ -23,7 +23,7 @@
     "gh-pages": "^2.1.1",
     "json-server": "^0.15.1",
     "lodash": "^4.17.20",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "node-sass": "^4.13.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
