@@ -168,15 +168,13 @@ const SelectCard = ({
             suffixIcon={null}
             popupClassName="select-card__select-mobile-popover"
             className={cx('select-card__select-mobile', { _open: isOpen })}
-            placeholder="Select a currency"
             optionFilterProp="children"
-            defaultValue={exchange.id}
             optionLabelProp="label"
             size="large"
             loading={loading}
             open={isOpen}
+            value=""
             onDropdownVisibleChange={setIsOpen}
-            value={getValue(exchange)}
             onChange={setExchange}
             filterOption={filterOption}>
             {renderSelectList(false)}

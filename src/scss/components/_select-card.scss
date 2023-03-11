@@ -154,13 +154,11 @@ $style: select-card;
     font-weight: 200;
     transition: opacity 0.2s ease-in-out;
     .ant-select-selection-search-input {
-      color: white !important;
-      font-size: 12px !important;
-    }
-    .ant-select-selection-search-input {
       text-align: center !important;
       position: relative !important;
-      top: -10px !important;
+      bottom: -10px !important;
+      color: white !important;
+      font-size: 16px !important;
     }
     .ant-select-selector {
       background-color: transparent !important;
