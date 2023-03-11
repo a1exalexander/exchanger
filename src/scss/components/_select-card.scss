@@ -155,6 +155,12 @@ $style: select-card;
     transition: opacity 0.2s ease-in-out;
     .ant-select-selection-search-input {
       color: white !important;
+      font-size: 12px !important;
+    }
+    .ant-select-selection-search-input {
+      text-align: center !important;
+      position: relative !important;
+      top: -10px !important;
     }
     .ant-select-selector {
       background-color: transparent !important;
@@ -166,6 +172,7 @@ $style: select-card;
       text-align: center !important;
       padding-right: 0 !important;
       color: white !important;
+      bottom: -10px !important;
     }
     &._open {
       opacity: 1;
