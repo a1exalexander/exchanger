@@ -1,11 +1,12 @@
-import React, { Fragment } from "react";
-import { Select, Popover } from "antd";
-import { setExchange } from "../../store/actions";
-import { connect } from "react-redux";
-import { Currencies, Exchange, Currency, SN } from "../../types";
-import { ExchangesState } from "../../store/types";
-import getIcon from "../../utils/getIcon";
-import { ReactComponent as IconExchange } from "../../assets/images/exchange-arrows.svg";
+import React, { Fragment, useState } from 'react';
+import { Select, Popover } from 'antd';
+import { setExchange } from '../../store/actions';
+import { connect } from 'react-redux';
+import cx from 'classnames';
+import { Currencies, Exchange, Currency, SN } from '../../types';
+import { ExchangesState } from '../../store/types';
+import getIcon from '../../utils/getIcon';
+import { ReactComponent as IconExchange } from '../../assets/images/exchange-arrows.svg';
 
 const { Option }: any = Select;
 
@@ -13,11 +14,13 @@ const filterOption = (inputValue: string, option: any) => {
   return (
     option.props.label.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0 ||
     option.props.children.props.children.some((item: any) => {
-      if (typeof item === "string") {
+      if (typeof item === 'string') {
         return item.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0;
       }
       return (
-        String(item.props.children).toLowerCase().indexOf(inputValue.toLowerCase()) >= 0
+        String(item.props.children)
+          .toLowerCase()
+          .indexOf(inputValue.toLowerCase()) >= 0
       );
     })
   );
@@ -35,29 +38,30 @@ const SelectCard = ({
   exchange,
   currencies,
   loading,
-  setExchange
+  setExchange,
 }: SelectCardProps) => {
   const {
-    currencyA: { code: codeA, currency: currencyA, country: countryA = "" },
-    currencyB: { code: codeB, currency: currencyB, country: countryB = "" }
+    currencyA: { code: codeA, currency: currencyA, country: countryA = '' },
+    currencyB: { code: codeB, currency: currencyB, country: countryB = '' },
   } = exchange as Exchange;
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const CountriesList = ({ cid }: { cid: SN }) => {
     const exchange = currencies.find(({ id }: Exchange) => id === cid) || {
-      currencyA: { countries: [] }
+      currencyA: { countries: [] },
     };
 
     const { countries = [] } = exchange.currencyA;
 
     return (
       <ul className="select-card__countries">
-        {countries.map(country => (
+        {countries.map((country) => (
           <li key={country}>
             <a
               rel="noopener noreferrer"
               href={`https://www.google.com/search?q=${country}`}
-              target="_blank"
-            >
+              target="_blank">
               {country}
             </a>
           </li>
@@ -66,39 +70,59 @@ const SelectCard = ({
     );
   };
 
-  const selectList = currencies.map((item, index) => {
-    const {
-      currencyA: { code, currency },
-      id,
-      currencyB,
-      NB
-    }: Exchange = item;
-    return (
-      <Option key={id} value={id} label={code}>
-        <Popover
-          placement="left"
-          title={currency}
-          content={<CountriesList cid={id} />}
-          trigger="hover"
-        >
-          {currencyB.code !== "UAH" ? (
-            <Fragment>
-              <b>{currencyB.code}</b> {currencyB.currency}
-              {" - "}
-            </Fragment>
+  const renderSelectList = (hasPopover = true) =>
+    currencies.map((item, index) => {
+      const {
+        currencyA: { code, currency },
+        id,
+        currencyB,
+        NB,
+      }: Exchange = item;
+      return (
+        <Option key={id} value={id} label={code}>
+          {hasPopover ? (
+            <Popover
+              placement="left"
+              title={currency}
+              content={<CountriesList cid={id} />}
+              trigger="hover">
+              {currencyB.code !== 'UAH' ? (
+                <Fragment>
+                  <b>{currencyB.code}</b> {currencyB.currency}
+                  {' - '}
+                </Fragment>
+              ) : (
+                ''
+              )}
+              <b>{code}</b> {NB ? NB.txt : currency}
+            </Popover>
           ) : (
-            ""
+            <>
+              {currencyB.code !== 'UAH' ? (
+                <>
+                  <b>{currencyB.code}</b> {currencyB.currency}
+                  {' - '}
+                </>
+              ) : (
+                ''
+              )}
+              <b>{code}</b> {NB ? NB.txt : currency}
+            </>
           )}
-          <b>{code}</b> {NB ? NB.txt : currency}
-        </Popover>
-      </Option>
-    );
-  });
+        </Option>
+      );
+    });
 
   const getValue = (exchange: Exchange) => {
-    const { NB, currencyB: { code }, currencyA } = exchange;
-    return `${code !== 'UAH' ? code + ' - ' : ''}${currencyA.code} ${NB ? NB.txt : currencyA.currency}`;
-  }
+    const {
+      NB,
+      currencyB: { code },
+      currencyA,
+    } = exchange;
+    return `${code !== 'UAH' ? code + ' - ' : ''}${currencyA.code} ${
+      NB ? NB.txt : currencyA.currency
+    }`;
+  };
 
   return (
     <div className="select-card">
@@ -114,13 +138,12 @@ const SelectCard = ({
         loading={loading}
         value={getValue(exchange)}
         onChange={setExchange}
-        filterOption={filterOption}
-      >
-        {selectList}
+        filterOption={filterOption}>
+        {renderSelectList()}
       </Select>
       <div className={`select-card__select-wrapper`} id="select">
         <div className="select-card__select-inner">
-          <div className="select-card__placeholder">
+          <div className={cx('select-card__placeholder', { _hidden: isOpen })}>
             <h1 className="select-card__caption">UAH Excahnger</h1>
             <div className="select-card__placeholder-item">
               <img
@@ -130,7 +153,7 @@ const SelectCard = ({
               />
               {currencyA}
             </div>
-            <IconExchange className={"select-card__icon-middle"} />
+            <IconExchange className={'select-card__icon-middle'} />
             <div className="select-card__placeholder-item select-card__placeholder-item--right">
               {currencyB}
               <img
@@ -140,21 +163,24 @@ const SelectCard = ({
               />
             </div>
           </div>
-          <select
-            name="currencies"
-            value={exchange.id}
-            onChange={(e: any) => {
-              const v = e.target.value;
-              setExchange(v);
-            }}
-            className="select-card__select-input"
-          >
-            {currencies.map(item => {
-              return (
-                <option key={item.id} value={item.id}>{getValue(item)}</option>
-              );
-            })}
-          </select>
+          <Select
+            showSearch
+            suffixIcon={null}
+            popupClassName="select-card__select-mobile-popover"
+            className={cx('select-card__select-mobile', { _open: isOpen })}
+            placeholder="Select a currency"
+            optionFilterProp="children"
+            defaultValue={exchange.id}
+            optionLabelProp="label"
+            size="large"
+            loading={loading}
+            open={isOpen}
+            onDropdownVisibleChange={setIsOpen}
+            value={getValue(exchange)}
+            onChange={setExchange}
+            filterOption={filterOption}>
+            {renderSelectList(false)}
+          </Select>
         </div>
       </div>
     </div>

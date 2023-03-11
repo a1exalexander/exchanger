@@ -64,10 +64,10 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
   const rates = {
     sell: rateBuy,
     buy: rateSell,
-    cross: rateCross,
+    cross: NB?.rate || rateCross,
   };
 
-  const rateA: SN = rates[method] || 1;
+  const rateA: SN = rates[method] || rates.cross || 1;
   const rateB: SN | Big = new Big(1).div(rateA).toString();
   const hasExchange = codeA && codeB;
 

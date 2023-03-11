@@ -1,25 +1,24 @@
 @keyframes color-transition {
-	0% {
-		background-color: $B2;
-		border-color: $B2;
-	}
-	25% {
+  0% {
+    background-color: $B2;
+    border-color: $B2;
+  }
+  25% {
     background-color: $R2;
-		border-color: $R2;
-		
-	}
-	50% {
-		background-color: $G1;
-		border-color: $G1;
+    border-color: $R2;
+  }
+  50% {
+    background-color: $G1;
+    border-color: $G1;
   }
   75% {
-		background-color: $P1;
-		border-color: $P1;
-	}
-	100% {
-		background-color: $Y1;
-		border-color: $Y1;
-	}
+    background-color: $P1;
+    border-color: $P1;
+  }
+  100% {
+    background-color: $Y1;
+    border-color: $Y1;
+  }
 }
 
 $style: select-card;
@@ -35,7 +34,7 @@ $style: select-card;
       font-family: $second-font;
       @include text($H400, 300);
       margin-bottom: 32px;
-    } 
+    }
   }
   &__row {
     @include flex-row(flex-start, center);
@@ -44,7 +43,7 @@ $style: select-card;
     margin: 0 16px;
   }
   &__icon-middle {
-    @include svg(18px, $N0)
+    @include svg(18px, $N0);
   }
   &__select {
     display: none;
@@ -62,6 +61,8 @@ $style: select-card;
   &__select-inner {
     position: relative;
     pointer-events: none;
+    display: flex;
+    justify-content: center;
   }
   &__select-wrapper {
     pointer-events: none;
@@ -88,6 +89,17 @@ $style: select-card;
     position: relative;
     padding: 26px 12px 12px;
     @include flex-row(space-between, center);
+    .select-card__caption,
+    .select-card__icon-middle {
+      transition: opacity 0.2s ease-in-out;
+    }
+    &._hidden {
+      .select-card__caption,
+      .select-card__icon-middle {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
   }
   &__computed-bar {
     @include flex-row(space-between, center);
@@ -121,14 +133,17 @@ $style: select-card;
     @include text($H200, 300, $N0);
     text-align: center;
   }
-  &__select-input {
+  &__select-mobile {
     top: 0;
     opacity: 0;
+    z-index: 10;
     position: absolute;
-    width: 100%;
+    width: 280px;
+    height: 100%;
     font-size: 16px;
-    background-color: #fff;
-    border: 1px solid #d9d9d9;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
     border-top-width: 1.02px;
     border-radius: 4px;
     outline: none;
@@ -137,6 +152,30 @@ $style: select-card;
     font-family: $second-font;
     font-size: 16px;
     font-weight: 200;
+    transition: opacity 0.2s ease-in-out;
+    .ant-select-selection-search-input {
+      color: white !important;
+    }
+    .ant-select-selector {
+      background-color: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      outline: none !important;
+    }
+    .ant-select-selection-item {
+      text-align: center !important;
+      padding-right: 0 !important;
+      color: white !important;
+    }
+    &._open {
+      opacity: 1;
+      z-index: 100;
+    }
+  }
+  &__select-mobile-popover {
+    width: 100% !important;
+    left: 0 !important;
+    top: 58px !important;
   }
   &__icon {
     @include size(20px);
