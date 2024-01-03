@@ -6,7 +6,7 @@ import * as actionsTypes from '../constants';
 export type CustomActionType = keyof typeof actionsTypes;
 
 export type CustomAction<T = undefined> = Action<CustomActionType> & {
-  payload?: T;
+  payload?: T | Exchange;
 };
 
 export type SN = string | number;
