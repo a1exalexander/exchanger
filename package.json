@@ -28,6 +28,7 @@
     "json-server": "^0.17.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
+    "posthog-js": "^1.96.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-html-parser": "^2.0.2",

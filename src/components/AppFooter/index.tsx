@@ -57,7 +57,7 @@ export const AppFooter: FC<Props> = ({ className = '' }) => {
           Oleksandr Ratushnyi
         </a>
       </div>
-      <div className='app-footer__switch-wrapper'>
+      <div className="app-footer__switch-wrapper">
         <Switch
           onChange={(checked) => {
             dispatch({
