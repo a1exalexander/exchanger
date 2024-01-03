@@ -1,4 +1,4 @@
 User-Agent: *
 Disallow: 
 
-Sitemap: https://exchanger.now.sh/sitemap.xml
+Sitemap: https://exchanger.in.ua/sitemap.xml
