@@ -1,7 +1,7 @@
 import { logInfo } from '../services/logger';
 
 const apiType: { [key: string]: string } = {
-  prod: 'https://exchanger-uah.herokuapp.com/api',
+  prod: 'https://whale-app-u5nay.ondigitalocean.app/api',
   fake: 'http://localhost:3004',
   dev: 'http://localhost:8080/api',
 };
