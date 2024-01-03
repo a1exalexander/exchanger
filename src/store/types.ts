@@ -1,5 +1,13 @@
 import { SET_EXCHANGE, FETCH_CURRENCIES_SUCCESS } from '../constants';
 import { Exchange, Currencies, Currency } from '../types';
+import { Action } from 'redux';
+import * as actionsTypes from '../constants';
+
+export type CustomActionType = keyof typeof actionsTypes;
+
+export type CustomAction<T = undefined> = Action<CustomActionType> & {
+  payload?: T;
+};
 
 export type SN = string | number;
 

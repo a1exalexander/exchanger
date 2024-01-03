@@ -1966,6 +1966,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/has@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/has/-/has-1.0.2.tgz#d5e4c42fd8b8e7d278e17644c51851151408c297"
+  integrity sha512-vhcifZ6AWr3DdePyETcJjc5qkkkNR8YPONpdbEN0H02J+9JbAKkYS33XoXeTIFvPlffSqCJ8wSpCc+jVX1ug7w==
+
 "@types/hoist-non-react-statics@^3.3.0", "@types/hoist-non-react-statics@^3.3.1":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"

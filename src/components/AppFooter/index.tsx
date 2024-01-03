@@ -24,6 +24,7 @@ export const AppFooter: FC<Props> = ({ className = '' }) => {
               href="https://www.monobank.com.ua/"
               target="_blank"
               rel="noopener noreferrer"
+              data-posthog-link="monobank"
               className="app-footer__description app-footer__description--eng app-footer__description--link"
             >
               Monobank
@@ -32,6 +33,7 @@ export const AppFooter: FC<Props> = ({ className = '' }) => {
             <a
               href="https://bank.gov.ua/"
               target="_blank"
+              data-posthog-link="NBU"
               rel="noopener noreferrer"
               className="app-footer__description app-footer__description--mark app-footer__description--link"
             >
@@ -52,6 +54,7 @@ export const AppFooter: FC<Props> = ({ className = '' }) => {
           className="app-footer__author-link"
           href="https://www.linkedin.com/in/alexander-ratushnyi/"
           target="_blank"
+          data-posthog-link="linkedin"
           rel="noopener noreferrer"
         >
           Oleksandr Ratushnyi

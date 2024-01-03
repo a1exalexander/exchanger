@@ -47,6 +47,19 @@ $style: select-card;
         color: black;
       }
     }
+    &__popover {
+      .ant-popover-inner {
+        background-color: $B8;
+        border-color: $B5;
+      }
+      .ant-popover-title {
+        color: $N0;
+        border-color: $B5;
+      }
+      .ant-popover-inner-content a {
+        color: $N2;
+      }
+    }
   }
 }
 
@@ -90,6 +103,7 @@ $style: select-card;
       transition-duration: 0.2s !important;
       transition-timing-function: ease !important;
       border-radius: 6px !important;
+      border-width: 1px !important;
     }
     .ant-select-selection-item {
       @include transition(color);
@@ -243,6 +257,18 @@ $style: select-card;
     padding: 0;
   }
   &__popover {
+    * {
+      transition: none !important;
+    }
+    .ant-popover-inner-content {
+      a:hover,
+      a:focus {
+        filter: contrast(1.1) brightness(1.1);
+      }
+    }
+    .ant-popover-inner {
+      border-radius: 6px;
+    }
     .ant-popover-title {
       font-weight: 600;
     }

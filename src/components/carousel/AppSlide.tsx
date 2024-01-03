@@ -6,7 +6,6 @@ import getIcon from '../../utils/getIcon';
 import { setExchange } from '../../store/actions';
 import { ReactComponent as IconExchange } from '../../assets/images/exchange-arrows.svg';
 import { ReactComponent as IconArrow } from '../../assets/images/profits.svg';
-import ReactGA from 'react-ga';
 import { toFix } from '../../utils/formatCurrency';
 
 interface Props {
@@ -27,10 +26,6 @@ const AppSlide: FC<Props> = ({ exchange, setExchange }) => {
   } = exchange;
 
   const handleClick = (e: any) => {
-    ReactGA.event({
-      category: 'Currencies',
-      action: 'Tap to slide card',
-    });
     e.preventDefault();
     setExchange(id);
   };

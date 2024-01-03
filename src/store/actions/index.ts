@@ -10,7 +10,6 @@ import {
 import { ActionTypes } from '../types';
 import { Exchange, Currencies, SN, Currency } from '../../types';
 import ApiService from '../../services/apiService';
-import ReactGA from 'react-ga';
 import moment from 'moment';
 import 'moment/locale/uk';
 import { toFix } from '../../utils/formatCurrency';
@@ -59,20 +58,12 @@ const setExchange =
       exchange = payload;
     }
 
-    ReactGA.event({
-      category: 'Currencies',
-      action: 'Select currencies',
-    });
     if (
       isObject(exchange) &&
       has(exchange, 'currencyA') &&
       has(exchange, 'currencyB')
     ) {
       exchangeStorage.set(exchange);
-      ReactGA.set({
-        currencyA: `${exchange.currencyA.code || exchange}`,
-        currencyB: `${exchange.currencyB.code || exchange}`,
-      });
       dispatch({
         type: SET_EXCHANGE,
         payload: exchange,
@@ -82,11 +73,11 @@ const setExchange =
 
 export const setUpdatedDate = async (dispatch: Dispatch) => {
   const lastUpdate = await apiService.fetchLastUpdate();
-  moment.locale('uk')
+  moment.locale('uk');
   const date = moment(lastUpdate);
   date.locale('uk');
   console.log(date.locale());
-  
+
   dispatch({
     type: SET_LAST_UPDATE,
     payload: lastUpdate ? date.format('DD MMMM, YYYY') : '',

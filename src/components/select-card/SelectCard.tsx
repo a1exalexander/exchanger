@@ -60,6 +60,7 @@ const SelectCard = ({
           <li key={country}>
             <a
               rel="noopener noreferrer"
+              data-posthog-link="google"
               href={`https://www.google.com/search?q=${country}`}
               target="_blank"
             >
@@ -101,6 +102,7 @@ const SelectCard = ({
             <Popover
               overlayClassName="select-card__popover"
               placement="left"
+              showArrow={false}
               title={currency}
               content={<CountriesList cid={id} />}
               trigger="hover"

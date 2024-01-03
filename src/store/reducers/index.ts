@@ -12,16 +12,11 @@ import {
 import initialExchange from './initialExchange';
 import initialCurrency from './initialCurrency';
 import { ExchangesState } from '../types';
-import ReactGA from 'react-ga';
 import { Currency, SN } from '../../types';
 import { currenciesStorage } from '../../services';
-const has: any = require('has');
+import has from 'has';
 
 const toggleExchangeMethod = (method: string) => {
-  ReactGA.event({
-    category: 'Exchange Card',
-    action: 'Toggle rate method',
-  });
   return method === 'buy' ? 'sell' : 'buy';
 };
 
