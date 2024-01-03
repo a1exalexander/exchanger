@@ -17,8 +17,12 @@ export const trackingMiddleware =
     }
     if (action.type === 'SET_EXCHANGE') {
       window.posthog.capture(action.type, {
-        ...action.payload,
+        codeFrom: action.payload?.currencyA?.code,
+        codeTo: action.payload?.currencyB?.code,
         codes: `${action.payload?.currencyA?.code}:${action.payload?.currencyB?.code}`,
+        rateBuy: action.payload?.rateBuy ?? action.payload?.rateCross,
+        rateSell: action.payload?.rateSell ?? action.payload?.rateCross,
+        rateNB: action.payload?.NB?.rate,
       });
     }
     return next(action);
