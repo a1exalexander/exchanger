@@ -1,5 +1,21 @@
 $style: ScrollBackdrop;
 
+.light {
+  .#{$style} {
+    &__top {
+      background-color: $N0;
+    }
+  }
+}
+
+.dark {
+  .#{$style} {
+    &__top {
+      background-color: $B111;
+    }
+  }
+}
+
 .#{$style} {
   content: '';
   position: fixed;
@@ -11,7 +27,7 @@ $style: ScrollBackdrop;
   &__top {
     height: 50vh;
     width: 100%;
-    background-color: $N0;
+    transition: background-color 0.2s ease;
   }
   &__bottom {
     height: 50vh;

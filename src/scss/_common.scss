@@ -21,7 +21,8 @@
   }
 }
 
-.no-transition, .no-transition * {
+.no-transition,
+.no-transition * {
   transition: none !important;
 }
 
@@ -41,7 +42,11 @@ html {
   }
 }
 
-body, a, textarea, input, button {
+body,
+a,
+textarea,
+input,
+button {
   font-family: $base-font;
 }
 
@@ -54,25 +59,36 @@ body {
   color: #eaeaea;
 }
 
-p, span {
+.light {
+  background-color: white;
+}
+
+.dark {
+  background-color: #0e1733;
+}
+
+p,
+span {
   @include transition(color);
 }
 
-a, button {
+a,
+button {
   display: inline-flex;
   text-decoration: none;
   &:hover {
     text-decoration: none;
   }
 }
-.ant-select-open, .ant-select-focused {
+.ant-select-open,
+.ant-select-focused {
   .ant-select-selection {
     border-color: $N7;
     box-shadow: none;
     outline: none;
   }
 }
-.ant-select-selection  {
+.ant-select-selection {
   &:hover {
     border-color: $N7;
   }
@@ -99,11 +115,9 @@ a, button {
   color: $N100;
 }
 .ant-popover-placement-left {
-  
   .ant-popover-content {
     box-shadow: 0 0 2px 0 rgba($color: #000000, $alpha: 0.03) !important;
     margin-right: 12px !important;
-    
   }
   .ant-popover-inner-content {
     max-height: 300px;
@@ -124,4 +138,23 @@ a, button {
   padding: 0 !important;
   margin: 0 !important;
   clip: rect(1px, 1px, 1px, 1px) !important;
+}
+
+input {
+  border-style: solid; // Fix for Safari
+  border-radius: 0 !important;
+}
+
+input.text,
+input[type=text],
+input[type=email],
+input[type=tel],
+input[type=url],
+input[type=search] {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-radius: 0;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
 }
