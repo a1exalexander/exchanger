@@ -1,8 +1,37 @@
 $style: app-footer;
 
+.dark {
+  .#{$style} {
+    &__inner {
+      background-color: $B111;
+    }
+    &__description {
+      color: $N2;
+      @include media {
+        color: $N4;
+      }
+      &--link {
+        color: $N0;
+        &:after {
+          @include media {
+            background-color: $N0;
+          }
+        }
+      }
+    }
+    &__date-card {
+      color: $N4;
+    }
+    &__date {
+      color: $N0;
+    }
+  }
+}
+
 .#{$style} {
   &__inner {
     background-color: $N0;
+    transition: background-color 0.2s ease;
     padding: 24px;
     @include flex-col(space-between, stretch);
     @include media {
@@ -39,13 +68,17 @@ $style: app-footer;
 
   &__description {
     font-size: $H400;
-    color: $N0;
     font-family: $second-font;
     font-weight: 200;
     text-align: center;
+    color: $N2;
+    @include media {
+      color: black;
+    }
     line-height: 1.4;
     margin-bottom: 0;
     display: inline-block;
+    transition: color 0.2s ease;
     &--eng {
       font-family: $base-font;
       font-weight: 600;
@@ -54,11 +87,10 @@ $style: app-footer;
       }
     }
     &--mark {
-      font-weight: 500;
+      font-weight: 600;
     }
     &--link {
       @extend %link-underline;
-
       &:after {
         background-color: $N0;
         @include media {
@@ -68,14 +100,13 @@ $style: app-footer;
     }
     @include media {
       font-size: $H300;
-      color: $N100;
       text-align-last: left;
     }
   }
   &__date-card {
     align-self: flex-end;
     font-family: $second-font;
-    font-weight: 200;
+    font-weight: 100;
     font-size: $H200;
   }
   &__info-card {
@@ -87,12 +118,27 @@ $style: app-footer;
     margin-bottom: 24px;
     @include media {
       margin-bottom: 0;
-      background-color: $N0;
+      background-color: transparent;
       padding: 0;
       box-shadow: none;
     }
   }
   &__date {
-    color: $N100;
+    font-weight: 400;
+  }
+  &__switch-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 42px;
+    @include media {
+      display: none;
+    }
+  }
+  &__switch {
+    background-color: $B7;
+    &.ant-switch-checked {
+      background-color: $B3;
+    }
   }
 }

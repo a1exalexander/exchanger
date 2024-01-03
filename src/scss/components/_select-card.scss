@@ -22,6 +22,34 @@
 }
 
 $style: select-card;
+
+.dark {
+  .#{$style} {
+    .ant-select-selector {
+      background-color: $B8;
+      border-color: $B5;
+    }
+    .ant-select-selection-item {
+      color: $N1;
+    }
+    .ant-select-arrow {
+      color: $B4;
+    }
+    &__dropdown {
+      background-color: $B8;
+      box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.5),
+        0 6px 16px 0 rgba(0, 0, 0, 0.5), 0 9px 28px 8px rgba(0, 0, 0, 0.3);
+      .ant-select-item {
+        color: $N1;
+      }
+
+      .ant-select-item-option-active {
+        color: black;
+      }
+    }
+  }
+}
+
 .#{$style} {
   @include media {
     position: relative;
@@ -56,6 +84,18 @@ $style: select-card;
     }
     @include media($screen-desktop-large) {
       width: 280px;
+    }
+    .ant-select-selector {
+      transition-property: background-color, border-color !important;
+      transition-duration: 0.2s !important;
+      transition-timing-function: ease !important;
+      border-radius: 6px !important;
+    }
+    .ant-select-selection-item {
+      @include transition(color);
+    }
+    .ant-select-arrow {
+      @include transition(color);
     }
   }
   &__select-inner {
@@ -201,5 +241,17 @@ $style: select-card;
   &__countries {
     list-style: none;
     padding: 0;
+  }
+  &__popover {
+    .ant-popover-title {
+      font-weight: 600;
+    }
+  }
+  &__currency {
+    font-family: $second-font;
+    font-weight: 100;
+  }
+  &__dropdown {
+    border-radius: 6px !important;
   }
 }

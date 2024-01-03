@@ -1,3 +1,12 @@
+.dark {
+  .exchange-card-currency {
+    &__input {
+      border-color: $B6;
+      color: $N0;
+    }
+  }
+}
+
 .exchange-card-currency {
   flex: 0 0 40%;
   align-self: stretch;
@@ -17,6 +26,7 @@
       display: block;
       font-size: $H400;
       align-self: flex-start;
+      @include transition(color);
     }
   }
   &__row {
@@ -27,6 +37,7 @@
     font-size: $H300;
     font-weight: 300;
     margin-right: 6px;
+    @include transition(color);
   }
   &__icon {
     @include size(20px);
@@ -43,7 +54,7 @@
     border: none;
     cursor: pointer;
     border-radius: 4px;
-    @include transition(filter, transform);
+    @include transition(filter, transform, color);
     &.sell {
       color: $O1;
     }
@@ -69,7 +80,7 @@
     display: none;
     @include media {
       display: inline-block;
-      @include text($H500, 500);
+      @include text($H500, 600);
       margin-right: 0;
     }
   }
@@ -85,6 +96,10 @@
     border: none;
     outline: none;
     @include text($H500, 400);
+    background-color: var(--theme-color-bg);
+    transition-property: background-color, color, border-color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
     border-bottom: 1px solid $N1;
     margin: 14px 0;
     text-align: center;

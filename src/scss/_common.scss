@@ -21,6 +21,14 @@
   }
 }
 
+.no-transition, .no-transition * {
+  transition: none !important;
+}
+
+.dark * {
+  scrollbar-color: $N4 transparent;
+}
+
 html {
   touch-action: manipulation;
   ::-webkit-scrollbar {
@@ -39,6 +47,15 @@ body, a, textarea, input, button {
 
 body {
   background-color: transparent;
+  color: black;
+}
+
+.dark body {
+  color: #eaeaea;
+}
+
+p, span {
+  @include transition(color);
 }
 
 a, button {

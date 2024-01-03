@@ -1,8 +1,24 @@
+.dark {
+  .app-header {
+    background-color: $B111;
+    &__title {
+      color: $N0;
+    }
+    &__nav {
+      border-color: $B8;
+    }
+    @include media {
+      border-color: $B8;
+    }
+  }
+}
 .app-header {
-  margin-bottom: 16px;
   height: 82px;
   position: relative;
   background-color: $N0;
+  transition-property: background-color, border-color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
   @include media {
     height: auto;
     border-bottom: 1px solid $N1;
@@ -45,8 +61,11 @@
     @extend %bb;
     margin: 0;
     display: none;
+    transition: border-color 0.2s ease;
     @include media {
-      display: block;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       $size: 14px;
       padding-top: $size;
       padding-bottom: $size;
@@ -65,10 +84,19 @@
     }
   }
   &__title {
-    @include text($H500, 500);
+    @include text($H500, 600);
+    transition: color ease 0.2s;
+    color: $N100;
     margin: 0;
+    font-family: $pixel-font;
     @include media {
       font-size: $H900;
+    }
+  }
+  &__switch {
+    background-color: $B7;
+    &.ant-switch-checked {
+      background-color: $B3;
     }
   }
 }

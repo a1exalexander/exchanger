@@ -12,6 +12,7 @@ import { Exchange, Currencies, SN, Currency } from '../../types';
 import ApiService from '../../services/apiService';
 import ReactGA from 'react-ga';
 import moment from 'moment';
+import 'moment/locale/uk';
 import { toFix } from '../../utils/formatCurrency';
 import { logError } from '../../services/logger';
 import { currenciesStorage, exchangeStorage } from '../../services';
@@ -28,19 +29,17 @@ const fetchCurrenciesSuccess = (payload: Currencies) => {
   };
 };
 
-const updateComputedPrice = (payload: SN | null) => (
-  dispatch: any,
-  getState: any
-) => {
-  const result =
-    typeof payload === 'number'
-      ? toFix(payload, getState().exchange.precision)
-      : payload;
-  dispatch({
-    type: UPDATE_COMPUTED_PRICE,
-    payload: result,
-  });
-};
+const updateComputedPrice =
+  (payload: SN | null) => (dispatch: any, getState: any) => {
+    const result =
+      typeof payload === 'number'
+        ? toFix(payload, getState().exchange.precision)
+        : payload;
+    dispatch({
+      type: UPDATE_COMPUTED_PRICE,
+      payload: result,
+    });
+  };
 
 const updateComputedCurrency = (payload: Currency) => (dispatch: any) => {
   dispatch({
@@ -49,45 +48,48 @@ const updateComputedCurrency = (payload: Currency) => (dispatch: any) => {
   });
 };
 
-const setExchange = (payload: SN | Exchange) => (
-  dispatch: any,
-  getState: any
-) => {
-  let exchange: Exchange;
-  if (typeof payload === 'string' || typeof payload === 'number') {
-    exchange = getState().currencies.find(
-      (item: Exchange) => String(item.id) === String(payload)
-    );
-  } else {
-    exchange = payload;
-  }
+const setExchange =
+  (payload: SN | Exchange) => (dispatch: any, getState: any) => {
+    let exchange: Exchange;
+    if (typeof payload === 'string' || typeof payload === 'number') {
+      exchange = getState().currencies.find(
+        (item: Exchange) => String(item.id) === String(payload),
+      );
+    } else {
+      exchange = payload;
+    }
 
-  ReactGA.event({
-    category: 'Currencies',
-    action: 'Select currencies',
-  });
-  if (
-    isObject(exchange) &&
-    has(exchange, 'currencyA') &&
-    has(exchange, 'currencyB')
-  ) {
-    exchangeStorage.set(exchange);
-    ReactGA.set({
-      currencyA: `${exchange.currencyA.code || exchange}`,
-      currencyB: `${exchange.currencyB.code || exchange}`,
+    ReactGA.event({
+      category: 'Currencies',
+      action: 'Select currencies',
     });
-    dispatch({
-      type: SET_EXCHANGE,
-      payload: exchange,
-    } as ActionTypes);
-  }
-};
+    if (
+      isObject(exchange) &&
+      has(exchange, 'currencyA') &&
+      has(exchange, 'currencyB')
+    ) {
+      exchangeStorage.set(exchange);
+      ReactGA.set({
+        currencyA: `${exchange.currencyA.code || exchange}`,
+        currencyB: `${exchange.currencyB.code || exchange}`,
+      });
+      dispatch({
+        type: SET_EXCHANGE,
+        payload: exchange,
+      } as ActionTypes);
+    }
+  };
 
 export const setUpdatedDate = async (dispatch: Dispatch) => {
   const lastUpdate = await apiService.fetchLastUpdate();
+  moment.locale('uk')
+  const date = moment(lastUpdate);
+  date.locale('uk');
+  console.log(date.locale());
+  
   dispatch({
     type: SET_LAST_UPDATE,
-    payload: lastUpdate ? moment(lastUpdate).format('DD MMMM, YYYY') : '',
+    payload: lastUpdate ? date.format('DD MMMM, YYYY') : '',
   });
 };
 

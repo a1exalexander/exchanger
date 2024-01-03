@@ -3,6 +3,10 @@
 	background: linear-gradient(to right,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
 }
 
+@mixin dark-gradient {
+	background: linear-gradient(to right,  $B11 0%, rgba(255,255,255,0) 100%);
+}
+
 $animationSpeed: 60s;
 
 // Animation
@@ -12,8 +16,21 @@ $animationSpeed: 60s;
 }
 
 // Styling
+
+.dark {
+  .app-carousel {
+    background: $B111;
+		&::before,
+		&::after {
+			@include dark-gradient;
+		}
+  }
+}
+
+
 .app-carousel {
 	background: white;
+	transition: background 0.2s ease;
 	margin: auto;
 	overflow:hidden;
 	position: relative;

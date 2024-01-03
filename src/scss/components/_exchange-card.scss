@@ -38,7 +38,7 @@ $style: exchange-card;
     @include flex-row(center, center);
   }
   &__info {
-    font-size: $H500;
+    font-size: $H600;
     margin-right: 6px;
   }
   &__icon {
@@ -120,6 +120,7 @@ $style: exchange-card;
     font-family: $second-font;
     font-size: $H200;
     font-weight: 300;
+    @include transition(color);
     @include media {
       max-width: 100px;
       top: 105px;

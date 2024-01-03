@@ -12,11 +12,20 @@
   align-items: $align;
 }
 
-@mixin text($size, $weight: 400, $color: black) {
+:root {
+  --theme-color-text: black;
+}
+
+:root.dark {
+  --theme-color-text: #eaeaea;
+}
+
+@mixin text($size, $weight: 400, $color: var(--theme-color-text)) {
   font: {
     size: $size;
     weight: $weight;
   }
+  transition: color 0.2s ease;
   color: $color;
 }
 
@@ -30,7 +39,7 @@
   @content;
 }
 
-@mixin svg($size: 16px, $color: black) {
+@mixin svg($size: 16px, $color: var(--theme-color-text)) {
   width: $size;
   height: $size;
   fill: $color;

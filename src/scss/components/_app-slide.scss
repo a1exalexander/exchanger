@@ -1,7 +1,27 @@
+.dark {
+  .app-slide {
+    background-color: $B9;
+    box-shadow: 0 3px 8px 0px rgba(0, 0, 0, 0.5);
+    &__label {
+      &--sell {
+        color: $O1;
+      }
+      &--buy {
+        color: $G1;
+      }
+      &--cross {
+        color: $B1;
+      }
+    }
+  }
+}
 .app-slide {
   @extend %card;
   cursor: pointer;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.09);
+  box-shadow: 0 3px 8px 0px rgba(0, 0, 0, 0.07);
+  transition-property: background-color, box-shadow;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
   margin: 32px 32px 32px 16px;
   flex: 0 0 300px;
   width: 300px;
@@ -45,8 +65,7 @@
   &__currency {
     line-height: 1;
     margin: 0;
-    font-family: $second-font;
-    @include text($H200, 400);
+    @include text($H200, 600);
     margin-right: 4px;
     @include media {
       font-size: $H300;
@@ -64,7 +83,7 @@
   }
   &__label {
     font-family: $second-font;
-    @include text($H200, 400);
+    @include text($H200, 100);
     margin-right: 4px;
     &--sell {
       color: $O1;
@@ -78,7 +97,7 @@
     
   }
   &__value {
-    @include text($H400, 500);
+    @include text($H400, 600);
   }
   &__skeleton {
     .ant-skeleton-paragraph {

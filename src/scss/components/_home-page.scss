@@ -1,10 +1,20 @@
+.dark {
+  .home-page {
+    background: $B111;
+  }
+}
 .home-page {
+  z-index: 1;
+  padding-top: 16px;
+  padding-bottom: 16px;
   background-color: $N0;
   flex: 1 1;
   @include container;
   @include flex-col(flex-start, stretch);
+  transition: background-color 0.2s ease;
   @include media {
     padding-top: 0;
+    padding-bottom: 0;
     @include flex-row;
   }
   &__exchange-card {

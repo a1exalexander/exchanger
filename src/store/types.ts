@@ -13,6 +13,7 @@ export interface ExchangesState {
   method: 'sell' | 'buy' | 'cross';
   exchange: Exchange;
   computedCurrency: Currency;
+  theme: 'light' | 'dark';
 }
 
 // ACTIONS TYPES

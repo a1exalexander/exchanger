@@ -61,7 +61,8 @@ const SelectCard = ({
             <a
               rel="noopener noreferrer"
               href={`https://www.google.com/search?q=${country}`}
-              target="_blank">
+              target="_blank"
+            >
               {country}
             </a>
           </li>
@@ -78,36 +79,36 @@ const SelectCard = ({
         currencyB,
         NB,
       }: Exchange = item;
+      const content = (
+        <>
+          {currencyB.code !== 'UAH' ? (
+            <>
+              <b>{currencyB.code}</b> {currencyB.currency}
+              {' - '}
+            </>
+          ) : (
+            ''
+          )}
+          <b>{code}</b>{' '}
+          <span className="select-card__currency">
+            {NB ? NB.txt : currency}
+          </span>
+        </>
+      );
       return (
         <Option key={id} value={id} label={code}>
           {hasPopover ? (
             <Popover
+              overlayClassName="select-card__popover"
               placement="left"
               title={currency}
               content={<CountriesList cid={id} />}
-              trigger="hover">
-              {currencyB.code !== 'UAH' ? (
-                <Fragment>
-                  <b>{currencyB.code}</b> {currencyB.currency}
-                  {' - '}
-                </Fragment>
-              ) : (
-                ''
-              )}
-              <b>{code}</b> {NB ? NB.txt : currency}
+              trigger="hover"
+            >
+              {content}
             </Popover>
           ) : (
-            <>
-              {currencyB.code !== 'UAH' ? (
-                <>
-                  <b>{currencyB.code}</b> {currencyB.currency}
-                  {' - '}
-                </>
-              ) : (
-                ''
-              )}
-              <b>{code}</b> {NB ? NB.txt : currency}
-            </>
+            content
           )}
         </Option>
       );
@@ -130,6 +131,7 @@ const SelectCard = ({
       <Select
         showSearch
         className="select-card__select"
+        popupClassName="select-card__dropdown"
         placeholder="Select a currency"
         optionFilterProp="children"
         defaultValue={exchange.id}
@@ -138,7 +140,8 @@ const SelectCard = ({
         loading={loading}
         value={getValue(exchange)}
         onChange={setExchange}
-        filterOption={filterOption}>
+        filterOption={filterOption}
+      >
         {renderSelectList()}
       </Select>
       <div className={`select-card__select-wrapper`} id="select">
@@ -176,7 +179,8 @@ const SelectCard = ({
             value=""
             onDropdownVisibleChange={setIsOpen}
             onChange={setExchange}
-            filterOption={filterOption}>
+            filterOption={filterOption}
+          >
             {renderSelectList(false)}
           </Select>
         </div>
@@ -189,5 +193,5 @@ export default connect(
   ({ exchange, currencies, loading, computedCurrency }: ExchangesState) => {
     return { exchange, currencies, loading, computedCurrency };
   },
-  { setExchange }
+  { setExchange },
 )(SelectCard);

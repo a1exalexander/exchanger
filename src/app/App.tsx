@@ -9,6 +9,8 @@ import 'antd/es/select/style/css';
 import 'antd/es/dropdown/style/css';
 import 'antd/es/skeleton/style/css';
 import 'antd/es/popover/style/css';
+import 'antd/es/switch/style/css';
+import { useSelector } from 'react-redux';
 
 interface IStateProps {
   lastUpdate: string;
@@ -23,6 +25,22 @@ type IProps = IStateProps & IDispatchProps;
 
 const App: FC<IProps> = (props) => {
   const { fetchCurrencies } = props;
+  const theme = useSelector((store: ExchangesState) => store.theme);
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.remove('light');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    document.documentElement.classList.add(theme);
+  }, [theme]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      document.documentElement.classList.remove('no-transition');
+    }, 300);
+  }, []);
 
   useEffect(() => {
     fetchCurrencies();
@@ -30,7 +48,11 @@ const App: FC<IProps> = (props) => {
 
   return (
     <div id="app" className="app">
-      <h1 className="hidden-text">UAH USD EUR BTC RUB.Конвертер валют гривна доллар обменник. Currency converter hryvnia dollar exchanger. Конвертер валют гривня долар обмінник.</h1>
+      <h1 className="hidden-text">
+        UAH USD EUR BTC RUB.Конвертер валют гривна доллар обменник. Currency
+        converter hryvnia dollar exchanger. Конвертер валют гривня долар
+        обмінник.
+      </h1>
       <ScrollBackdrop />
       <AppHeader />
       <HomePage />
@@ -46,5 +68,5 @@ export default connect<IStateProps, IDispatchProps, object, ExchangesState>(
     exchange,
     lastUpdate,
   }),
-  { fetchCurrencies }
+  { fetchCurrencies },
 )(App);

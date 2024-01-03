@@ -7,6 +7,7 @@ import {
   SET_EXCHANGE,
   TOGGLE_EXCHANGE_METHOD,
   UPDATE_COMPUTED_CURRENCY,
+  SET_THEME,
 } from '../../constants';
 import initialExchange from './initialExchange';
 import initialCurrency from './initialCurrency';
@@ -41,11 +42,12 @@ const initialState: ExchangesState = {
   method: setExchangeMethod(initialExchange),
   exchange: { ...initialExchange },
   computedCurrency: { ...initialCurrency },
+  theme: 'light',
 };
 
 const reducer = (
   state: ExchangesState = initialState,
-  action: any
+  action: any,
 ): ExchangesState => {
   switch (action.type) {
     case FETCH_CURRENCIES_REQUEST:
@@ -83,7 +85,7 @@ const reducer = (
         ...state,
         computedCurrency: updateComputedPrice(
           state.computedCurrency,
-          action.payload
+          action.payload,
         ),
       };
     case UPDATE_COMPUTED_CURRENCY:
@@ -95,6 +97,11 @@ const reducer = (
       return {
         ...state,
         lastUpdate: action.payload,
+      };
+    case SET_THEME:
+      return {
+        ...state,
+        theme: action.payload,
       };
     default:
       return state;

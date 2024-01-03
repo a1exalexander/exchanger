@@ -2,14 +2,18 @@ import React, { FC } from 'react';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { ExchangesState } from '../../store/types';
-import { ReactComponent as IconMerge } from '../../assets/images/merge.svg';
+import { Switch } from 'antd';
+import { useDispatch } from 'react-redux';
+import { SET_THEME } from '../../constants';
 
 interface Props {
   className?: string;
 }
 
 export const AppFooter: FC<Props> = ({ className = '' }) => {
-  const { lastUpdate } = useSelector((state: ExchangesState) => state);
+  const dispatch = useDispatch();
+  const theme = useSelector((store: ExchangesState) => store.theme);
+  const lastUpdate = useSelector((state: ExchangesState) => state.lastUpdate);
   return (
     <footer className={classNames('app-footer', className)}>
       <div className="app-footer__inner">
@@ -43,9 +47,6 @@ export const AppFooter: FC<Props> = ({ className = '' }) => {
         )}
       </div>
       <div className="app-footer__author">
-        <div className="app-footer__icon-wrapper">
-          <IconMerge className="app-footer__icon" />
-        </div>
         Developed by&nbsp;
         <a
           className="app-footer__author-link"
@@ -53,8 +54,22 @@ export const AppFooter: FC<Props> = ({ className = '' }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Alex Ratushnyi
+          Oleksandr Ratushnyi
         </a>
+      </div>
+      <div className='app-footer__switch-wrapper'>
+        <Switch
+          onChange={(checked) => {
+            dispatch({
+              type: SET_THEME,
+              payload: checked ? 'light' : 'dark',
+            });
+          }}
+          checked={theme === 'light'}
+          checkedChildren="☀️"
+          unCheckedChildren="🌙"
+          className="app-footer__switch"
+        />
       </div>
     </footer>
   );
