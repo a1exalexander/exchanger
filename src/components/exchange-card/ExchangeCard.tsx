@@ -13,7 +13,7 @@ import { ExchangesState } from '../../store/types';
 import getIcon from '../../utils/getIcon';
 import { toFix, setNumber } from '../../utils/formatCurrency';
 import { methodsTranslate } from '../../utils/helpers';
-import { useDebounce } from 'usehooks-ts';
+import { useBoolean, useDebounce } from 'usehooks-ts';
 
 const { calcDiv, calcMul } = new CalcCurrency();
 
@@ -52,6 +52,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
     precision = 4,
   } = exchange as Exchange;
 
+  const [activeInput, setActiveInput] = useState<'a' | 'b' | null>(null)
   const [valueA, setValueA] = useState(1 as SN);
   const [valueB, setValueB] = useState('' as SN);
 
@@ -59,7 +60,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
   const debouncedValueB = useDebounce(valueB, 1000);
 
   useEffect(() => {
-    if (debouncedValueA) {
+    if (debouncedValueA && activeInput === 'a') {
       window?.posthog?.capture(SET_RATE_VALUE, {
         [`${SET_RATE_VALUE}/value`]: Number(debouncedValueA),
         [`${SET_RATE_VALUE}/method`]: method,
@@ -70,7 +71,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
   }, [debouncedValueA]);
 
   useEffect(() => {
-    if (debouncedValueB) {
+    if (debouncedValueB && activeInput === 'b') {
       window?.posthog?.capture(SET_RATE_VALUE, {
         [`${SET_RATE_VALUE}/value`]: Number(debouncedValueB),
         [`${SET_RATE_VALUE}/method`]: method,
@@ -108,6 +109,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
   }, [method, currencyA, currencyB]);
 
   const handleChangeA = (e: any): void => {
+    setActiveInput('a');
     const { value } = e.target;
     setNumber((v: any) => {
       setValueA(v);
@@ -116,6 +118,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
   };
 
   const handleChangeB = (e: any): void => {
+    setActiveInput('b');
     const { value } = e.target;
     setNumber((v: any) => {
       setValueB(v);
