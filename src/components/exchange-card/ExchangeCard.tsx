@@ -2,7 +2,7 @@ import React, { useState, useEffect, FC, useMemo } from 'react';
 import classNames from 'classnames';
 import ExchangeCardCurrency from './ExchangeCardCurrency';
 import { connect } from 'react-redux';
-import { TOGGLE_EXCHANGE_METHOD } from '../../constants';
+import { SET_RATE_VALUE, TOGGLE_EXCHANGE_METHOD } from '../../constants';
 import CalcCurrency from '../../utils/calcCurrency';
 import { Skeleton } from 'antd';
 import { ReactComponent as IconExchange } from '../../assets/images/exchange-arrows.svg';
@@ -13,6 +13,7 @@ import { ExchangesState } from '../../store/types';
 import getIcon from '../../utils/getIcon';
 import { toFix, setNumber } from '../../utils/formatCurrency';
 import { methodsTranslate } from '../../utils/helpers';
+import { useDebounce } from 'usehooks-ts';
 
 const { calcDiv, calcMul } = new CalcCurrency();
 
@@ -53,6 +54,31 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
 
   const [valueA, setValueA] = useState(1 as SN);
   const [valueB, setValueB] = useState('' as SN);
+
+  const debouncedValueA = useDebounce(valueA, 1000);
+  const debouncedValueB = useDebounce(valueB, 1000);
+
+  useEffect(() => {
+    if (debouncedValueA) {
+      window?.posthog?.capture(SET_RATE_VALUE, {
+        value: Number(debouncedValueA),
+        method,
+        currency: currencyA,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedValueA]);
+
+  useEffect(() => {
+    if (debouncedValueB) {
+      window?.posthog?.capture(SET_RATE_VALUE, {
+        value: Number(debouncedValueB),
+        method,
+        currency: currencyB,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedValueB]);
 
   const { rateBuy, rateCross, rateSell, grow } = useMemo(() => {
     const matchedExchange = currencies.find((el) => el.id === id);
@@ -109,7 +135,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
           />
           <IconExchange
             className={classnames(
-              'exchange-card__icon-exchange exchange-card__icon-exchange--for-skeleton'
+              'exchange-card__icon-exchange exchange-card__icon-exchange--for-skeleton',
             )}
           />
           <Skeleton
@@ -143,13 +169,15 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
             onClick={toggleExchangeMethod}
             className={`exchange-card__toggle`}
             disabled={method === 'cross'}
-            title={method}>
+            title={method}
+          >
             <IconExchange
               className={classnames('exchange-card__icon-exchange', method)}
             />
           </button>
           <span
-            className={`exchange-card__method  exchange-card__method--mobile ${method}`}>
+            className={`exchange-card__method  exchange-card__method--mobile ${method}`}
+          >
             {methodsTranslate[method]}
           </span>
         </div>
@@ -171,7 +199,8 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
       </div>
       <button
         onClick={toggleExchangeMethod}
-        className={classNames('exchange-card__description-wrapper', method)}>
+        className={classNames('exchange-card__description-wrapper', method)}
+      >
         {method !== 'cross' ? (
           <p className="exchange-card__description">
             Я зможу {method === 'buy' ? 'придбати' : 'продати'}{' '}
@@ -208,5 +237,5 @@ export default connect<IStateProps, IDispatchProps, IBaseProps, ExchangesState>(
   }),
   {
     toggleExchangeMethod: () => TOGGLE_EXCHANGE_METHOD,
-  }
+  },
 )(ExchangeCard);

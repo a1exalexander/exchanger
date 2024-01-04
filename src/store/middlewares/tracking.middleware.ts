@@ -15,7 +15,7 @@ export const trackingMiddleware =
     ) {
       window.posthog.capture(action.type, action.payload);
     }
-    if (action.type === 'SET_EXCHANGE') {
+    if (action.type === 'SET_EXCHANGE' && action.payload) {
       window.posthog.capture(action.type, {
         codeFrom: action.payload?.currencyA?.code,
         codeTo: action.payload?.currencyB?.code,
