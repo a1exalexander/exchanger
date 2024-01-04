@@ -61,9 +61,9 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
   useEffect(() => {
     if (debouncedValueA) {
       window?.posthog?.capture(SET_RATE_VALUE, {
-        value: Number(debouncedValueA),
-        method,
-        currency: currencyA,
+        [`${SET_RATE_VALUE}/value`]: Number(debouncedValueA),
+        [`${SET_RATE_VALUE}/method`]: method,
+        [`${SET_RATE_VALUE}/code`]: currencyA,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -72,9 +72,9 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
   useEffect(() => {
     if (debouncedValueB) {
       window?.posthog?.capture(SET_RATE_VALUE, {
-        value: Number(debouncedValueB),
-        method,
-        currency: currencyB,
+        [`${SET_RATE_VALUE}/value`]: Number(debouncedValueB),
+        [`${SET_RATE_VALUE}/method`]: method,
+        [`${SET_RATE_VALUE}/code`]: currencyB,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
