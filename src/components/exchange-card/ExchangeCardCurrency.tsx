@@ -40,8 +40,8 @@ const ExchangeCardCurrency: FC<IBaseProps> = (props) => {
       <div className="exchange-card-currency__head">
         <span className="exchange-card-currency__currency">{codeB} </span>
         <div className="exchange-card-currency__row">
-          <span className="exchange-card-currency__info">{currencyB}</span>
-          <img className="exchange-card-currency__icon" src={icon} alt="" />
+          <span id="currency-a" className="exchange-card-currency__info">{currencyB}</span>
+          <img className="exchange-card-currency__icon" src={icon} alt={currencyB} />
           {growTop && (
             <IconArrow
               className={classNames('exchange-card-currency__grow', {
@@ -60,6 +60,7 @@ const ExchangeCardCurrency: FC<IBaseProps> = (props) => {
         onFocus={() => setInputStatus(true)}
         style={{ fontSize: inputFontSize(value) }}
         type="text"
+        aria-labelledby='currency-a'
         className="exchange-card-currency__input"
         value={value}
         onChange={setValue}
@@ -70,6 +71,7 @@ const ExchangeCardCurrency: FC<IBaseProps> = (props) => {
         onFocus={() => setInputStatus(true)}
         style={{ fontSize: inputFontSize(value) }}
         type="number"
+        aria-labelledby='currency-a'
         className="exchange-card-currency__input exchange-card-currency__input--mobile"
         value={value}
         onChange={setValue}

@@ -65,7 +65,7 @@ const AppSlide: FC<Props> = ({ exchange, setExchange }) => {
       <div className="app-slide__row">
         <img
           className="app-slide__icon"
-          alt=""
+          alt={countryB}
           src={getIcon(countryB, codeB)}
         />
         <span className="app-slide__currency">{codeB}</span>
@@ -77,7 +77,7 @@ const AppSlide: FC<Props> = ({ exchange, setExchange }) => {
       <div className="app-slide__row">
         <img
           className="app-slide__icon"
-          alt=""
+          alt={countryA}
           src={getIcon(countryA, codeA)}
         />
         <h3 className="app-slide__currency">{codeA}</h3>

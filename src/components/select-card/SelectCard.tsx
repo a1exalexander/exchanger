@@ -129,8 +129,9 @@ const SelectCard = ({
 
   return (
     <div className="select-card">
-      <p className="select-card__title">Обери валюту</p>
+      <p id="currency-select" className="select-card__title">Обери валюту</p>
       <Select
+        aria-labelledby='currency-select'
         showSearch
         className="select-card__select"
         popupClassName="select-card__dropdown"
@@ -154,7 +155,7 @@ const SelectCard = ({
               <img
                 className="select-card__icon select-card__icon--m-right"
                 src={getIcon(countryA, codeA)}
-                alt=""
+                alt={countryA}
               />
               {currencyA}
             </div>
@@ -164,11 +165,12 @@ const SelectCard = ({
               <img
                 className="select-card__icon select-card__icon--m-left"
                 src={getIcon(countryB, codeB)}
-                alt=""
+                alt={countryB}
               />
             </div>
           </div>
           <Select
+            aria-label='обери валюту'
             showSearch
             suffixIcon={null}
             popupClassName="select-card__select-mobile-popover"

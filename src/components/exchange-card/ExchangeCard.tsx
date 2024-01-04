@@ -13,7 +13,7 @@ import { ExchangesState } from '../../store/types';
 import getIcon from '../../utils/getIcon';
 import { toFix, setNumber } from '../../utils/formatCurrency';
 import { methodsTranslate } from '../../utils/helpers';
-import { useBoolean, useDebounce } from 'usehooks-ts';
+import { useDebounce } from 'usehooks-ts';
 
 const { calcDiv, calcMul } = new CalcCurrency();
 
@@ -52,7 +52,7 @@ const ExchangeCard: FC<IProps> = (props: IProps) => {
     precision = 4,
   } = exchange as Exchange;
 
-  const [activeInput, setActiveInput] = useState<'a' | 'b' | null>(null)
+  const [activeInput, setActiveInput] = useState<'a' | 'b' | null>(null);
   const [valueA, setValueA] = useState(1 as SN);
   const [valueB, setValueB] = useState('' as SN);
 
