@@ -44,7 +44,7 @@
     "usehooks-ts": "^2.9.1"
   },
   "scripts": {
-    "start": "env-cmd -f .env.development react-app-rewired start",
+    "start": "env-cmd -f .env.production react-app-rewired start",
     "dev:dev": "env-cmd -f .env.development react-app-rewired start",
     "dev": "env-cmd -f .env.production react-app-rewired start",
     "dev:fake": "env-cmd -f .env.fake react-app-rewired start",
