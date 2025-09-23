@@ -52,9 +52,9 @@ export const AppFooter: FC<Props> = ({ className = '' }) => {
         Developed by&nbsp;
         <a
           className="app-footer__author-link"
-          href="https://www.linkedin.com/in/alexander-ratushnyi/"
+          href="https://sashkoratushnyi.com"
           target="_blank"
-          data-posthog-link="linkedin"
+          data-posthog-link="portfolio"
           rel="noopener noreferrer"
         >
           Oleksandr Ratushnyi
