@@ -22,6 +22,10 @@ The logic lives in `src/utils/resolveExchange.ts`, currency names / icons / sear
 > * [Moment](https://momentjs.com/)
 > * [Axios](https://github.com/axios/axios)
 
+## Requirements
+
+Node.js **24.x** (see `.nvmrc`, run `nvm use`). The same version is pinned in `package.json` `engines`, which Vercel uses instead of the Project Settings value.
+
 ## Available Scripts
 
 In the project directory, you can run:
