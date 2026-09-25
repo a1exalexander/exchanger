@@ -1,244 +1,296 @@
-import React, { useState, useEffect, FC, useMemo } from 'react';
+import React, { FC, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import ExchangeCardCurrency from './ExchangeCardCurrency';
-import { connect } from 'react-redux';
-import { SET_RATE_VALUE, TOGGLE_EXCHANGE_METHOD } from '../../constants';
-import CalcCurrency from '../../utils/calcCurrency';
-import { Skeleton } from 'antd';
-import { ReactComponent as IconExchange } from '../../assets/images/exchange-arrows.svg';
 import Big from 'big.js';
-import classnames from 'classnames';
-import { Currencies, Exchange, SN } from '../../types';
-import { ExchangesState } from '../../store/types';
-import getIcon from '../../utils/getIcon';
-import { toFix, setNumber } from '../../utils/formatCurrency';
-import { methodsTranslate } from '../../utils/helpers';
+import moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
 import { useDebounce } from 'usehooks-ts';
+import { SET_RATE_VALUE } from '../../constants';
+import { setMethod, swapPair } from '../../store/actions';
+import { ExchangeMethod, ExchangesState } from '../../store/types';
+import { Exchange, ExchangeSource, SN } from '../../types';
+import { useExchange } from '../../hooks';
+import { formatAmount, formatRate, parseAmount } from '../../utils/formatCurrency';
+import { inputFontSize } from '../../utils/helpers';
+import { CurrencySelect } from '../currency-picker';
+import { IconSwap, RATE_PROVIDERS, RateProvider, Skeleton, SourceMark } from '../ui';
+import { ReactComponent as IconArrow } from '../../assets/images/profits.svg';
 
-const { calcDiv, calcMul } = new CalcCurrency();
+type Side = 'from' | 'to';
 
 interface IBaseProps {
   className?: string;
 }
 
-interface IStateProps {
-  exchange: Exchange;
-  method: ExchangesState['method'];
-  loading: boolean;
-  currencies: Currencies;
-}
+const getRate = (exchange: Exchange | undefined, method: ExchangeMethod) => {
+  if (!exchange) return undefined;
+  const rates: { [key in ExchangeMethod]?: SN } = {
+    sell: exchange.rateBuy,
+    buy: exchange.rateSell,
+    cross: exchange.NB?.rate || exchange.rateCross,
+  };
+  const rate = rates[method] || rates.cross;
+  return rate && Number(rate) ? new Big(rate) : undefined;
+};
 
-interface IDispatchProps {
-  toggleExchangeMethod: () => string;
-}
+const convert = (value: string, rate: Big | undefined, side: Side) => {
+  if (!rate || value === '' || value === '.') return '';
+  try {
+    return side === 'from' ? new Big(value).times(rate) : new Big(value).div(rate);
+  } catch {
+    return '';
+  }
+};
 
-type IProps = IBaseProps & IStateProps & IDispatchProps;
+const prefersReducedMotion = () =>
+  !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
-const ExchangeCard: FC<IProps> = (props: IProps) => {
-  const {
-    className = '',
-    exchange,
-    method,
-    loading,
-    toggleExchangeMethod,
-    currencies,
-  } = props;
+const SWAP_EASING = 'cubic-bezier(0.34, 1.36, 0.64, 1)';
 
-  const {
-    currencyA: { code: codeA, currency: currencyA, country: countryA = '' },
-    currencyB: { code: codeB, currency: currencyB, country: countryB = '' },
-    NB,
-    id,
-    precision = 4,
-  } = exchange as Exchange;
+const SOURCE: {
+  [key in ExchangeSource]: { provider: RateProvider; label: string };
+} = {
+  bank: { provider: 'mono', label: 'Monobank' },
+  'bank-cross': { provider: 'mono', label: 'Monobank, крос-курс' },
+  nbu: { provider: 'nbu', label: 'офіційний курс' },
+  market: { provider: 'market', label: 'Середньоринковий' },
+};
 
-  const [activeInput, setActiveInput] = useState<'a' | 'b' | null>(null);
-  const [valueA, setValueA] = useState(1 as SN);
-  const [valueB, setValueB] = useState('' as SN);
+const ExchangeCard: FC<IBaseProps> = ({ className = '' }) => {
+  const dispatch = useDispatch();
+  const method = useSelector((state: ExchangesState) => state.method);
+  const pair = useSelector((state: ExchangesState) => state.pair);
+  const loading = useSelector((state: ExchangesState) => state.loading);
+  const exchange = useExchange();
 
-  const debouncedValueA = useDebounce(valueA, 1000);
-  const debouncedValueB = useDebounce(valueB, 1000);
+  const [amount, setAmount] = useState<{ side: Side; value: string }>({
+    side: 'from',
+    value: '1',
+  });
+  const [touched, setTouched] = useState(false);
+  const [swapTurns, setSwapTurns] = useState(0);
+  const debouncedAmount = useDebounce(amount, 1000);
+  const fieldRefs = {
+    from: useRef<HTMLDivElement>(null),
+    to: useRef<HTMLDivElement>(null),
+  };
+  const swapOffset = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
-    if (debouncedValueA && activeInput === 'a') {
-      window?.posthog?.capture(SET_RATE_VALUE, {
-        [`${SET_RATE_VALUE}/value`]: Number(debouncedValueA),
-        [`${SET_RATE_VALUE}/method`]: method,
-        [`${SET_RATE_VALUE}/code`]: currencyA,
-      });
-    }
+    if (!touched || !debouncedAmount.value) return;
+    window.posthog?.capture?.(SET_RATE_VALUE, {
+      [`${SET_RATE_VALUE}/value`]: Number(debouncedAmount.value),
+      [`${SET_RATE_VALUE}/method`]: method,
+      [`${SET_RATE_VALUE}/code`]: pair[debouncedAmount.side],
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedValueA]);
+  }, [debouncedAmount]);
 
-  useEffect(() => {
-    if (debouncedValueB && activeInput === 'b') {
-      window?.posthog?.capture(SET_RATE_VALUE, {
-        [`${SET_RATE_VALUE}/value`]: Number(debouncedValueB),
-        [`${SET_RATE_VALUE}/method`]: method,
-        [`${SET_RATE_VALUE}/code`]: currencyB,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedValueB]);
-
-  const { rateBuy, rateCross, rateSell, grow } = useMemo(() => {
-    const matchedExchange = currencies.find((el) => el.id === id);
-    return (
-      matchedExchange || ({ rateBuy: 0, rateCross: 0, rateSell: 0 } as Exchange)
+  // after a swap each field slides in from where the other one was,
+  // so both currencies visibly trade places
+  useLayoutEffect(() => {
+    const offset = swapOffset.current;
+    swapOffset.current = null;
+    if (!offset || prefersReducedMotion()) return;
+    const options = { duration: 460, easing: SWAP_EASING };
+    fieldRefs.from.current?.animate?.(
+      [
+        { transform: `translate(${offset.x}px, ${offset.y}px)`, opacity: 0.4 },
+        { transform: 'none', opacity: 1 },
+      ],
+      options,
     );
-  }, [currencies, id]);
-
-  const rates = {
-    sell: rateBuy,
-    buy: rateSell,
-    cross: NB?.rate || rateCross,
-  };
-
-  const rateA: SN = rates[method] || rates.cross || 1;
-  const rateB: SN | Big = new Big(1).div(rateA).toString();
-  const hasExchange = codeA && codeB;
-
-  useEffect(() => {
-    if (![!!valueA, !!rateA, !!precision].includes(false)) {
-      setNumber((valueA: any) => {
-        setValueA(valueA);
-        setValueB(calcMul(valueA, rateA));
-      })(valueA, precision);
-    }
+    fieldRefs.to.current?.animate?.(
+      [
+        { transform: `translate(${-offset.x}px, ${-offset.y}px)`, opacity: 0.4 },
+        { transform: 'none', opacity: 1 },
+      ],
+      options,
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [method, currencyA, currencyB]);
+  }, [swapTurns]);
 
-  const handleChangeA = (e: any): void => {
-    setActiveInput('a');
-    const { value } = e.target;
-    setNumber((v: any) => {
-      setValueA(v);
-      setValueB(calcMul(v, rateA));
-    })(value, precision);
+  const onSwap = () => {
+    const from = fieldRefs.from.current?.getBoundingClientRect();
+    const to = fieldRefs.to.current?.getBoundingClientRect();
+    if (from && to) {
+      swapOffset.current = { x: to.left - from.left, y: to.top - from.top };
+    }
+    // the typed amount travels together with its currency
+    setAmount((current) => ({
+      ...current,
+      side: current.side === 'from' ? 'to' : 'from',
+    }));
+    setSwapTurns((turns) => turns + 1);
+    dispatch(swapPair());
   };
 
-  const handleChangeB = (e: any): void => {
-    setActiveInput('b');
-    const { value } = e.target;
-    setNumber((v: any) => {
-      setValueB(v);
-      setValueA(calcDiv(v, rateA));
-    })(value, precision);
+  const rate = getRate(exchange, method);
+  const computed = convert(amount.value, rate, amount.side);
+  // the field being typed in keeps exactly what the user entered
+  const values = {
+    from: amount.side === 'from' ? amount.value : formatAmount(computed),
+    to: amount.side === 'to' ? amount.value : formatAmount(computed),
+  };
+  const hasBuySell = !!exchange?.rateBuy && !!exchange?.rateSell;
+  const unavailable = !exchange && !loading;
+
+  const onChange = (side: Side) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseAmount(event.target.value);
+    if (value === null) return;
+    setTouched(true);
+    setAmount({ side, value });
   };
 
-  if (loading && !hasExchange) {
+  const renderField = (side: Side) => {
+    const value = values[side];
     return (
-      <div className={`exchange-card ${className}`}>
-        <div className="exchange-card__main">
-          <Skeleton
-            className="exchange-card__skeleton"
-            active
-            paragraph={{ rows: 3 }}
-            title={false}
+      <div ref={fieldRefs[side]} className={`exchange-field exchange-field--${side}`}>
+        <CurrencySelect side={side} className="exchange-field__select" />
+        {exchange || !loading ? (
+          <input
+            className="exchange-field__input"
+            style={{ fontSize: inputFontSize(value) }}
+            type="text"
+            inputMode="decimal"
+            autoComplete="off"
+            aria-label={`Сума в ${pair[side]}`}
+            value={value}
+            placeholder="0"
+            disabled={unavailable}
+            onChange={onChange(side)}
+            onFocus={(event) => event.target.select()}
           />
-          <IconExchange
-            className={classnames(
-              'exchange-card__icon-exchange exchange-card__icon-exchange--for-skeleton',
-            )}
-          />
-          <Skeleton
-            className="exchange-card__skeleton"
-            active
-            paragraph={{ rows: 3 }}
-            title={false}
-          />
-        </div>
+        ) : (
+          <Skeleton rows={1} className="exchange-field__skeleton" />
+        )}
       </div>
     );
-  }
+  };
+
+  const methodIndex = method === 'sell' ? 1 : 0;
 
   return (
-    <div className={`exchange-card fadeIn ${className}`}>
+    <section
+      className={classNames('exchange-card', className)}
+      aria-label="Конвертер валют"
+    >
       <div className="exchange-card__main">
-        <ExchangeCardCurrency
-          value={toFix(valueA, 2)}
-          valueB={toFix(valueB, 2)}
-          setValue={handleChangeA}
-          icon={getIcon(countryA, codeA)}
-          rate={toFix(rateA, precision)}
-          codeA={codeB}
-          codeB={codeA}
-          currencyB={NB ? NB.txt : currencyA}
-          grow={grow}
-          growTop={true}
-        />
-        <div className="exchange-card__toggle-wrapper">
+        {renderField('from')}
+        <div className="exchange-card__middle">
           <button
-            onClick={toggleExchangeMethod}
-            className={`exchange-card__toggle`}
-            disabled={method === 'cross'}
-            title={method}
+            type="button"
+            className="exchange-card__swap"
+            onClick={onSwap}
+            aria-label="Поміняти валюти місцями"
+            title="Поміняти валюти місцями"
           >
-            <IconExchange
-              className={classnames('exchange-card__icon-exchange', method)}
+            <IconSwap
+              className="exchange-card__swap-icon"
+              style={{ transform: `rotate(${swapTurns * 180}deg)` }}
             />
           </button>
-          <span
-            className={`exchange-card__method  exchange-card__method--mobile ${method}`}
-          >
-            {methodsTranslate[method]}
-          </span>
         </div>
-        <span className={`exchange-card__method ${method}`}>
-          {methodsTranslate[method]}
-        </span>
-        <ExchangeCardCurrency
-          value={toFix(valueB, 2)}
-          valueB={toFix(valueA, 2)}
-          setValue={handleChangeB}
-          icon={getIcon(countryB, codeB)}
-          rate={toFix(rateB, precision)}
-          codeA={codeA}
-          codeB={codeB}
-          currencyB={currencyB === 'Hryvnia' ? 'Українська гривня' : currencyB}
-          grow={grow}
-          growTop={false}
-        />
+        {renderField('to')}
       </div>
-      <button
-        onClick={toggleExchangeMethod}
-        className={classNames('exchange-card__description-wrapper', method)}
+
+      {hasBuySell && (
+        <div className="exchange-card__meta">
+          <div
+            className={classNames('segmented', method)}
+            role="radiogroup"
+            aria-label="Операція"
+            style={{ '--segmented-index': methodIndex } as React.CSSProperties}
+          >
+            <span className="segmented__thumb" aria-hidden="true" />
+            {(['buy', 'sell'] as ExchangeMethod[]).map((item) => (
+              <button
+                key={item}
+                type="button"
+                role="radio"
+                aria-checked={method === item}
+                className={classNames('segmented__item', item, {
+                  _active: method === item,
+                })}
+                onClick={() => dispatch(setMethod(item))}
+              >
+                {item === 'buy' ? 'Купую' : 'Продаю'} {pair.from}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div
+        className={classNames('exchange-card__summary', hasBuySell ? method : 'cross')}
+        aria-live="polite"
       >
-        {method !== 'cross' ? (
-          <p className="exchange-card__description">
-            Я зможу {method === 'buy' ? 'придбати' : 'продати'}{' '}
-            <span>
-              {toFix(valueA, 2)} {codeA}
-            </span>{' '}
-            за{' '}
-            <span>
-              {toFix(valueB, 2)} {codeB}
-            </span>
-          </p>
+        {unavailable ? (
+          <span>Курс для цієї пари зараз недоступний</span>
+        ) : exchange && rate ? (
+          <RateLine exchange={exchange} rate={rate} from={pair.from} to={pair.to} />
         ) : (
-          <p className="exchange-card__description">
-            <span>
-              {toFix(valueA, 2)} {codeA}
-            </span>{' '}
-            коштує{' '}
-            <span>
-              {toFix(valueB, 2)} {codeB}
-            </span>
-          </p>
+          <span>&nbsp;</span>
         )}
-      </button>
-    </div>
+      </div>
+    </section>
   );
 };
 
-export default connect<IStateProps, IDispatchProps, IBaseProps, ExchangesState>(
-  ({ exchange, loading, method, currencies }: ExchangesState) => ({
-    exchange,
-    loading,
-    method,
-    currencies,
-  }),
-  {
-    toggleExchangeMethod: () => TOGGLE_EXCHANGE_METHOD,
-  },
-)(ExchangeCard);
+/** The single place where the rate is shown: readable direction + where it comes from */
+const RateLine: FC<{ exchange: Exchange; rate: Big; from: string; to: string }> = ({
+  exchange,
+  rate,
+  from,
+  to,
+}) => {
+  // show "1 USD = 45.41 UAH" rather than "1 UAH = 0.022 USD"
+  const direct = rate.gte(1);
+  const [base, quote] = direct ? [from, to] : [to, from];
+  const value = direct ? rate : new Big(1).div(rate);
+  const grow = exchange.grow ? Number(exchange.grow) : 0;
+  const growUp = direct ? grow === 1 : grow === -1;
+
+  const { provider, label } = SOURCE[exchange.source || 'market'];
+  const info = RATE_PROVIDERS[provider];
+  const details = [info.description];
+  if (provider === 'market' && exchange.date) {
+    details.push(`Дата курсу: ${moment(exchange.date).format('DD.MM.YYYY')}`);
+  }
+  if (exchange.source === 'bank' && exchange.NB?.rate) {
+    // already expressed as 1 `from` = x `to`, also for reversed pairs
+    const nbu = new Big(exchange.NB.rate);
+    const nbuValue = direct ? nbu : new Big(1).div(nbu);
+    details.push(`Офіційний курс НБУ: 1 ${base} = ${formatRate(nbuValue)} ${quote}`);
+  }
+  const text = `1 ${base} = ${formatRate(value)} ${quote}`;
+
+  return (
+    <>
+      <span key={text} className="exchange-card__rate">
+        {text}
+        {!!grow && (
+          <IconArrow
+            className={classNames('exchange-card__grow', {
+              _up: growUp,
+              _down: !growUp,
+            })}
+            aria-label={growUp ? 'Курс зріс' : 'Курс знизився'}
+          />
+        )}
+      </span>
+      <a
+        className="exchange-card__source"
+        href={info.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        title={details.join('\n')}
+        data-posthog-link={`rate-source-${provider}`}
+      >
+        <SourceMark provider={provider} />
+        {label}
+      </a>
+    </>
+  );
+};
+
+export default ExchangeCard;

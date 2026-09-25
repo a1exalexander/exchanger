@@ -173,7 +173,7 @@ const currencyList: { [key: string]: string } = {
 };
 
 const getCountry = (code: string) => {
-  return currencyList[code].toLowerCase() || '';
+  return (currencyList[code] || '').toLowerCase();
 };
 
 export default getCountry;

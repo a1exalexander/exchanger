@@ -1,0 +1,287 @@
+@keyframes picker-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+}
+@keyframes picker-pop-out {
+  to {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+}
+@keyframes picker-sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+@keyframes picker-sheet-out {
+  to {
+    transform: translateY(100%);
+  }
+}
+@keyframes picker-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes picker-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.currency-picker {
+  @include flex-col(flex-start, stretch);
+  background-color: var(--surface);
+  color: var(--text);
+  font-family: $base-font;
+  z-index: 1000;
+
+  &--popover {
+    position: absolute;
+    width: 380px;
+    max-width: calc(100vw - 32px);
+    max-height: min(480px, calc(100vh - 120px));
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: var(--popover-shadow);
+    overflow: hidden;
+    transform-origin: top center;
+    animation: picker-pop-in 0.16s ease-out;
+    &._closing {
+      animation: picker-pop-out 0.16s ease-in forwards;
+      pointer-events: none;
+    }
+  }
+
+  &--sheet {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 88vh;
+    height: 88dvh;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.2);
+    padding-bottom: env(safe-area-inset-bottom);
+    animation: picker-sheet-in 0.32s cubic-bezier(0.2, 0.9, 0.3, 1);
+    &._dragging {
+      transition: none;
+    }
+    &._closing {
+      animation: picker-sheet-out 0.16s ease-in forwards;
+    }
+  }
+
+  &__backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background-color: rgba(10, 14, 30, 0.45);
+    animation: picker-fade-in 0.2s ease;
+    &._closing {
+      animation: picker-fade-out 0.16s ease forwards;
+    }
+  }
+
+  &__head {
+    position: relative;
+    touch-action: none;
+    cursor: grab;
+    @include flex-row(space-between, center);
+    padding: 18px 16px 6px 20px;
+  }
+
+  &__handle {
+    position: absolute;
+    top: 7px;
+    left: 50%;
+    width: 40px;
+    height: 4px;
+    margin-left: -20px;
+    border-radius: 2px;
+    background-color: var(--border-strong);
+  }
+
+  &__title {
+    margin: 0;
+    font-family: $second-font;
+    @include text($H600, 400, var(--text));
+  }
+
+  &__close {
+    @include flex-row(center, center);
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background-color: var(--surface-2);
+    color: var(--text-muted);
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  &__search {
+    position: relative;
+    @include flex-row(flex-start, center);
+    flex-shrink: 0;
+    margin: 12px;
+    padding: 0 12px;
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background-color: var(--surface-2);
+    cursor: text;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    &:focus-within {
+      border-color: var(--accent);
+      box-shadow: var(--focus-ring);
+    }
+    input {
+      flex: 1 1;
+      min-width: 0;
+      height: 100%;
+      margin-left: 8px;
+      padding: 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: $base-font;
+      font-size: 16px; // prevents iOS zoom on focus
+      color: var(--text);
+      &:focus {
+        box-shadow: none;
+      }
+      &::placeholder {
+        color: var(--text-muted);
+      }
+      &::-webkit-search-cancel-button {
+        display: none;
+      }
+    }
+  }
+
+  &__search-icon {
+    flex-shrink: 0;
+    font-size: 18px;
+    color: var(--text-muted);
+  }
+
+  &__clear {
+    @include flex-row(center, center);
+    width: 28px;
+    height: 28px;
+    margin-right: -6px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  &__list {
+    flex: 1 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0 6px 8px;
+    scrollbar-width: thin;
+  }
+
+  &__section + &__section {
+    margin-top: 4px;
+  }
+
+  &__section-title {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: 8px 10px 6px;
+    background-color: var(--surface);
+    font-family: $second-font;
+    @include text($H100, 400, var(--text-muted));
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  &__option {
+    @include flex-row(flex-start, center);
+    gap: 12px;
+    min-height: 48px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.12s ease, transform 0.15s ease;
+    @include media-max(859px) {
+      min-height: 56px;
+    }
+    &._active {
+      background-color: var(--surface-hover);
+    }
+    &:active {
+      background-color: var(--surface-hover);
+      transform: scale(0.985);
+    }
+    &._selected {
+      background-color: var(--accent-soft);
+    }
+    .currency-icon {
+      box-shadow: 0 0 0 1px var(--border);
+    }
+  }
+
+  &__code {
+    flex-shrink: 0;
+    width: 44px;
+    font-weight: 600;
+    font-size: $H400;
+    color: var(--text);
+  }
+
+  &__name {
+    flex: 1 1;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-family: $second-font;
+    @include text($H300, 300, var(--text));
+  }
+
+  &__tag {
+    flex-shrink: 0;
+    padding: 2px 7px;
+    border-radius: 6px;
+    background-color: rgba(0, 184, 83, 0.12);
+    color: $G3;
+    font-size: $H100;
+    font-weight: 600;
+    .dark & {
+      color: $G1;
+    }
+    &--muted {
+      background-color: var(--surface-2);
+      color: var(--text-muted);
+      .dark & {
+        color: var(--text-muted);
+      }
+    }
+  }
+
+  &__check {
+    flex-shrink: 0;
+    font-size: 18px;
+    color: var(--accent);
+  }
+
+  &__empty {
+    margin: 0;
+    padding: 32px 16px;
+    text-align: center;
+    font-family: $second-font;
+    @include text($H400, 300, var(--text-muted));
+  }
+}

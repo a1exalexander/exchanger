@@ -1,50 +1,83 @@
 $style: app-footer;
 
-.dark {
-  .#{$style} {
-    &__inner {
-      background-color: $B111;
-    }
-    &__description {
-      color: $N2;
-      @include media {
-        color: $N4;
-      }
-      &--link {
-        color: $N0;
-        &:after {
-          @include media {
-            background-color: $N0;
-          }
-        }
-      }
-    }
-    &__date-card {
-      color: $N4;
-    }
-    &__date {
-      color: $N0;
-    }
-  }
-}
-
 .#{$style} {
   &__inner {
-    background-color: $N0;
+    background-color: var(--page-bg);
     transition: background-color 0.2s ease;
-    padding: 24px;
-    @include flex-col(space-between, stretch);
-    @include media {
+    padding: 24px 16px;
+    @include flex-col(flex-start, stretch);
+    gap: 16px;
+    @include media($screen-tablet) {
+      padding: 28px 24px;
       @include flex-row(space-between, flex-end);
+      gap: 24px;
     }
   }
-  &__icon {
-    @include size(20px);
-    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
+  &__sources {
+    min-width: 0;
+    text-align: left;
   }
-
-  &__icon-wrapper {
-    margin-right: 12px;
+  &__title {
+    margin: 0 0 10px;
+    font-family: $second-font;
+    @include text($H300, 400, var(--text));
+  }
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    @include flex-col(flex-start, flex-start);
+    gap: 8px;
+    @include media($screen-desktop) {
+      @include flex-row(flex-start, center);
+      flex-wrap: wrap;
+      gap: 8px 24px;
+    }
+  }
+  &__source {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    align-items: baseline;
+    column-gap: 8px;
+    line-height: 1.5;
+    .source-mark {
+      align-self: center;
+      justify-self: center;
+    }
+    font-family: $second-font;
+    @include text($H300, 300, var(--text-muted));
+  }
+  &__link {
+    display: inline;
+    white-space: nowrap;
+    margin-right: 4px;
+    font-weight: 600;
+    color: var(--text);
+    @extend %link-underline;
+    &:after {
+      background-color: currentColor;
+    }
+    &:hover {
+      color: var(--text);
+    }
+  }
+  &__note {
+    color: var(--text-muted);
+  }
+  &__disclaimer {
+    margin: 10px 0 0;
+    font-family: $second-font;
+    @include text($H200, 300, var(--text-muted));
+  }
+  &__date-card {
+    flex-shrink: 0;
+    white-space: nowrap;
+    font-family: $second-font;
+    @include text($H200, 300, var(--text-muted));
+  }
+  &__date {
+    font-weight: 400;
+    color: var(--text);
   }
 
   &__author {
@@ -64,81 +97,5 @@ $style: app-footer;
     font-weight: 600;
     color: inherit;
     @extend %link-underline;
-  }
-
-  &__description {
-    font-size: $H400;
-    font-family: $second-font;
-    font-weight: 200;
-    text-align: center;
-    color: $N2;
-    @include media {
-      color: black;
-    }
-    line-height: 1.4;
-    margin-bottom: 0;
-    display: inline-block;
-    transition: color 0.2s ease;
-    &--eng {
-      font-family: $base-font;
-      font-weight: 600;
-      @include media {
-        font-size: $H400;
-      }
-    }
-    &--mark {
-      font-weight: 600;
-    }
-    &--link {
-      @extend %link-underline;
-      &:after {
-        background-color: $N0;
-        @include media {
-          background-color: $N100;
-        }
-      }
-    }
-    @include media {
-      font-size: $H300;
-      text-align-last: left;
-    }
-  }
-  &__date-card {
-    align-self: flex-end;
-    font-family: $second-font;
-    font-weight: 100;
-    font-size: $H200;
-  }
-  &__info-card {
-    display: block;
-    @extend %card;
-    min-height: auto;
-    background-color: $B3;
-    padding: 12px 24px;
-    margin-bottom: 24px;
-    @include media {
-      margin-bottom: 0;
-      background-color: transparent;
-      padding: 0;
-      box-shadow: none;
-    }
-  }
-  &__date {
-    font-weight: 400;
-  }
-  &__switch-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 42px;
-    @include media {
-      display: none;
-    }
-  }
-  &__switch {
-    background-color: $B7;
-    &.ant-switch-checked {
-      background-color: $B3;
-    }
   }
 }

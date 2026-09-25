@@ -2,6 +2,17 @@
 
 App for convert currencies developed using Javascript library React and Typescript as typed superset javascript. For state control used Redux and Axios as API wrapper for it. Also i used Redux middlewares: thunk for use async code and middleware for use strings in dispatch.
 
+## Exchange rates
+
+Any two currencies can be converted. The rate is picked in this order:
+
+1. **Monobank** buy / sell (or cross) rate with the official **NBU** rate — from the app backend.
+2. The same Monobank pair reversed (e.g. `UAH → USD`), buy / sell sides are swapped accordingly.
+3. **Market rate** for everything else (~160 fiat currencies, precious metals and popular crypto) from the free, key-less
+   [fawazahmed0/exchange-api](https://github.com/fawazahmed0/exchange-api) (updated daily, served via jsDelivr with a Cloudflare Pages mirror).
+
+The logic lives in `src/utils/resolveExchange.ts`, currency names / icons / search in `src/utils/currencyMeta.ts`.
+
 
 ## Dependencies 
 > * [React](https://reactjs.org/)
@@ -10,6 +21,10 @@ App for convert currencies developed using Javascript library React and Typescri
 > * [decimal.js](https://mikemcl.github.io/decimal.js/)
 > * [Moment](https://momentjs.com/)
 > * [Axios](https://github.com/axios/axios)
+
+## Requirements
+
+Node.js **24.x** (see `.nvmrc`, run `nvm use`). The same version is pinned in `package.json` `engines`, which Vercel uses instead of the Project Settings value.
 
 ## Available Scripts
 

@@ -1,179 +1,205 @@
 $style: exchange-card;
+
 .#{$style} {
   @extend %card;
-  padding: 0;
-  width: 100%;
-  max-width: 100%;
+  position: relative;
   z-index: 2;
+  width: 100%;
+  min-height: 0;
+  border-radius: 16px;
+  @include flex-col(flex-start, stretch);
   @include media {
-    position: relative;
-    flex: 0 1 660px;
-    max-width: 660px;
-    top: -52px;
-    // min-height: 200px;
+    flex: 0 1 680px;
+    max-width: 680px;
   }
   &__main {
-    padding: 24px 24px 0;
-    @include flex-col(flex-start, center);
-    margin-bottom: 14px;
+    @include flex-col(flex-start, stretch);
+    padding: 16px 16px 8px;
     @include media {
-      margin-bottom: 22px;
-      min-height: 152px;
-    }
-    @include media($screen-desktop) {
-      @include flex-row(space-between, center);
+      @include flex-row(space-between, flex-start);
+      padding: 24px 24px 12px;
     }
   }
-  &__ontop-button {
-    position: fixed;
-    top: 24px;
-    right: 24px;
-  }
-  &__side {
-    flex: 0 0 42%;
-    align-self: stretch;
-    @include flex-col(space-between, center);
-  }
-  &__row {
-    @include flex-row(center, center);
-  }
-  &__info {
-    font-size: $H600;
-    margin-right: 6px;
-  }
-  &__icon {
-    @include size(20px);
-  }
-  &__toggle {
-    background-color: transparent;
-    outline: none;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-    @include transition(filter, transform);
-    transition-duration: 0.6s;
-    @include media {
-      transition-duration: 0.2s;
-    }
-    &.sell {
-      color: $O1;
-    }
-    &.buy {
-      color: $G2;
-    }
-    &.cross {
-      color: $B2;
-      pointer-events: none;
-      cursor: default;
-    }
-    @include media {
-      &:hover  {
-        filter: brightness(1.1);
-      }
-    }
-    &:active  {
-      filter: brightness(0.9);
-      transform: rotate(360deg);
-    }
-  }
-  &__toggle-wrapper {
+  &__middle {
     position: relative;
-    margin: 24px 0;
+    @include flex-row(center, center);
+    height: 12px;
+    margin: 10px 0 12px;
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      border-top: 1px dashed var(--border);
+    }
     @include media {
-      margin: 0 24px;
-      @include flex-col(center, center);
-    }
-  }
-  &__icon-exchange {
-    @include svg(26px, $N100);
-    @include transition(all);
-    &.sell {
-      fill: $O1;
-    }
-    &.buy {
-      fill: $G2;
-    }
-    &.cross {
-      fill: $B2;
-    }
-    &--for-skeleton {
-      margin: 14px 0 22px;
-    }
-  }
-  &__skeleton {
-    @include media {
-      width: calc(50% - 52px);
-      flex: 0 1 calc(50% - 52px);
-    }
-    .ant-skeleton-paragraph {
-      @include flex-col(center, stretch);
-      li {
-        width: 100% !important;
-      }
-    }
-  }
-  &__method {
-    text-transform: capitalize;
-    position: absolute;
-    display: none;
-    text-align: center;
-    font-family: $second-font;
-    font-size: $H200;
-    font-weight: 300;
-    @include transition(color);
-    @include media {
-      max-width: 100px;
-      top: 105px;
-      display: block;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    &--mobile {
-      display: block;
-      left: 110%;
-      width: 100%;
-      white-space: nowrap;
-      top: 0;
-      bottom: 0;
-      transform: translateY(2px);
-      @include media {
+      height: auto;
+      align-self: stretch;
+      justify-content: center;
+      margin: 0 16px;
+      padding: 0 0 28px;
+      &:before {
         display: none;
       }
     }
   }
-  &__description-wrapper {
-    border-radius: 0 0 8px 8px;
-    padding: 12px;
-    @include transition(background-color);
-    transition-duration: 0.1s;
-    cursor: pointer;
-    outline: none;
-    width: 100%;
-    box-shadow: none;
-    border: none;
+  &__swap {
+    position: relative;
+    z-index: 1;
     @include flex-row(center, center);
-    &.sell {
-      background-color: $O1;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+    color: var(--accent);
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(17, 30, 71, 0.1);
+    @extend %pressable;
+    @include media {
+      margin-top: 18px;
+      &:hover {
+        background-color: var(--accent-soft);
+        border-color: var(--accent);
+        box-shadow: 0 4px 16px rgba(49, 98, 255, 0.22);
+      }
     }
-    &.buy {
-      background-color: $G2;
-    }
-    &.cross {
-      background-color: $B2;
-      pointer-events: none;
-      cursor: default;
+    &:active {
+      transform: scale(0.88);
     }
   }
-  &__description {
-    margin: 0;
-    text-align: center;
-    font-family: $second-font;
-    @include text($H400, 300, $N0);
-    span {
-      white-space: nowrap;
+  &__swap-icon {
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    @include media {
+      // horizontal arrows on desktop, the rotation from swaps stacks on top
+      rotate: 90deg;
+    }
+  }
+  &__meta {
+    @include flex-row(flex-start, center);
+    padding: 12px 16px 16px;
+    .segmented {
+      width: 100%;
+      @include media {
+        width: auto;
+      }
     }
     @include media {
-      font-size: $H300;
+      padding: 4px 24px 20px;
+    }
+  }
+  &__summary {
+    width: 100%;
+    min-height: 48px;
+    border-radius: 0 0 16px 16px;
+    padding: 12px 16px;
+    @include flex-row(space-between, center);
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    font-family: $second-font;
+    @include text($H400, 300, $N0);
+    transition: background-color 0.3s ease;
+    &.buy {
+      background-color: var(--buy);
+    }
+    &.sell {
+      background-color: var(--sell);
+    }
+    &.cross {
+      background-color: var(--cross);
+    }
+    @include media {
+      padding: 12px 24px;
+    }
+  }
+  &__rate {
+    @include flex-row(flex-start, center);
+    gap: 6px;
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    animation: rate-in 0.28s ease-out;
+  }
+  &__grow {
+    @include svg(14px, $N0);
+    transform: rotate(45deg);
+    &._up {
+      transform: rotate(0deg);
+    }
+    &._down {
+      transform: rotateX(180deg);
+    }
+  }
+  &__source {
+    @include flex-row(flex-start, center);
+    gap: 6px;
+    margin-left: auto;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: $H200;
+    cursor: help;
+    &:hover {
+      color: $N0;
+    }
+    .source-mark {
+      background-color: rgba(255, 255, 255, 0.22);
+      color: $N0;
+    }
+  }
+}
+
+@keyframes rate-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+.exchange-field {
+  @include flex-col(flex-start, stretch);
+  min-width: 0;
+  @include media {
+    flex: 1 1 0;
+  }
+  &__select {
+    align-self: stretch;
+    @include media {
+      align-self: flex-start;
+    }
+  }
+  &__input {
+    width: 100%;
+    margin: 6px 0 0;
+    padding: 6px 2px;
+    border: none;
+    border-bottom: 2px solid var(--border);
+    border-radius: 0 !important;
+    outline: none;
+    background: transparent;
+    font-family: $second-font;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--text);
+    transition: border-color 0.2s ease, color 0.2s ease;
+    &::placeholder {
+      color: var(--text-muted);
+    }
+    &:focus {
+      border-color: var(--accent);
+      box-shadow: none;
+    }
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+  &__skeleton {
+    padding: 18px 0 14px;
+    border-bottom: 2px solid var(--border);
+    margin-top: 6px;
+    .skeleton__row {
+      height: 22px;
+      width: 50%;
     }
   }
 }

@@ -1,18 +1,12 @@
 import React from 'react';
 import ExchangeCard from '../../components/exchange-card/ExchangeCard';
-import SelectCard from '../../components/select-card/SelectCard';
-// import RateChart from '../../components/RateChart';
+import { QuickPick } from '../../components/quick-pick';
 
-const HomePage = () => {
-
-  return (
-    <div className='home-page'>
-      <ExchangeCard className='home-page__exchange-card'/>
-      <SelectCard />
-      {/* TODO: CHART RATE */}
-      {/* <RateChart /> */}
-    </div>
-  )
-};
+const HomePage = () => (
+  <main className="home-page">
+    <ExchangeCard className="home-page__exchange-card" />
+    <QuickPick className="home-page__quick-pick" />
+  </main>
+);
 
 export default HomePage;

@@ -5,11 +5,38 @@
 :root {
   --theme-color-bg: white;
   --theme-shadow: 0 5px 10px rgba(116, 79, 79, 0.12);
+  --page-bg: #{$N0};
+  --surface: #{$N0};
+  --surface-2: #f4f7fb;
+  --surface-hover: #eef3fa;
+  --border: #{$N2};
+  --border-strong: #{$N4};
+  --text: #{$N100};
+  --text-muted: #{$N8};
+  --accent: #{$B3};
+  --accent-soft: rgba(49, 98, 255, 0.1);
+  --focus-ring: 0 0 0 3px rgba(49, 98, 255, 0.35);
+  --popover-shadow: 0 12px 32px rgba(17, 30, 71, 0.16), 0 2px 6px rgba(17, 30, 71, 0.08);
+  --buy: #{$G2};
+  --sell: #{$O1};
+  --cross: #{$B2};
 }
 
 :root.dark {
   --theme-color-bg: #111e47;
   --theme-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+  --page-bg: #{$B111};
+  --surface: #111e47;
+  --surface-2: #0e1733;
+  --surface-hover: #182a63;
+  --border: #{$B8};
+  --border-strong: #{$B7};
+  --text: #{$N1};
+  --text-muted: #{$N5};
+  --accent: #{$B1};
+  --accent-soft: rgba(100, 155, 255, 0.14);
+  --focus-ring: 0 0 0 3px rgba(100, 155, 255, 0.45);
+  --popover-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 %card {

@@ -2,21 +2,23 @@ import {
   FETCH_CURRENCIES_REQUEST,
   FETCH_CURRENCIES_SUCCESS,
   FETCH_CURRENCIES_FAILURE,
-  SET_EXCHANGE,
-  UPDATE_COMPUTED_PRICE,
-  UPDATE_COMPUTED_CURRENCY,
   SET_LAST_UPDATE,
+  SET_PAIR,
+  SET_CURRENCY,
+  SWAP_PAIR,
+  SET_METHOD,
+  SET_MARKET_RATES,
 } from '../../constants';
-import { ActionTypes } from '../types';
-import { Exchange, Currencies, SN, Currency } from '../../types';
+import { Exchange, Currencies, SN } from '../../types';
 import ApiService from '../../services/apiService';
+import { fetchMarketRates, isMarketStale } from '../../services/marketRates';
 import moment from 'moment';
 import 'moment/locale/uk';
-import { toFix } from '../../utils/formatCurrency';
 import { logError } from '../../services/logger';
-import { currenciesStorage, exchangeStorage } from '../../services';
+import { currenciesStorage } from '../../services';
 import { Dispatch } from 'redux';
-import { has, isObject } from 'lodash';
+import { ExchangeMethod, ExchangesState } from '../types';
+import { pushRecent, trackUsage } from '../../utils/currencyMeta';
 
 const apiService = new ApiService();
 
@@ -28,55 +30,38 @@ const fetchCurrenciesSuccess = (payload: Currencies) => {
   };
 };
 
-const updateComputedPrice =
-  (payload: SN | null) => (dispatch: any, getState: any) => {
-    const result =
-      typeof payload === 'number'
-        ? toFix(payload, getState().exchange.precision)
-        : payload;
-    dispatch({
-      type: UPDATE_COMPUTED_PRICE,
-      payload: result,
-    });
+/** Select a Monobank pair by its id (used by the rates carousel) */
+const setExchange =
+  (id: SN) => (dispatch: Dispatch, getState: () => ExchangesState) => {
+    const exchange = getState().currencies.find(
+      (item: Exchange) => String(item.id) === String(id),
+    );
+    const from = exchange?.currencyA?.code;
+    const to = exchange?.currencyB?.code;
+    if (from && to) {
+      trackUsage(from);
+      dispatch({ type: SET_PAIR, payload: { from, to } });
+    }
   };
 
-const updateComputedCurrency = (payload: Currency) => (dispatch: any) => {
-  dispatch({
-    type: UPDATE_COMPUTED_CURRENCY,
-    payload,
-  });
+const setCurrency = (side: 'from' | 'to', code: string) => {
+  pushRecent(code);
+  trackUsage(code);
+  return { type: SET_CURRENCY, payload: { side, code } };
 };
 
-const setExchange =
-  (payload: SN | Exchange) => (dispatch: any, getState: any) => {
-    let exchange: Exchange;
-    if (typeof payload === 'string' || typeof payload === 'number') {
-      exchange = getState().currencies.find(
-        (item: Exchange) => String(item.id) === String(payload),
-      );
-    } else {
-      exchange = payload;
-    }
+const swapPair = () => ({ type: SWAP_PAIR });
 
-    if (
-      isObject(exchange) &&
-      has(exchange, 'currencyA') &&
-      has(exchange, 'currencyB')
-    ) {
-      exchangeStorage.set(exchange);
-      dispatch({
-        type: SET_EXCHANGE,
-        payload: exchange,
-      } as ActionTypes);
-    }
-  };
+const setMethod = (method: ExchangeMethod) => ({
+  type: SET_METHOD,
+  payload: method,
+});
 
 export const setUpdatedDate = async (dispatch: Dispatch) => {
   const lastUpdate = await apiService.fetchLastUpdate();
   moment.locale('uk');
   const date = moment(lastUpdate);
   date.locale('uk');
-  console.log(date.locale());
 
   dispatch({
     type: SET_LAST_UPDATE,
@@ -84,24 +69,32 @@ export const setUpdatedDate = async (dispatch: Dispatch) => {
   });
 };
 
-const fetchCurrencies = () => async (dispatch: Dispatch, getState: any) => {
-  dispatch({ type: FETCH_CURRENCIES_REQUEST });
-  try {
-    const currencies = await apiService.fetchCurrencies();
-    const localExchange: Exchange | null = exchangeStorage.get();
-    const ex = localExchange ? localExchange : currencies[0];
-    setExchange(ex)(dispatch, getState);
-    dispatch(fetchCurrenciesSuccess(currencies));
-    setUpdatedDate(dispatch);
-  } catch (error) {
-    logError('fetchCurrencies', error);
-    dispatch({ type: FETCH_CURRENCIES_FAILURE });
-  }
-};
+const loadMarketRates =
+  () => async (dispatch: Dispatch, getState: () => ExchangesState) => {
+    if (!isMarketStale(getState().market)) return;
+    const market = await fetchMarketRates();
+    if (market) dispatch({ type: SET_MARKET_RATES, payload: market });
+  };
+
+const fetchCurrencies =
+  () => async (dispatch: Dispatch, getState: () => ExchangesState) => {
+    dispatch({ type: FETCH_CURRENCIES_REQUEST });
+    loadMarketRates()(dispatch, getState);
+    try {
+      const currencies = await apiService.fetchCurrencies();
+      dispatch(fetchCurrenciesSuccess(currencies));
+      setUpdatedDate(dispatch);
+    } catch (error) {
+      logError('fetchCurrencies', error);
+      dispatch({ type: FETCH_CURRENCIES_FAILURE });
+    }
+  };
 
 export {
   fetchCurrencies,
+  loadMarketRates,
   setExchange,
-  updateComputedPrice,
-  updateComputedCurrency,
+  setCurrency,
+  swapPair,
+  setMethod,
 };
