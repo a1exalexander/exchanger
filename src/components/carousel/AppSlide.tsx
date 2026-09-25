@@ -7,6 +7,8 @@ import { setExchange } from '../../store/actions';
 import { ReactComponent as IconExchange } from '../../assets/images/exchange-arrows.svg';
 import { ReactComponent as IconArrow } from '../../assets/images/profits.svg';
 import { toFix } from '../../utils/formatCurrency';
+import { getCurrencyName } from '../../utils/currencyMeta';
+import { useLang, useT } from '../../i18n';
 
 interface Props {
   exchange: Exchange;
@@ -19,11 +21,12 @@ const AppSlide: FC<Props> = ({ exchange, setExchange }) => {
     rateBuy = '',
     rateSell = '',
     rateCross = '',
-    NB,
-    currencyA: { code: codeA, currency: currencyA, country: countryA = '' },
-    currencyB: { code: codeB, currency: currencyB, country: countryB = '' },
+    currencyA: { code: codeA, country: countryA = '' },
+    currencyB: { code: codeB, country: countryB = '' },
     grow,
   } = exchange;
+  const lang = useLang();
+  const t = useT();
 
   const handleClick = (e: any) => {
     e.preventDefault();
@@ -39,14 +42,14 @@ const AppSlide: FC<Props> = ({ exchange, setExchange }) => {
         <div className="app-slide__row">
           <div className="app-slide__inner">
             <span className="app-slide__label app-slide__label--sell">
-              Продаж:{' '}
+              {t.slide.sell}{' '}
             </span>
             <span className="app-slide__value">{toFix(rateBuy, 2)}</span>
           </div>
           <IconExchange className={'app-slide__icon-exchange'} />
           <div className="app-slide__inner">
             <span className="app-slide__label app-slide__label--buy">
-              Купівля:{' '}
+              {t.slide.buy}{' '}
             </span>
             <span className="app-slide__value">{toFix(rateSell, 2)}</span>
           </div>
@@ -56,7 +59,7 @@ const AppSlide: FC<Props> = ({ exchange, setExchange }) => {
     return (
       <div className="app-slide__inner">
         <span className="app-slide__label app-slide__label--cross">
-          Перехресний курс:{' '}
+          {t.slide.cross}{' '}
         </span>
         <span className="app-slide__value">{rateCross}</span>
       </div>
@@ -67,7 +70,7 @@ const AppSlide: FC<Props> = ({ exchange, setExchange }) => {
     <li
       onClick={handleClick}
       className="app-slide"
-      title={`Відкрити ${codeA} → ${codeB} у конвертері`}
+      title={t.slide.open(codeA, codeB)}
     >
       <div className="app-slide__row">
         <img
@@ -77,7 +80,7 @@ const AppSlide: FC<Props> = ({ exchange, setExchange }) => {
         />
         <span className="app-slide__currency">{codeB}</span>
         <span className="app-slide__currency-name">
-          {currencyB === 'Hryvnia' ? 'Українська гривня' : currencyB}
+          {getCurrencyName(codeB, null, lang)}
         </span>
       </div>
       {priceElement()}
@@ -88,7 +91,9 @@ const AppSlide: FC<Props> = ({ exchange, setExchange }) => {
           src={getIcon(countryA, codeA)}
         />
         <h3 className="app-slide__currency">{codeA}</h3>
-        <h4 className="app-slide__currency-name">{NB ? NB.txt : currencyA}</h4>
+        <h4 className="app-slide__currency-name">
+          {getCurrencyName(codeA, null, lang)}
+        </h4>
         <div className="app-slide__grow-wrapper pulse">
           <IconArrow
             className={classNames('app-slide__grow ', {

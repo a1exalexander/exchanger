@@ -8,6 +8,7 @@ export const UPDATE_COMPUTED_PRICE = 'UPDATE_COMPUTED_PRICE';
 export const UPDATE_COMPUTED_CURRENCY = 'UPDATE_COMPUTED_CURRENCY';
 export const SET_LAST_UPDATE = 'SET_LAST_UPDATE';
 export const SET_THEME = 'SET_THEME';
+export const SET_LANG = 'SET_LANG';
 export const SET_RATE_VALUE = 'SET_RATE_VALUE';
 export const SET_PAIR = 'SET_PAIR';
 export const SET_CURRENCY = 'SET_CURRENCY';

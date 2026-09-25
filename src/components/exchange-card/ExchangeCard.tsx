@@ -12,7 +12,15 @@ import { useExchange } from '../../hooks';
 import { formatAmount, formatRate, parseAmount } from '../../utils/formatCurrency';
 import { inputFontSize } from '../../utils/helpers';
 import { CurrencySelect } from '../currency-picker';
-import { IconSwap, RATE_PROVIDERS, RateProvider, Skeleton, SourceMark } from '../ui';
+import {
+  IconSwap,
+  providerDescription,
+  RATE_PROVIDERS,
+  RateProvider,
+  Skeleton,
+  SourceMark,
+} from '../ui';
+import { Messages, useT } from '../../i18n';
 import { ReactComponent as IconArrow } from '../../assets/images/profits.svg';
 
 type Side = 'from' | 'to';
@@ -46,14 +54,16 @@ const prefersReducedMotion = () =>
 
 const SWAP_EASING = 'cubic-bezier(0.34, 1.36, 0.64, 1)';
 
-const SOURCE: {
-  [key in ExchangeSource]: { provider: RateProvider; label: string };
-} = {
-  bank: { provider: 'mono', label: 'Monobank' },
-  'bank-cross': { provider: 'mono', label: 'Monobank, крос-курс' },
-  nbu: { provider: 'nbu', label: 'офіційний курс' },
-  market: { provider: 'market', label: 'Середньоринковий' },
-};
+const getSource = (
+  t: Messages,
+  source: ExchangeSource,
+): { provider: RateProvider; label: string } =>
+  ({
+    bank: { provider: 'mono' as RateProvider, label: 'Monobank' },
+    'bank-cross': { provider: 'mono' as RateProvider, label: t.card.bankCross },
+    nbu: { provider: 'nbu' as RateProvider, label: t.card.official },
+    market: { provider: 'market' as RateProvider, label: t.card.market },
+  }[source]);
 
 const ExchangeCard: FC<IBaseProps> = ({ className = '' }) => {
   const dispatch = useDispatch();
@@ -61,6 +71,7 @@ const ExchangeCard: FC<IBaseProps> = ({ className = '' }) => {
   const pair = useSelector((state: ExchangesState) => state.pair);
   const loading = useSelector((state: ExchangesState) => state.loading);
   const exchange = useExchange();
+  const t = useT();
 
   const [amount, setAmount] = useState<{ side: Side; value: string }>({
     side: 'from',
@@ -153,7 +164,7 @@ const ExchangeCard: FC<IBaseProps> = ({ className = '' }) => {
             type="text"
             inputMode="decimal"
             autoComplete="off"
-            aria-label={`Сума в ${pair[side]}`}
+            aria-label={t.card.amountIn(pair[side])}
             value={value}
             placeholder="0"
             disabled={unavailable}
@@ -172,7 +183,7 @@ const ExchangeCard: FC<IBaseProps> = ({ className = '' }) => {
   return (
     <section
       className={classNames('exchange-card', className)}
-      aria-label="Конвертер валют"
+      aria-label={t.card.label}
     >
       <div className="exchange-card__main">
         {renderField('from')}
@@ -181,8 +192,8 @@ const ExchangeCard: FC<IBaseProps> = ({ className = '' }) => {
             type="button"
             className="exchange-card__swap"
             onClick={onSwap}
-            aria-label="Поміняти валюти місцями"
-            title="Поміняти валюти місцями"
+            aria-label={t.card.swap}
+            title={t.card.swap}
           >
             <IconSwap
               className="exchange-card__swap-icon"
@@ -198,7 +209,7 @@ const ExchangeCard: FC<IBaseProps> = ({ className = '' }) => {
           <div
             className={classNames('segmented', method)}
             role="radiogroup"
-            aria-label="Операція"
+            aria-label={t.card.operation}
             style={{ '--segmented-index': methodIndex } as React.CSSProperties}
           >
             <span className="segmented__thumb" aria-hidden="true" />
@@ -213,7 +224,7 @@ const ExchangeCard: FC<IBaseProps> = ({ className = '' }) => {
                 })}
                 onClick={() => dispatch(setMethod(item))}
               >
-                {item === 'buy' ? 'Купую' : 'Продаю'} {pair.from}
+                {item === 'buy' ? t.card.buy : t.card.sell} {pair.from}
               </button>
             ))}
           </div>
@@ -225,7 +236,7 @@ const ExchangeCard: FC<IBaseProps> = ({ className = '' }) => {
         aria-live="polite"
       >
         {unavailable ? (
-          <span>Курс для цієї пари зараз недоступний</span>
+          <span>{t.card.unavailable}</span>
         ) : exchange && rate ? (
           <RateLine exchange={exchange} rate={rate} from={pair.from} to={pair.to} />
         ) : (
@@ -249,18 +260,19 @@ const RateLine: FC<{ exchange: Exchange; rate: Big; from: string; to: string }> 
   const value = direct ? rate : new Big(1).div(rate);
   const grow = exchange.grow ? Number(exchange.grow) : 0;
   const growUp = direct ? grow === 1 : grow === -1;
+  const t = useT();
 
-  const { provider, label } = SOURCE[exchange.source || 'market'];
+  const { provider, label } = getSource(t, exchange.source || 'market');
   const info = RATE_PROVIDERS[provider];
-  const details = [info.description];
+  const details = [providerDescription(t, provider)];
   if (provider === 'market' && exchange.date) {
-    details.push(`Дата курсу: ${moment(exchange.date).format('DD.MM.YYYY')}`);
+    details.push(`${t.card.rateDate}: ${moment(exchange.date).format('DD.MM.YYYY')}`);
   }
   if (exchange.source === 'bank' && exchange.NB?.rate) {
     // already expressed as 1 `from` = x `to`, also for reversed pairs
     const nbu = new Big(exchange.NB.rate);
     const nbuValue = direct ? nbu : new Big(1).div(nbu);
-    details.push(`Офіційний курс НБУ: 1 ${base} = ${formatRate(nbuValue)} ${quote}`);
+    details.push(`${t.card.nbuRate}: 1 ${base} = ${formatRate(nbuValue)} ${quote}`);
   }
   const text = `1 ${base} = ${formatRate(value)} ${quote}`;
 
@@ -274,7 +286,7 @@ const RateLine: FC<{ exchange: Exchange; rate: Big; from: string; to: string }> 
               _up: growUp,
               _down: !growUp,
             })}
-            aria-label={growUp ? 'Курс зріс' : 'Курс знизився'}
+            aria-label={growUp ? t.card.rateUp : t.card.rateDown}
           />
         )}
       </span>

@@ -12,7 +12,7 @@ export const trackingMiddleware: Middleware<{}, ExchangesState> =
   (store) => (next) => (action: CustomAction) => {
     const result = next(action);
     if (
-      (['SET_THEME', 'TOGGLE_EXCHANGE_METHOD', 'SET_METHOD'] as CustomActionType[]).includes(
+      (['SET_THEME', 'SET_LANG', 'TOGGLE_EXCHANGE_METHOD', 'SET_METHOD'] as CustomActionType[]).includes(
         action.type,
       )
     ) {

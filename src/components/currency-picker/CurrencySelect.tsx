@@ -7,27 +7,26 @@ import { getCurrencyName } from '../../utils/currencyMeta';
 import { CurrencyIcon } from '../ui/CurrencyIcon';
 import { IconChevron } from '../ui/icons';
 import { CurrencyPicker } from './CurrencyPicker';
+import { useLang, useT } from '../../i18n';
 
 interface Props {
   side: 'from' | 'to';
   className?: string;
 }
 
-const TITLES = {
-  from: 'Яку валюту конвертуємо?',
-  to: 'У яку валюту конвертуємо?',
-};
-
 export const CurrencySelect: FC<Props> = ({ side, className }) => {
   const dispatch = useDispatch();
   const pair = useSelector((state: ExchangesState) => state.pair);
   const market = useSelector((state: ExchangesState) => state.market);
+  const lang = useLang();
+  const t = useT();
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const value = pair[side];
   const other = side === 'from' ? pair.to : pair.from;
-  const name = getCurrencyName(value, market);
+  const name = getCurrencyName(value, market, lang);
+  const title = t.select[side];
 
   const onClose = useCallback(() => setOpen(false), []);
   const onSelect = useCallback(
@@ -47,7 +46,7 @@ export const CurrencySelect: FC<Props> = ({ side, className }) => {
         onClick={() => setOpen((current) => !current)}
         aria-haspopup="dialog"
         aria-expanded={open}
-        aria-label={`${TITLES[side]} Зараз: ${value}, ${name}`}
+        aria-label={`${title} ${t.select.current}: ${value}, ${name}`}
       >
         <CurrencyIcon code={value} size={32} className="currency-select__icon" />
         <span className="currency-select__text">
@@ -61,7 +60,7 @@ export const CurrencySelect: FC<Props> = ({ side, className }) => {
         anchor={buttonRef.current}
         value={value}
         other={other}
-        title={TITLES[side]}
+        title={title}
         onSelect={onSelect}
         onClose={onClose}
       />

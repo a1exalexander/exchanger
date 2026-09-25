@@ -2,6 +2,7 @@ import { Currencies } from '../types';
 import { MarketRates } from '../services/marketRates';
 import { Pair } from '../utils/resolveExchange';
 import { Action } from 'redux';
+import { Lang } from '../i18n';
 import * as actionsTypes from '../constants';
 
 export type CustomActionType = keyof typeof actionsTypes;
@@ -25,4 +26,6 @@ export interface ExchangesState {
   method: ExchangeMethod;
   pair: Pair;
   theme: 'light' | 'dark';
+  /** null until picked in the switcher: the browser language is used */
+  lang: Lang | null;
 }

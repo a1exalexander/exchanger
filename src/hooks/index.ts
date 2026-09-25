@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { ExchangesState } from '../store/types';
 import { resolveExchange } from '../utils/resolveExchange';
 import { buildCurrencyOptions } from '../utils/currencyMeta';
+import { useLang } from '../i18n';
 
 export const DESKTOP_QUERY = '(min-width: 860px)';
 
@@ -37,8 +38,9 @@ export const useExchange = () => {
 export const useCurrencyOptions = () => {
   const currencies = useSelector((state: ExchangesState) => state.currencies);
   const market = useSelector((state: ExchangesState) => state.market);
+  const lang = useLang();
   return useMemo(
-    () => buildCurrencyOptions(currencies, market),
-    [currencies, market],
+    () => buildCurrencyOptions(currencies, market, lang),
+    [currencies, market, lang],
   );
 };
