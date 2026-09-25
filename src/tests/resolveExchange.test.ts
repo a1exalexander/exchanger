@@ -70,3 +70,19 @@ describe('resolveExchange', () => {
     expect(hasBankRates(bank, 'GBP', 'UAH')).toBe(false);
   });
 });
+
+describe('swapping the pair', () => {
+  it('keeps the same deal: buying USD becomes selling UAH at the same rate', () => {
+    const reducer = require('../store/reducers').default;
+    const base = reducer(undefined, { type: '@@INIT' });
+    const state = { ...base, currencies: bank, market, pair: { from: 'USD', to: 'UAH' }, method: 'buy' };
+    const swapped = reducer(state, { type: 'SWAP_PAIR' });
+    expect(swapped.pair).toEqual({ from: 'UAH', to: 'USD' });
+    expect(swapped.method).toBe('sell');
+    // user pays 50 UAH per USD in both views
+    const before = resolveExchange(state.pair, bank, market);
+    const after = resolveExchange(swapped.pair, bank, market);
+    expect(Number(before?.rateSell)).toBe(50);
+    expect(1 / Number(after?.rateBuy)).toBeCloseTo(50);
+  });
+});

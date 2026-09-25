@@ -91,6 +91,7 @@ const PickerPanel: FC<Props & { closing: boolean }> = ({
   const [active, setActive] = useState(0);
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const panelRef = useRef<HTMLDivElement>(null);
+  const drag = useRef<{ startY: number; startTime: number; dy: number } | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -224,6 +225,37 @@ const PickerPanel: FC<Props & { closing: boolean }> = ({
     }
   };
 
+  // bottom sheet: drag the header down to dismiss
+  const onDragStart = (event: React.PointerEvent<HTMLDivElement>) => {
+    if ((event.target as HTMLElement).closest('button')) return;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    drag.current = { startY: event.clientY, startTime: Date.now(), dy: 0 };
+    panelRef.current?.classList.add('_dragging');
+  };
+  const onDragMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!drag.current || !panelRef.current) return;
+    const dy = Math.max(0, event.clientY - drag.current.startY);
+    drag.current.dy = dy;
+    panelRef.current.style.transform = `translateY(${dy}px)`;
+  };
+  const onDragEnd = () => {
+    const panel = panelRef.current;
+    const state = drag.current;
+    drag.current = null;
+    if (!panel || !state) return;
+    panel.classList.remove('_dragging');
+    const velocity = state.dy / Math.max(1, Date.now() - state.startTime);
+    if (state.dy > 110 || (state.dy > 30 && velocity > 0.6)) {
+      onClose();
+      return;
+    }
+    panel.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.36, 0.64, 1)';
+    panel.style.transform = '';
+    setTimeout(() => {
+      panel.style.transition = '';
+    }, 300);
+  };
+
   let index = -1;
   const listboxId = 'currency-picker-list';
 
@@ -250,7 +282,13 @@ const PickerPanel: FC<Props & { closing: boolean }> = ({
         aria-label={title}
       >
         {!isDesktop && (
-          <div className="currency-picker__head">
+          <div
+            className="currency-picker__head"
+            onPointerDown={onDragStart}
+            onPointerMove={onDragMove}
+            onPointerUp={onDragEnd}
+            onPointerCancel={onDragEnd}
+          >
             <span className="currency-picker__handle" aria-hidden="true" />
             <h2 className="currency-picker__title">{title}</h2>
             <button

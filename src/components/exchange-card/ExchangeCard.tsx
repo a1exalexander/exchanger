@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import Big from 'big.js';
 import moment from 'moment';
@@ -41,13 +41,18 @@ const convert = (value: string, rate: Big | undefined, side: Side) => {
   }
 };
 
+const prefersReducedMotion = () =>
+  !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+const SWAP_EASING = 'cubic-bezier(0.34, 1.36, 0.64, 1)';
+
 const SOURCE: {
   [key in ExchangeSource]: { provider: RateProvider; label: string };
 } = {
-  bank: { provider: 'mono', label: 'Курс Monobank' },
-  'bank-cross': { provider: 'mono', label: 'Крос-курс Monobank' },
-  nbu: { provider: 'nbu', label: 'Офіційний курс НБУ' },
-  market: { provider: 'market', label: 'Середньоринковий курс' },
+  bank: { provider: 'mono', label: 'Monobank' },
+  'bank-cross': { provider: 'mono', label: 'Monobank, крос-курс' },
+  nbu: { provider: 'nbu', label: 'офіційний курс' },
+  market: { provider: 'market', label: 'Середньоринковий' },
 };
 
 const ExchangeCard: FC<IBaseProps> = ({ className = '' }) => {
@@ -62,7 +67,13 @@ const ExchangeCard: FC<IBaseProps> = ({ className = '' }) => {
     value: '1',
   });
   const [touched, setTouched] = useState(false);
+  const [swapTurns, setSwapTurns] = useState(0);
   const debouncedAmount = useDebounce(amount, 1000);
+  const fieldRefs = {
+    from: useRef<HTMLDivElement>(null),
+    to: useRef<HTMLDivElement>(null),
+  };
+  const swapOffset = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     if (!touched || !debouncedAmount.value) return;
@@ -74,13 +85,47 @@ const ExchangeCard: FC<IBaseProps> = ({ className = '' }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedAmount]);
 
-  const rate = getRate(exchange, method);
-  const inverseRate = rate ? new Big(1).div(rate) : undefined;
-  const computed = convert(amount.value, rate, amount.side);
-  const raw = {
-    from: amount.side === 'from' ? amount.value : computed,
-    to: amount.side === 'to' ? amount.value : computed,
+  // after a swap each field slides in from where the other one was,
+  // so both currencies visibly trade places
+  useLayoutEffect(() => {
+    const offset = swapOffset.current;
+    swapOffset.current = null;
+    if (!offset || prefersReducedMotion()) return;
+    const options = { duration: 460, easing: SWAP_EASING };
+    fieldRefs.from.current?.animate?.(
+      [
+        { transform: `translate(${offset.x}px, ${offset.y}px)`, opacity: 0.4 },
+        { transform: 'none', opacity: 1 },
+      ],
+      options,
+    );
+    fieldRefs.to.current?.animate?.(
+      [
+        { transform: `translate(${-offset.x}px, ${-offset.y}px)`, opacity: 0.4 },
+        { transform: 'none', opacity: 1 },
+      ],
+      options,
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [swapTurns]);
+
+  const onSwap = () => {
+    const from = fieldRefs.from.current?.getBoundingClientRect();
+    const to = fieldRefs.to.current?.getBoundingClientRect();
+    if (from && to) {
+      swapOffset.current = { x: to.left - from.left, y: to.top - from.top };
+    }
+    // the typed amount travels together with its currency
+    setAmount((current) => ({
+      ...current,
+      side: current.side === 'from' ? 'to' : 'from',
+    }));
+    setSwapTurns((turns) => turns + 1);
+    dispatch(swapPair());
   };
+
+  const rate = getRate(exchange, method);
+  const computed = convert(amount.value, rate, amount.side);
   // the field being typed in keeps exactly what the user entered
   const values = {
     from: amount.side === 'from' ? amount.value : formatAmount(computed),
@@ -97,13 +142,9 @@ const ExchangeCard: FC<IBaseProps> = ({ className = '' }) => {
   };
 
   const renderField = (side: Side) => {
-    const code = pair[side];
-    const other = side === 'from' ? pair.to : pair.from;
-    const sideRate = side === 'from' ? rate : inverseRate;
-    const grow = side === 'from' && exchange?.grow ? Number(exchange.grow) : 0;
     const value = values[side];
     return (
-      <div className={`exchange-field exchange-field--${side}`}>
+      <div ref={fieldRefs[side]} className={`exchange-field exchange-field--${side}`}>
         <CurrencySelect side={side} className="exchange-field__select" />
         {exchange || !loading ? (
           <input
@@ -112,7 +153,7 @@ const ExchangeCard: FC<IBaseProps> = ({ className = '' }) => {
             type="text"
             inputMode="decimal"
             autoComplete="off"
-            aria-label={`Сума в ${code}`}
+            aria-label={`Сума в ${pair[side]}`}
             value={value}
             placeholder="0"
             disabled={unavailable}
@@ -122,31 +163,11 @@ const ExchangeCard: FC<IBaseProps> = ({ className = '' }) => {
         ) : (
           <Skeleton rows={1} className="exchange-field__skeleton" />
         )}
-        <div className="exchange-field__rate">
-          {sideRate ? (
-            <>
-              1 {code} = {formatRate(sideRate)} {other}
-              {!!grow && (
-                <IconArrow
-                  className={classNames('exchange-field__grow', {
-                    _up: grow === 1,
-                    _down: grow === -1,
-                  })}
-                  aria-label={grow === 1 ? 'Курс зріс' : 'Курс знизився'}
-                />
-              )}
-            </>
-          ) : (
-            ' '
-          )}
-        </div>
       </div>
     );
   };
 
-  const fromLabel = formatAmount(raw.from) || '0';
-  const toLabel = formatAmount(raw.to) || '0';
-  const nbu = exchange?.source === 'bank' ? exchange.NB?.rate : undefined;
+  const methodIndex = method === 'sell' ? 1 : 0;
 
   return (
     <section
@@ -159,19 +180,28 @@ const ExchangeCard: FC<IBaseProps> = ({ className = '' }) => {
           <button
             type="button"
             className="exchange-card__swap"
-            onClick={() => dispatch(swapPair())}
+            onClick={onSwap}
             aria-label="Поміняти валюти місцями"
             title="Поміняти валюти місцями"
           >
-            <IconSwap />
+            <IconSwap
+              className="exchange-card__swap-icon"
+              style={{ transform: `rotate(${swapTurns * 180}deg)` }}
+            />
           </button>
         </div>
         {renderField('to')}
       </div>
 
-      <div className="exchange-card__meta">
-        {hasBuySell ? (
-          <div className="segmented" role="radiogroup" aria-label="Операція">
+      {hasBuySell && (
+        <div className="exchange-card__meta">
+          <div
+            className={classNames('segmented', method)}
+            role="radiogroup"
+            aria-label="Операція"
+            style={{ '--segmented-index': methodIndex } as React.CSSProperties}
+          >
+            <span className="segmented__thumb" aria-hidden="true" />
             {(['buy', 'sell'] as ExchangeMethod[]).map((item) => (
               <button
                 key={item}
@@ -187,93 +217,79 @@ const ExchangeCard: FC<IBaseProps> = ({ className = '' }) => {
               </button>
             ))}
           </div>
-        ) : (
-          <span />
-        )}
-        {exchange && <RateSource exchange={exchange} nbu={nbu} from={pair.from} to={pair.to} />}
-      </div>
+        </div>
+      )}
 
-      <button
-        type="button"
-        onClick={() => hasBuySell && dispatch(setMethod(method === 'buy' ? 'sell' : 'buy'))}
-        className={classNames('exchange-card__summary', hasBuySell ? method : 'cross', {
-          _static: !hasBuySell,
-        })}
-        tabIndex={hasBuySell ? 0 : -1}
+      <div
+        className={classNames('exchange-card__summary', hasBuySell ? method : 'cross')}
         aria-live="polite"
       >
         {unavailable ? (
           <span>Курс для цієї пари зараз недоступний</span>
-        ) : hasBuySell ? (
-          <span>
-            {method === 'buy' ? 'Придбаю' : 'Продам'}{' '}
-            <b>
-              {fromLabel} {pair.from}
-            </b>{' '}
-            за{' '}
-            <b>
-              {toLabel} {pair.to}
-            </b>
-          </span>
+        ) : exchange && rate ? (
+          <RateLine exchange={exchange} rate={rate} from={pair.from} to={pair.to} />
         ) : (
-          <span>
-            <b>
-              {fromLabel} {pair.from}
-            </b>{' '}
-            ={' '}
-            <b>
-              {toLabel} {pair.to}
-            </b>
-          </span>
+          <span>&nbsp;</span>
         )}
-      </button>
+      </div>
     </section>
   );
 };
 
-const RateSource: FC<{
-  exchange: Exchange;
-  nbu?: number;
-  from: string;
-  to: string;
-}> = ({ exchange, nbu, from, to }) => {
+/** The single place where the rate is shown: readable direction + where it comes from */
+const RateLine: FC<{ exchange: Exchange; rate: Big; from: string; to: string }> = ({
+  exchange,
+  rate,
+  from,
+  to,
+}) => {
+  // show "1 USD = 45.41 UAH" rather than "1 UAH = 0.022 USD"
+  const direct = rate.gte(1);
+  const [base, quote] = direct ? [from, to] : [to, from];
+  const value = direct ? rate : new Big(1).div(rate);
+  const grow = exchange.grow ? Number(exchange.grow) : 0;
+  const growUp = direct ? grow === 1 : grow === -1;
+
   const { provider, label } = SOURCE[exchange.source || 'market'];
   const info = RATE_PROVIDERS[provider];
-  const date =
-    provider === 'market' && exchange.date
-      ? ` · ${moment(exchange.date).format('DD.MM.YYYY')}`
-      : '';
+  const details = [info.description];
+  if (provider === 'market' && exchange.date) {
+    details.push(`Дата курсу: ${moment(exchange.date).format('DD.MM.YYYY')}`);
+  }
+  if (exchange.source === 'bank' && exchange.NB?.rate) {
+    // already expressed as 1 `from` = x `to`, also for reversed pairs
+    const nbu = new Big(exchange.NB.rate);
+    const nbuValue = direct ? nbu : new Big(1).div(nbu);
+    details.push(`Офіційний курс НБУ: 1 ${base} = ${formatRate(nbuValue)} ${quote}`);
+  }
+  const text = `1 ${base} = ${formatRate(value)} ${quote}`;
+
   return (
-    <div className="rate-source">
+    <>
+      <span key={text} className="exchange-card__rate">
+        {text}
+        {!!grow && (
+          <IconArrow
+            className={classNames('exchange-card__grow', {
+              _up: growUp,
+              _down: !growUp,
+            })}
+            aria-label={growUp ? 'Курс зріс' : 'Курс знизився'}
+          />
+        )}
+      </span>
       <a
-        className="rate-source__main"
+        className="exchange-card__source"
         href={info.url}
         target="_blank"
         rel="noopener noreferrer"
-        title={info.description}
+        title={details.join('\n')}
         data-posthog-link={`rate-source-${provider}`}
       >
         <SourceMark provider={provider} />
-        <span>
-          {label}
-          {date}
-        </span>
+        {label}
       </a>
-      {nbu ? (
-        <span
-          className="rate-source__ref"
-          title="Офіційний курс НБУ — для порівняння, в розрахунку не використовується"
-        >
-          <SourceMark provider="nbu" />
-          <span>
-            офіційний:{' '}
-            {exchange.reversed
-              ? `1 ${to} = ${formatRate(new Big(1).div(nbu))} ${from}`
-              : `1 ${from} = ${formatRate(nbu)} ${to}`}
-          </span>
-        </span>
-      ) : null}
-    </div>
+    </>
   );
 };
 

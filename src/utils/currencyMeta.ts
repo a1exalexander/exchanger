@@ -31,7 +31,9 @@ export const POPULAR = [
   'BTC',
 ];
 
-export const QUICK_PICK = ['USD', 'EUR', 'PLN', 'GBP', 'CHF', 'CZK', 'BTC', 'ETH'];
+/** Default quick-pick chips, re-ordered later by how often each currency is used */
+export const QUICK_PICK = ['UAH', 'USD', 'EUR', 'PLN', 'GBP', 'CHF', 'CZK', 'BTC'];
+export const QUICK_PICK_SIZE = 8;
 
 const CRYPTO = [
   'BTC', 'ETH', 'USDT', 'USDC', 'BNB', 'SOL', 'XRP', 'TON', 'ADA', 'DOGE',
@@ -241,4 +243,46 @@ export const pushRecent = (code: string) => {
   } catch {
     // storage may be unavailable (private mode)
   }
+};
+
+const USAGE_KEY = 'exchanger-currency-usage';
+export const USAGE_EVENT = 'exchanger:currency-usage';
+
+export const getUsage = (): { [code: string]: number } => {
+  try {
+    const value = JSON.parse(localStorage.getItem(USAGE_KEY) || '{}');
+    return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+  } catch {
+    return {};
+  }
+};
+
+/** Count every time a currency is chosen, so quick pick can surface favourites */
+export const trackUsage = (code: string) => {
+  try {
+    const usage = getUsage();
+    usage[code] = (usage[code] || 0) + 1;
+    localStorage.setItem(USAGE_KEY, JSON.stringify(usage));
+    window.dispatchEvent(new CustomEvent(USAGE_EVENT, { detail: code }));
+  } catch {
+    // storage may be unavailable (private mode)
+  }
+};
+
+/** Most used currencies first; defaults keep their order among equals */
+export const rankQuickPick = (available: Set<string>) => {
+  const usage = getUsage();
+  const candidates = Array.from(new Set([...QUICK_PICK, ...Object.keys(usage)])).filter(
+    (code) => available.has(code),
+  );
+  const defaultIndex = (code: string) => {
+    const index = QUICK_PICK.indexOf(code);
+    return index === -1 ? QUICK_PICK.length : index;
+  };
+  return candidates
+    .sort(
+      (a, b) =>
+        (usage[b] || 0) - (usage[a] || 0) || defaultIndex(a) - defaultIndex(b),
+    )
+    .slice(0, QUICK_PICK_SIZE);
 };

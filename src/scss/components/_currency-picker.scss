@@ -65,7 +65,10 @@
     border-radius: 20px 20px 0 0;
     box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.2);
     padding-bottom: env(safe-area-inset-bottom);
-    animation: picker-sheet-in 0.28s cubic-bezier(0.2, 0.9, 0.3, 1);
+    animation: picker-sheet-in 0.32s cubic-bezier(0.2, 0.9, 0.3, 1);
+    &._dragging {
+      transition: none;
+    }
     &._closing {
       animation: picker-sheet-out 0.16s ease-in forwards;
     }
@@ -84,6 +87,8 @@
 
   &__head {
     position: relative;
+    touch-action: none;
+    cursor: grab;
     @include flex-row(space-between, center);
     padding: 18px 16px 6px 20px;
   }
@@ -209,6 +214,7 @@
     border-radius: 10px;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.12s ease, transform 0.15s ease;
     @include media-max(859px) {
       min-height: 56px;
     }
@@ -217,6 +223,7 @@
     }
     &:active {
       background-color: var(--surface-hover);
+      transform: scale(0.985);
     }
     &._selected {
       background-color: var(--accent-soft);

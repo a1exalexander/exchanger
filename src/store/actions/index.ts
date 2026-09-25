@@ -18,7 +18,7 @@ import { logError } from '../../services/logger';
 import { currenciesStorage } from '../../services';
 import { Dispatch } from 'redux';
 import { ExchangeMethod, ExchangesState } from '../types';
-import { pushRecent } from '../../utils/currencyMeta';
+import { pushRecent, trackUsage } from '../../utils/currencyMeta';
 
 const apiService = new ApiService();
 
@@ -39,12 +39,14 @@ const setExchange =
     const from = exchange?.currencyA?.code;
     const to = exchange?.currencyB?.code;
     if (from && to) {
+      trackUsage(from);
       dispatch({ type: SET_PAIR, payload: { from, to } });
     }
   };
 
 const setCurrency = (side: 'from' | 'to', code: string) => {
   pushRecent(code);
+  trackUsage(code);
   return { type: SET_CURRENCY, payload: { side, code } };
 };
 

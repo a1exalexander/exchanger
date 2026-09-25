@@ -10,7 +10,8 @@
   cursor: pointer;
   text-align: left;
   -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    transform 0.2s cubic-bezier(0.34, 1.36, 0.64, 1);
   @include media-max(859px) {
     margin-left: 0;
     border-color: var(--border);
@@ -23,6 +24,8 @@
   }
   &:active {
     background-color: var(--surface-hover);
+    transform: scale(0.97);
+    transition-duration: 0.08s;
   }
   &__icon {
     box-shadow: 0 0 0 1px var(--border);

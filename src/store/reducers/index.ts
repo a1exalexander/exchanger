@@ -93,9 +93,12 @@ const reducer = (
       return withValidMethod({ ...state, pair });
     }
     case SWAP_PAIR:
+      // the same deal seen from the other side: buying USD for UAH is selling UAH
       return withValidMethod({
         ...state,
         pair: { from: state.pair.to, to: state.pair.from },
+        method:
+          state.method === 'cross' ? 'cross' : state.method === 'buy' ? 'sell' : 'buy',
       });
     case SET_METHOD:
       return withValidMethod({
