@@ -21,7 +21,6 @@ import {
   SourceMark,
 } from '../ui';
 import { Messages, useT } from '../../i18n';
-import { ReactComponent as IconArrow } from '../../assets/images/profits.svg';
 
 type Side = 'from' | 'to';
 
@@ -258,8 +257,6 @@ const RateLine: FC<{ exchange: Exchange; rate: Big; from: string; to: string }> 
   const direct = rate.gte(1);
   const [base, quote] = direct ? [from, to] : [to, from];
   const value = direct ? rate : new Big(1).div(rate);
-  const grow = exchange.grow ? Number(exchange.grow) : 0;
-  const growUp = direct ? grow === 1 : grow === -1;
   const t = useT();
 
   const { provider, label } = getSource(t, exchange.source || 'market');
@@ -280,15 +277,6 @@ const RateLine: FC<{ exchange: Exchange; rate: Big; from: string; to: string }> 
     <>
       <span key={text} className="exchange-card__rate">
         {text}
-        {!!grow && (
-          <IconArrow
-            className={classNames('exchange-card__grow', {
-              _up: growUp,
-              _down: !growUp,
-            })}
-            aria-label={growUp ? t.card.rateUp : t.card.rateDown}
-          />
-        )}
       </span>
       <a
         className="exchange-card__source"

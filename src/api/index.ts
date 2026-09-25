@@ -1,9 +1,10 @@
 import { logInfo } from '../services/logger';
 
 const apiType: { [key: string]: string } = {
-  prod: 'https://whale-app-u5nay.ondigitalocean.app/api',
+  prod: '/api',
   fake: 'http://localhost:3004',
-  dev: 'http://localhost:8080/api',
+  // `vercel dev` serves the app and the `api/` functions on one port
+  dev: 'http://localhost:3000/api',
 };
 
 type API_MODE_TYPE = 'prod' | 'fake' | 'dev';
@@ -17,7 +18,6 @@ logInfo(`ROOT URL ${process.env.REACT_APP_API_MODE}: ${ROOT_URL}`);
 
 const api = {
   currencies: `${ROOT_URL}/currencies`,
-  lastUpdate: `${ROOT_URL}/date`,
 };
 
 export default api;

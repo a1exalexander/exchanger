@@ -6,7 +6,8 @@ App for convert currencies developed using Javascript library React and Typescri
 
 Any two currencies can be converted. The rate is picked in this order:
 
-1. **Monobank** buy / sell (or cross) rate with the official **NBU** rate — from the app backend.
+1. **Monobank** buy / sell (or cross) rate with the official **NBU** rate — from `api/currencies.ts`, a Vercel Function
+   cached on the CDN for 5 minutes (Monobank rate-limits by IP). Run it locally with `vercel dev`.
 2. The same Monobank pair reversed (e.g. `UAH → USD`), buy / sell sides are swapped accordingly.
 3. **Market rate** for everything else (~160 fiat currencies, precious metals and popular crypto) from the free, key-less
    [fawazahmed0/exchange-api](https://github.com/fawazahmed0/exchange-api) (updated daily, served via jsDelivr with a Cloudflare Pages mirror).

@@ -16,21 +16,13 @@ axios.interceptors.response.use(
 );
 
 export default class ApiService {
-  fetchCurrencies = async () => {
+  /** Monobank + NBU rates and the moment they were fetched (ISO) */
+  fetchCurrencies = async (): Promise<{ date: string; currencies: Exchange[] }> => {
     try {
-      const { data }: { data: Exchange[] } = await axios.get(api.currencies);
+      const { data } = await axios.get(api.currencies);
       return data;
     } catch {
-      return (currenciesStorage.get() || []) as Exchange[];
-    }
-  };
-
-  fetchLastUpdate = async () => {
-    try {
-      const { data } = await axios.get(api.lastUpdate);
-      return data;
-    } catch {
-      return '';
+      return { date: '', currencies: (currenciesStorage.get() || []) as Exchange[] };
     }
   };
 }

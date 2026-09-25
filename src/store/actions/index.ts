@@ -11,7 +11,6 @@ import {
 } from '../../constants';
 import { Exchange, Currencies, SN } from '../../types';
 import ApiService from '../../services/apiService';
-import moment from 'moment';
 import { fetchMarketRates, isMarketStale } from '../../services/marketRates';
 import { logError } from '../../services/logger';
 import { currenciesStorage } from '../../services';
@@ -56,16 +55,6 @@ const setMethod = (method: ExchangeMethod) => ({
   payload: method,
 });
 
-export const setUpdatedDate = async (dispatch: Dispatch) => {
-  const lastUpdate = await apiService.fetchLastUpdate();
-  const date = moment(lastUpdate);
-  // stored as ISO: the footer formats it in the current language
-  dispatch({
-    type: SET_LAST_UPDATE,
-    payload: lastUpdate && date.isValid() ? date.toISOString() : '',
-  });
-};
-
 const loadMarketRates =
   () => async (dispatch: Dispatch, getState: () => ExchangesState) => {
     if (!isMarketStale(getState().market)) return;
@@ -78,9 +67,10 @@ const fetchCurrencies =
     dispatch({ type: FETCH_CURRENCIES_REQUEST });
     loadMarketRates()(dispatch, getState);
     try {
-      const currencies = await apiService.fetchCurrencies();
+      const { date, currencies } = await apiService.fetchCurrencies();
       dispatch(fetchCurrenciesSuccess(currencies));
-      setUpdatedDate(dispatch);
+      // stored as ISO: the footer formats it in the current language
+      if (date) dispatch({ type: SET_LAST_UPDATE, payload: date });
     } catch (error) {
       logError('fetchCurrencies', error);
       dispatch({ type: FETCH_CURRENCIES_FAILURE });

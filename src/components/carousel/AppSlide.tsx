@@ -1,11 +1,9 @@
 import React, { FC } from 'react';
-import classNames from 'classnames';
 import { Exchange, SN } from '../../types';
 import { connect } from 'react-redux';
 import getIcon from '../../utils/getIcon';
 import { setExchange } from '../../store/actions';
 import { ReactComponent as IconExchange } from '../../assets/images/exchange-arrows.svg';
-import { ReactComponent as IconArrow } from '../../assets/images/profits.svg';
 import { toFix } from '../../utils/formatCurrency';
 import { getCurrencyName } from '../../utils/currencyMeta';
 import { useLang, useT } from '../../i18n';
@@ -23,7 +21,6 @@ const AppSlide: FC<Props> = ({ exchange, setExchange }) => {
     rateCross = '',
     currencyA: { code: codeA, country: countryA = '' },
     currencyB: { code: codeB, country: countryB = '' },
-    grow,
   } = exchange;
   const lang = useLang();
   const t = useT();
@@ -94,14 +91,6 @@ const AppSlide: FC<Props> = ({ exchange, setExchange }) => {
         <h4 className="app-slide__currency-name">
           {getCurrencyName(codeA, null, lang)}
         </h4>
-        <div className="app-slide__grow-wrapper pulse">
-          <IconArrow
-            className={classNames('app-slide__grow ', {
-              _up: grow === 1,
-              _down: grow === -1,
-            })}
-          />
-        </div>
       </div>
     </li>
   );

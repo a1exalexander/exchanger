@@ -102,19 +102,4 @@
   &__skeleton {
     width: 100%;
   }
-  &__grow-wrapper {
-    @include flex-row(center, center);
-  }
-  &__grow {
-    @include svg(16px, $A1);
-    transform: rotate(45deg);
-    &._up {
-      fill: $G1;
-      transform: rotate(0deg);
-    }
-    &._down {
-      fill: $P1;
-      transform: rotateX(180deg);
-    }
-  }
 }
