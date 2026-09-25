@@ -124,14 +124,16 @@ const PickerPanel: FC<Props & { closing: boolean }> = ({
 
   // start keyboard navigation from the selected currency
   useEffect(() => {
-    if (query.trim()) {
-      setActive(0);
-      return;
-    }
     const index = flat.findIndex(({ code }) => code === value);
     setActive(Math.max(index, 0));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query]);
+  }, []);
+
+  const onQueryChange = (next: string) => {
+    setQuery(next);
+    // reset synchronously so Enter right after typing picks the first match
+    setActive(0);
+  };
 
   useLayoutEffect(() => {
     if (!isDesktop || !anchor) return;
@@ -267,7 +269,7 @@ const PickerPanel: FC<Props & { closing: boolean }> = ({
             ref={inputRef}
             type="search"
             value={query}
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={(event) => onQueryChange(event.target.value)}
             onKeyDown={onKeyDown}
             placeholder="Код, назва або країна"
             aria-label="Пошук валюти"
@@ -285,7 +287,7 @@ const PickerPanel: FC<Props & { closing: boolean }> = ({
               type="button"
               className="currency-picker__clear"
               onClick={() => {
-                setQuery('');
+                onQueryChange('');
                 inputRef.current?.focus();
               }}
               aria-label="Очистити пошук"

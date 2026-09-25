@@ -77,20 +77,11 @@ $style: exchange-card;
   &__meta {
     @include flex-row(space-between, center);
     flex-wrap: wrap;
-    gap: 8px 12px;
-    padding: 8px 16px 16px;
+    gap: 12px;
+    padding: 8px 16px 14px;
     @include media {
       padding: 4px 24px 20px;
     }
-  }
-  &__source {
-    margin-left: auto;
-    text-align: right;
-    font-family: $second-font;
-    @include text($H200, 300, var(--text-muted));
-  }
-  &__nbu {
-    white-space: nowrap;
   }
   &__summary {
     width: 100%;

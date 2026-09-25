@@ -51,26 +51,31 @@
     }
   }
   &__logo {
-    width: 22px;
-    height: 22px;
+    width: 28px;
+    height: 28px;
     flex-shrink: 0;
     margin-right: 10px;
-    border-radius: 3px;
+    @include media-max(859px) {
+      .app-logo__tile {
+        fill: rgba(255, 255, 255, 0.22);
+      }
+    }
     @include media {
-      width: 32px;
-      height: 32px;
+      width: 36px;
+      height: 36px;
       margin-right: 12px;
     }
   }
   &__title {
-    font-family: $pixel-font;
+    font-family: $display-font;
     font-weight: 600;
     font-size: $H700;
+    letter-spacing: -0.02em;
     line-height: 1;
     color: inherit;
     transition: color 0.2s ease;
     @include media {
-      font-size: $H900;
+      font-size: 1.75rem;
     }
   }
   &__theme {

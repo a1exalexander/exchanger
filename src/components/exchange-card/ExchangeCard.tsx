@@ -7,12 +7,12 @@ import { useDebounce } from 'usehooks-ts';
 import { SET_RATE_VALUE } from '../../constants';
 import { setMethod, swapPair } from '../../store/actions';
 import { ExchangeMethod, ExchangesState } from '../../store/types';
-import { Exchange, SN } from '../../types';
+import { Exchange, ExchangeSource, SN } from '../../types';
 import { useExchange } from '../../hooks';
 import { formatAmount, formatRate, parseAmount } from '../../utils/formatCurrency';
 import { inputFontSize } from '../../utils/helpers';
 import { CurrencySelect } from '../currency-picker';
-import { IconSwap, Skeleton } from '../ui';
+import { IconSwap, RATE_PROVIDERS, RateProvider, Skeleton, SourceMark } from '../ui';
 import { ReactComponent as IconArrow } from '../../assets/images/profits.svg';
 
 type Side = 'from' | 'to';
@@ -41,19 +41,13 @@ const convert = (value: string, rate: Big | undefined, side: Side) => {
   }
 };
 
-const sourceLabel = (exchange: Exchange) => {
-  switch (exchange.source) {
-    case 'bank':
-      return 'Курс Monobank';
-    case 'nbu':
-      return 'Офіційний курс НБУ';
-    case 'bank-cross':
-      return 'Крос-курс Monobank';
-    default:
-      return `Ринковий курс${
-        exchange.date ? ` · ${moment(exchange.date).format('DD.MM.YYYY')}` : ''
-      }`;
-  }
+const SOURCE: {
+  [key in ExchangeSource]: { provider: RateProvider; label: string };
+} = {
+  bank: { provider: 'mono', label: 'Курс Monobank' },
+  'bank-cross': { provider: 'mono', label: 'Крос-курс Monobank' },
+  nbu: { provider: 'nbu', label: 'Офіційний курс НБУ' },
+  market: { provider: 'market', label: 'Середньоринковий курс' },
 };
 
 const ExchangeCard: FC<IBaseProps> = ({ className = '' }) => {
@@ -196,20 +190,7 @@ const ExchangeCard: FC<IBaseProps> = ({ className = '' }) => {
         ) : (
           <span />
         )}
-        {exchange && (
-          <span className="exchange-card__source">
-            {sourceLabel(exchange)}
-            {nbu ? (
-              <span className="exchange-card__nbu">
-                {' '}
-                · НБУ{' '}
-                {exchange.reversed
-                  ? `1 ${pair.to} = ${formatRate(new Big(1).div(nbu))} ${pair.from}`
-                  : `1 ${pair.from} = ${formatRate(nbu)} ${pair.to}`}
-              </span>
-            ) : null}
-          </span>
-        )}
+        {exchange && <RateSource exchange={exchange} nbu={nbu} from={pair.from} to={pair.to} />}
       </div>
 
       <button
@@ -247,6 +228,52 @@ const ExchangeCard: FC<IBaseProps> = ({ className = '' }) => {
         )}
       </button>
     </section>
+  );
+};
+
+const RateSource: FC<{
+  exchange: Exchange;
+  nbu?: number;
+  from: string;
+  to: string;
+}> = ({ exchange, nbu, from, to }) => {
+  const { provider, label } = SOURCE[exchange.source || 'market'];
+  const info = RATE_PROVIDERS[provider];
+  const date =
+    provider === 'market' && exchange.date
+      ? ` · ${moment(exchange.date).format('DD.MM.YYYY')}`
+      : '';
+  return (
+    <div className="rate-source">
+      <a
+        className="rate-source__main"
+        href={info.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        title={info.description}
+        data-posthog-link={`rate-source-${provider}`}
+      >
+        <SourceMark provider={provider} />
+        <span>
+          {label}
+          {date}
+        </span>
+      </a>
+      {nbu ? (
+        <span
+          className="rate-source__ref"
+          title="Офіційний курс НБУ — для порівняння, в розрахунку не використовується"
+        >
+          <SourceMark provider="nbu" />
+          <span>
+            офіційний:{' '}
+            {exchange.reversed
+              ? `1 ${to} = ${formatRate(new Big(1).div(nbu))} ${from}`
+              : `1 ${from} = ${formatRate(nbu)} ${to}`}
+          </span>
+        </span>
+      ) : null}
+    </div>
   );
 };
 

@@ -63,3 +63,27 @@ export const IconMoon: FC<IconProps> = (props) => (
     <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" />
   </Svg>
 );
+
+export const IconGlobe: FC<IconProps> = (props) => (
+  <Svg {...props}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3Z" />
+  </Svg>
+);
+
+/** App logo: two exchange arrows on a gradient tile */
+export const AppLogo: FC<IconProps> = (props) => (
+  <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false" {...props}>
+    <defs>
+      <linearGradient id="app-logo-gradient" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stopColor="#3d81ff" />
+        <stop offset="1" stopColor="#17a781" />
+      </linearGradient>
+    </defs>
+    <rect className="app-logo__tile" width="32" height="32" rx="9" fill="url(#app-logo-gradient)" />
+    <g fill="none" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 12.5h13.5M18.5 8.5l4 4-4 4" />
+      <path d="M23 19.5H9.5M13.5 15.5l-4 4 4 4" />
+    </g>
+  </svg>
+);

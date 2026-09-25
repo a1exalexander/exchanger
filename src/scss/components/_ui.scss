@@ -108,3 +108,68 @@
     }
   }
 }
+
+// Rate source badges
+.source-mark {
+  @include flex-row(center, center);
+  flex-shrink: 0;
+  height: 18px;
+  min-width: 18px;
+  border-radius: 5px;
+  font-family: $base-font;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  &--mono {
+    width: 18px;
+    border-radius: 50%;
+    background-color: #000;
+    color: $N0;
+    font-size: 12px;
+    padding-bottom: 1px;
+    .dark & {
+      background-color: $N0;
+      color: #000;
+    }
+  }
+  &--nbu {
+    padding: 0 4px;
+    background-color: rgba(0, 143, 64, 0.12);
+    color: $G3;
+    .dark & {
+      color: $G1;
+    }
+  }
+  &--market {
+    width: 18px;
+    border-radius: 50%;
+    background-color: var(--accent-soft);
+    color: var(--accent);
+    font-size: 13px;
+  }
+}
+
+.rate-source {
+  @include flex-row(space-between, center);
+  flex: 1 1 100%;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+  font-family: $second-font;
+  @include text($H200, 300, var(--text-muted));
+  &__main,
+  &__ref {
+    @include flex-row(flex-start, center);
+    gap: 6px;
+  }
+  &__main {
+    color: var(--text);
+    &:hover {
+      color: var(--accent);
+    }
+  }
+  &__ref {
+    cursor: help;
+  }
+}

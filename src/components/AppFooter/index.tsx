@@ -2,54 +2,56 @@ import React, { FC } from 'react';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { ExchangesState } from '../../store/types';
+import { RATE_PROVIDERS, RateProvider, SourceMark } from '../ui';
 
 interface Props {
   className?: string;
 }
+
+const SOURCES: { provider: RateProvider; label: string; note: string }[] = [
+  { provider: 'mono', label: 'Monobank', note: 'купівля та продаж' },
+  { provider: 'nbu', label: 'НБУ', note: 'офіційний курс' },
+  {
+    provider: 'market',
+    label: 'exchange-api',
+    note: 'середньоринковий, для інших валют',
+  },
+];
 
 export const AppFooter: FC<Props> = ({ className = '' }) => {
   const lastUpdate = useSelector((state: ExchangesState) => state.lastUpdate);
   return (
     <footer className={classNames('app-footer', className)}>
       <div className="app-footer__inner">
-        <div className="app-footer__info-card">
-          <h2 className="app-footer__description">
-            Конвертуй гривню та понад 200 валют світу за курсом{' '}
-            <a
-              href="https://www.monobank.com.ua/"
-              target="_blank"
-              rel="noopener noreferrer"
-              data-posthog-link="monobank"
-              className="app-footer__description app-footer__description--eng app-footer__description--link"
-            >
-              Monobank
-            </a>{' '}
-            та{' '}
-            <a
-              href="https://bank.gov.ua/"
-              target="_blank"
-              data-posthog-link="NBU"
-              rel="noopener noreferrer"
-              className="app-footer__description app-footer__description--mark app-footer__description--link"
-            >
-              НБУ
-            </a>
-            {' '}або за{' '}
-            <a
-              href="https://github.com/fawazahmed0/exchange-api"
-              target="_blank"
-              data-posthog-link="exchange-api"
-              rel="noopener noreferrer"
-              className="app-footer__description app-footer__description--link"
-            >
-              ринковим курсом
-            </a>
-          </h2>
+        <div className="app-footer__sources">
+          <h2 className="app-footer__title">Джерела курсів</h2>
+          <ul className="app-footer__list">
+            {SOURCES.map(({ provider, label, note }) => (
+              <li key={provider} className="app-footer__source">
+                <SourceMark provider={provider} />
+                <span>
+                  <a
+                    href={RATE_PROVIDERS[provider].url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-posthog-link={provider}
+                    title={RATE_PROVIDERS[provider].description}
+                    className="app-footer__link"
+                  >
+                    {label}
+                  </a>
+                  <span className="app-footer__note">— {note}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p className="app-footer__disclaimer">
+            Середньоринкові курси довідкові й оновлюються щодня.
+          </p>
         </div>
         {lastUpdate && (
           <div className="app-footer__date-card">
-            <span>Останнє оновлення:</span>{' '}
-            <span className="app-footer__date">{lastUpdate}</span>
+            Оновлено: <span className="app-footer__date">{lastUpdate}</span>
           </div>
         )}
       </div>
