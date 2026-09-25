@@ -36,7 +36,6 @@ const reverseExchange = (exchange: Exchange): Exchange => ({
   NB: exchange.NB
     ? { ...exchange.NB, rate: invert(exchange.NB.rate) as number }
     : undefined,
-  grow: exchange.grow ? -Number(exchange.grow) : exchange.grow,
   reversed: true,
 });
 

@@ -59,8 +59,6 @@ const uk = {
     market: 'Середньоринковий',
     rateDate: 'Дата курсу',
     nbuRate: 'Офіційний курс НБУ',
-    rateUp: 'Курс зріс',
-    rateDown: 'Курс знизився',
   },
   select: {
     from: 'Яку валюту конвертуємо?',
@@ -142,8 +140,6 @@ const en: Messages = {
     market: 'Mid-market',
     rateDate: 'Rate date',
     nbuRate: 'Official NBU rate',
-    rateUp: 'Rate went up',
-    rateDown: 'Rate went down',
   },
   select: {
     from: 'Convert from',

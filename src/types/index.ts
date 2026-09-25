@@ -31,7 +31,6 @@ export interface Exchange {
   currencyB: Currency;
   precision?: number;
   NB?: NBRate;
-  grow?: Number;
   source?: ExchangeSource;
   reversed?: boolean;
 }

@@ -122,16 +122,6 @@ $style: exchange-card;
     white-space: nowrap;
     animation: rate-in 0.28s ease-out;
   }
-  &__grow {
-    @include svg(14px, $N0);
-    transform: rotate(45deg);
-    &._up {
-      transform: rotate(0deg);
-    }
-    &._down {
-      transform: rotateX(180deg);
-    }
-  }
   &__source {
     @include flex-row(flex-start, center);
     gap: 6px;
