@@ -11,9 +11,8 @@ import {
 } from '../../constants';
 import { Exchange, Currencies, SN } from '../../types';
 import ApiService from '../../services/apiService';
-import { fetchMarketRates, isMarketStale } from '../../services/marketRates';
 import moment from 'moment';
-import 'moment/locale/uk';
+import { fetchMarketRates, isMarketStale } from '../../services/marketRates';
 import { logError } from '../../services/logger';
 import { currenciesStorage } from '../../services';
 import { Dispatch } from 'redux';
@@ -59,13 +58,11 @@ const setMethod = (method: ExchangeMethod) => ({
 
 export const setUpdatedDate = async (dispatch: Dispatch) => {
   const lastUpdate = await apiService.fetchLastUpdate();
-  moment.locale('uk');
   const date = moment(lastUpdate);
-  date.locale('uk');
-
+  // stored as ISO: the footer formats it in the current language
   dispatch({
     type: SET_LAST_UPDATE,
-    payload: lastUpdate ? date.format('DD MMMM, YYYY') : '',
+    payload: lastUpdate && date.isValid() ? date.toISOString() : '',
   });
 };
 

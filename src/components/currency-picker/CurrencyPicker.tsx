@@ -21,6 +21,7 @@ import { hasBankRates } from '../../utils/resolveExchange';
 import { DESKTOP_QUERY, useCurrencyOptions, useMediaQuery } from '../../hooks';
 import { CurrencyIcon } from '../ui/CurrencyIcon';
 import { IconCheck, IconClose, IconSearch } from '../ui/icons';
+import { useT } from '../../i18n';
 
 interface Props {
   open: boolean;
@@ -87,6 +88,7 @@ const PickerPanel: FC<Props & { closing: boolean }> = ({
   const isDesktop = useMediaQuery(DESKTOP_QUERY);
   const currencies = useSelector((state: ExchangesState) => state.currencies);
   const options = useCurrencyOptions();
+  const t = useT();
   const [query, setQuery] = useState('');
   const [active, setActive] = useState(0);
   const [position, setPosition] = useState({ top: 0, left: 0 });
@@ -101,22 +103,22 @@ const PickerPanel: FC<Props & { closing: boolean }> = ({
     }
     const recent = pick(options, getRecent()).slice(0, 4);
     return [
-      { title: 'Нещодавні', items: recent },
-      { title: 'Популярні', items: pick(options, POPULAR) },
+      { title: t.picker.recent, items: recent },
+      { title: t.picker.popular, items: pick(options, POPULAR) },
       {
-        title: 'Усі валюти',
+        title: t.picker.all,
         items: options.filter(({ kind }) => kind === 'fiat'),
       },
       {
-        title: 'Криптовалюти',
+        title: t.picker.crypto,
         items: options.filter(({ kind }) => kind === 'crypto'),
       },
       {
-        title: 'Дорогоцінні метали',
+        title: t.picker.metals,
         items: options.filter(({ kind }) => kind === 'metal'),
       },
     ].filter(({ items }) => items.length);
-  }, [options, query]);
+  }, [options, query, t]);
 
   const flat = useMemo(
     () => sections.reduce<CurrencyOption[]>((acc, s) => acc.concat(s.items), []),
@@ -295,7 +297,7 @@ const PickerPanel: FC<Props & { closing: boolean }> = ({
               type="button"
               className="currency-picker__close"
               onClick={onClose}
-              aria-label="Закрити"
+              aria-label={t.picker.close}
             >
               <IconClose />
             </button>
@@ -309,8 +311,8 @@ const PickerPanel: FC<Props & { closing: boolean }> = ({
             value={query}
             onChange={(event) => onQueryChange(event.target.value)}
             onKeyDown={onKeyDown}
-            placeholder="Код, назва або країна"
-            aria-label="Пошук валюти"
+            placeholder={t.picker.placeholder}
+            aria-label={t.picker.search}
             role="combobox"
             aria-expanded="true"
             aria-controls={listboxId}
@@ -328,7 +330,7 @@ const PickerPanel: FC<Props & { closing: boolean }> = ({
                 onQueryChange('');
                 inputRef.current?.focus();
               }}
-              aria-label="Очистити пошук"
+              aria-label={t.picker.clear}
             >
               <IconClose />
             </button>
@@ -343,7 +345,7 @@ const PickerPanel: FC<Props & { closing: boolean }> = ({
         >
           {!flat.length && (
             <p className="currency-picker__empty">
-              Нічого не знайдено за запитом «{query.trim()}»
+              {t.picker.empty(query.trim())}
             </p>
           )}
           {sections.map((section) => (
@@ -351,7 +353,7 @@ const PickerPanel: FC<Props & { closing: boolean }> = ({
               key={section.title || 'results'}
               className="currency-picker__section"
               role="group"
-              aria-label={section.title || 'Результати пошуку'}
+              aria-label={section.title || t.picker.results}
             >
               {section.title && (
                 <div className="currency-picker__section-title" aria-hidden="true">
@@ -384,7 +386,7 @@ const PickerPanel: FC<Props & { closing: boolean }> = ({
                     {bank && (
                       <span
                         className="currency-picker__tag"
-                        title="Курс купівлі та продажу від Monobank"
+                        title={t.picker.bankTag}
                       >
                         mono
                       </span>
@@ -392,9 +394,9 @@ const PickerPanel: FC<Props & { closing: boolean }> = ({
                     {isOther && (
                       <span
                         className="currency-picker__tag currency-picker__tag--muted"
-                        title="Валюти поміняються місцями"
+                        title={t.picker.swapTagTitle}
                       >
-                        обмін
+                        {t.picker.swapTag}
                       </span>
                     )}
                     {selected && <IconCheck className="currency-picker__check" />}

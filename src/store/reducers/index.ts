@@ -5,6 +5,7 @@ import {
   FETCH_CURRENCIES_FAILURE,
   TOGGLE_EXCHANGE_METHOD,
   SET_THEME,
+  SET_LANG,
   SET_PAIR,
   SET_CURRENCY,
   SWAP_PAIR,
@@ -33,6 +34,7 @@ const initialState: ExchangesState = {
   method: 'buy',
   pair: initialPair(),
   theme: 'light',
+  lang: null,
 };
 
 /** Buy / sell only make sense when the bank quotes both sides */
@@ -119,6 +121,11 @@ const reducer = (
       return {
         ...state,
         theme: action.payload,
+      };
+    case SET_LANG:
+      return {
+        ...state,
+        lang: action.payload,
       };
     default:
       return state;

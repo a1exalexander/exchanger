@@ -6,11 +6,13 @@ import { setCurrency } from '../../store/actions';
 import { rankQuickPick, USAGE_EVENT } from '../../utils/currencyMeta';
 import { useCurrencyOptions } from '../../hooks';
 import { CurrencyIcon } from '../ui';
+import { useT } from '../../i18n';
 
 export const QuickPick: FC<{ className?: string }> = ({ className }) => {
   const dispatch = useDispatch();
   const pair = useSelector((state: ExchangesState) => state.pair);
   const options = useCurrencyOptions();
+  const t = useT();
   const available = useMemo(() => new Set(options.map(({ code }) => code)), [options]);
   const [codes, setCodes] = useState(() => rankQuickPick(available));
 
@@ -30,7 +32,7 @@ export const QuickPick: FC<{ className?: string }> = ({ className }) => {
   return (
     <section className={classNames('quick-pick', className)} aria-labelledby="quick-pick-title">
       <h2 id="quick-pick-title" className="quick-pick__title">
-        Швидкий вибір
+        {t.quickPick.title}
       </h2>
       <div className="quick-pick__list">
         {codes.map((code, index) => {
@@ -50,10 +52,7 @@ export const QuickPick: FC<{ className?: string }> = ({ className }) => {
           );
         })}
       </div>
-      <p className="quick-pick__hint">
-        Тут першими з'являються валюти, які ти обираєш найчастіше. Усі{' '}
-        {options.length} — за натисканням на валюту в картці.
-      </p>
+      <p className="quick-pick__hint">{t.quickPick.hint(options.length)}</p>
     </section>
   );
 };

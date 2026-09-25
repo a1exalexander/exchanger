@@ -2,6 +2,7 @@ import * as cc from 'currency-codes';
 import flagMap from './flagMap.json';
 import { Currencies } from '../types';
 import { MarketRates } from '../services/marketRates';
+import type { Lang } from '../i18n';
 
 const cryptocurrencies = require('cryptocurrencies');
 
@@ -10,7 +11,6 @@ export type CurrencyKind = 'fiat' | 'crypto' | 'metal';
 export interface CurrencyOption {
   code: string;
   name: string;
-  nameEn: string;
   kind: CurrencyKind;
   /** lower-cased text used for search */
   search: string;
@@ -56,18 +56,25 @@ const SKIP = new Set([
 
 const ISO_CODES = new Set<string>(cc.codes());
 
-const makeDisplayNames = (type: 'currency' | 'region') => {
+const makeDisplayNames = (lang: Lang, type: 'currency' | 'region') => {
   try {
-    return new Intl.DisplayNames(['uk'], { type });
+    return new Intl.DisplayNames([lang], { type });
   } catch {
     return null;
   }
 };
-const currencyNamesUk = makeDisplayNames('currency');
-const regionNamesUk = makeDisplayNames('region');
+const currencyNames = {
+  uk: makeDisplayNames('uk', 'currency'),
+  en: makeDisplayNames('en', 'currency'),
+};
+const regionNames = {
+  uk: makeDisplayNames('uk', 'region'),
+  en: makeDisplayNames('en', 'region'),
+};
 
 /** Names that browsers don't translate (or translate inconsistently) */
-const UK_NAMES: { [code: string]: string } = {
+const CUSTOM_NAMES: { [key in Lang]: { [code: string]: string } } = {
+  uk: {
   UAH: 'Українська гривня',
   XAU: 'Золото (тройська унція)',
   XAG: 'Срібло (тройська унція)',
@@ -79,6 +86,20 @@ const UK_NAMES: { [code: string]: string } = {
   USDT: 'Tether',
   USDC: 'USD Coin',
   TON: 'Toncoin',
+  },
+  en: {
+    UAH: 'Ukrainian Hryvnia',
+    XAU: 'Gold (troy ounce)',
+    XAG: 'Silver (troy ounce)',
+    XPT: 'Platinum (troy ounce)',
+    XPD: 'Palladium (troy ounce)',
+    XDR: 'Special Drawing Rights',
+    BTC: 'Bitcoin',
+    ETH: 'Ethereum',
+    USDT: 'Tether',
+    USDC: 'USD Coin',
+    TON: 'Toncoin',
+  },
 };
 
 const capitalize = (text: string) =>
@@ -100,22 +121,29 @@ const englishName = (code: string, market?: MarketRates | null) =>
   cryptocurrencies[code] ||
   '';
 
-export const getCurrencyName = (code: string, market?: MarketRates | null) => {
+export const getCurrencyName = (
+  code: string,
+  market?: MarketRates | null,
+  lang: Lang = 'uk',
+) => {
   if (!code) return '';
-  if (UK_NAMES[code]) return UK_NAMES[code];
-  if (getKind(code) !== 'crypto' && currencyNamesUk) {
-    const name = currencyNamesUk.of(code);
+  const custom = CUSTOM_NAMES[lang][code];
+  if (custom) return custom;
+  const names = currencyNames[lang];
+  if (getKind(code) !== 'crypto' && names) {
+    const name = names.of(code);
     if (name && name !== code) return capitalize(name);
   }
   return englishName(code, market) || code;
 };
 
-const regionName = (code: string) => {
-  if (!regionNamesUk || code.startsWith('X') || getKind(code) !== 'fiat') {
+const regionName = (code: string, lang: Lang) => {
+  const names = regionNames[lang];
+  if (!names || code.startsWith('X') || getKind(code) !== 'fiat') {
     return '';
   }
   try {
-    const name = regionNamesUk.of(code.slice(0, 2));
+    const name = names.of(code.slice(0, 2));
     return name && name !== code.slice(0, 2) ? name : '';
   } catch {
     return '';
@@ -163,19 +191,27 @@ export const getCurrencyIcon = (code: string): string => {
 
 const buildOption = (
   code: string,
-  market?: MarketRates | null,
+  market: MarketRates | null | undefined,
+  lang: Lang,
 ): CurrencyOption => {
-  const name = getCurrencyName(code, market);
-  const nameEn = englishName(code, market);
+  const name = getCurrencyName(code, market, lang);
   const countries = (cc.code(code)?.countries || []).join(' ');
+  // searchable in both languages whatever the interface language is
+  const search = [
+    code,
+    getCurrencyName(code, market, 'uk'),
+    getCurrencyName(code, market, 'en'),
+    englishName(code, market),
+    regionName(code, 'uk'),
+    regionName(code, 'en'),
+    countries,
+    METAL_SEARCH[code],
+  ];
   return {
     code,
     name,
-    nameEn,
     kind: getKind(code),
-    search: [code, name, nameEn, regionName(code), countries, METAL_SEARCH[code]]
-      .join(' ')
-      .toLowerCase(),
+    search: search.join(' ').toLowerCase(),
   };
 };
 
@@ -186,6 +222,7 @@ const buildOption = (
 export const buildCurrencyOptions = (
   bank: Currencies,
   market: MarketRates | null,
+  lang: Lang = 'uk',
 ): CurrencyOption[] => {
   const codes = new Set<string>(['UAH']);
   bank.forEach(({ currencyA, currencyB }) => {
@@ -201,8 +238,8 @@ export const buildCurrencyOptions = (
     });
   }
   return Array.from(codes)
-    .map((code) => buildOption(code, market))
-    .sort((a, b) => a.name.localeCompare(b.name, 'uk'));
+    .map((code) => buildOption(code, market, lang))
+    .sort((a, b) => a.name.localeCompare(b.name, lang));
 };
 
 const rank = (option: CurrencyOption, query: string) => {

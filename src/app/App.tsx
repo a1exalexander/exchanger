@@ -5,10 +5,12 @@ import { HomePage } from '../pages';
 import { AppFooter, AppHeader, ScrollBackdrop } from '../components';
 import AppCarousel from '../components/carousel/AppCarousel';
 import { ExchangesState } from '../store/types';
+import { MESSAGES, useLang } from '../i18n';
 
 const App: FC = () => {
   const dispatch = useDispatch<any>();
   const theme = useSelector((store: ExchangesState) => store.theme);
+  const lang = useLang();
 
   useEffect(() => {
     const root = document.documentElement;
@@ -18,6 +20,15 @@ const App: FC = () => {
       .querySelector('meta[name="theme-color"]')
       ?.setAttribute('content', theme === 'dark' ? '#0d111f' : '#ffffff');
   }, [theme]);
+
+  useEffect(() => {
+    const { title, description } = MESSAGES[lang].meta;
+    document.documentElement.lang = lang;
+    document.title = title;
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute('content', description);
+  }, [lang]);
 
   useEffect(() => {
     const timer = setTimeout(() => {

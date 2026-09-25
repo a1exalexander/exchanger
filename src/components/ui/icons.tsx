@@ -71,19 +71,19 @@ export const IconGlobe: FC<IconProps> = (props) => (
   </Svg>
 );
 
-/** App logo: two exchange arrows on a gradient tile */
+/** App logo: a pair of exchange harpoons on a rounded tile */
 export const AppLogo: FC<IconProps> = (props) => (
   <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false" {...props}>
     <defs>
       <linearGradient id="app-logo-gradient" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stopColor="#3d81ff" />
-        <stop offset="1" stopColor="#17a781" />
+        <stop offset="0" stopColor="#4f8bff" />
+        <stop offset="1" stopColor="#2a5cff" />
       </linearGradient>
     </defs>
-    <rect className="app-logo__tile" width="32" height="32" rx="9" fill="url(#app-logo-gradient)" />
-    <g fill="none" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 12.5h13.5M18.5 8.5l4 4-4 4" />
-      <path d="M23 19.5H9.5M13.5 15.5l-4 4 4 4" />
+    <rect className="app-logo__tile" width="32" height="32" rx="10" fill="url(#app-logo-gradient)" />
+    <g fill="none" stroke="#fff" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M8.5 13h15l-5-5" />
+      <path d="M23.5 19h-15l5 5" />
     </g>
   </svg>
 );
