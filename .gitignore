@@ -1,0 +1,9 @@
+*.xcodeproj
+Exchanger/Info.plist
+.dd/
+DerivedData/
+build/
+*.png
+!Exchanger/Resources/**/*.png
+.DS_Store
+xcuserdata/
