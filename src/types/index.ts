@@ -32,6 +32,11 @@ export interface Exchange {
   precision?: number;
   NB?: NBRate;
   grow?: Number;
+  source?: ExchangeSource;
+  reversed?: boolean;
 }
+
+/** Where the rate comes from: Monobank buy/sell, NBU, Monobank cross or market */
+export type ExchangeSource = 'bank' | 'nbu' | 'bank-cross' | 'market';
 
 export type Currencies = Array<Exchange>;

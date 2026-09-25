@@ -1,43 +1,24 @@
 import React, { FC } from 'react';
 import AppSlide from './AppSlide';
-import { connect } from 'react-redux';
-import { setExchange } from '../../store/actions';
-import { Skeleton } from 'antd';
-import { Currencies, Exchange } from '../../types';
+import { useSelector } from 'react-redux';
+import { Exchange } from '../../types';
+import { ExchangesState } from '../../store/types';
+import { Skeleton } from '../ui';
 
 interface AppCarouselProps {
-  loading: boolean;
-  currencies: Currencies;
   className?: string;
 }
 
-const AppCarousel: FC<AppCarouselProps> = ({
-  loading,
-  currencies,
-  className,
-}) => {
-  const slides = () => {
-    return currencies.map((exchange: Exchange, index: number) => {
-      return <AppSlide key={index + 1} exchange={exchange} />;
-    });
-  };
+const AppCarousel: FC<AppCarouselProps> = ({ className }) => {
+  const currencies = useSelector((state: ExchangesState) => state.currencies);
+  const loading = useSelector((state: ExchangesState) => state.loading);
 
-  const loadingCards = () => {
-    const countArray: any = new Array(20).keys();
-    const count: any = [...countArray];
-    return count.map((el: any, index: number) => {
-      return (
-        <li key={index} className="app-slide app-slide--skeleton">
-          <Skeleton
-            className="app-slide__skeleton"
-            active
-            paragraph={{ rows: 3 }}
-            title={false}
-          />
-        </li>
-      );
-    });
-  };
+  const loadingCards = () =>
+    Array.from({ length: 8 }, (_, index) => (
+      <li key={index} className="app-slide app-slide--skeleton">
+        <Skeleton rows={3} className="app-slide__skeleton" />
+      </li>
+    ));
 
   return (
     <div className={className}>
@@ -47,7 +28,11 @@ const AppCarousel: FC<AppCarouselProps> = ({
       >
         <div className="uk-position-relative uk-visible-toggle">
           <ul className="uk-slider-items uk-grid">
-            {loading && !currencies.length ? loadingCards() : slides()}
+            {loading && !currencies.length
+              ? loadingCards()
+              : currencies.map((exchange: Exchange) => (
+                  <AppSlide key={exchange.id} exchange={exchange} />
+                ))}
           </ul>
         </div>
       </div>
@@ -55,10 +40,4 @@ const AppCarousel: FC<AppCarouselProps> = ({
   );
 };
 
-export default connect(
-  ({ currencies, loading }: { currencies: Currencies; loading: boolean }) => ({
-    currencies,
-    loading,
-  }),
-  { setExchange }
-)(AppCarousel);
+export default AppCarousel;

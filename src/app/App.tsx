@@ -1,57 +1,47 @@
 import React, { useEffect, FC } from 'react';
-import { connect } from 'react-redux';
-import { fetchCurrencies } from '../store/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCurrencies, loadMarketRates } from '../store/actions';
 import { HomePage } from '../pages';
 import { AppFooter, AppHeader, ScrollBackdrop } from '../components';
 import AppCarousel from '../components/carousel/AppCarousel';
 import { ExchangesState } from '../store/types';
-import 'antd/es/select/style/css';
-import 'antd/es/dropdown/style/css';
-import 'antd/es/skeleton/style/css';
-import 'antd/es/popover/style/css';
-import 'antd/es/switch/style/css';
-import { useSelector } from 'react-redux';
 
-interface IStateProps {
-  lastUpdate: string;
-  exchange: object;
-  method: string;
-}
-interface IDispatchProps {
-  fetchCurrencies: Function;
-}
-
-type IProps = IStateProps & IDispatchProps;
-
-const App: FC<IProps> = (props) => {
-  const { fetchCurrencies } = props;
+const App: FC = () => {
+  const dispatch = useDispatch<any>();
   const theme = useSelector((store: ExchangesState) => store.theme);
 
   useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.remove('light');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    document.documentElement.classList.add(theme);
+    const root = document.documentElement;
+    root.classList.remove(theme === 'dark' ? 'light' : 'dark');
+    root.classList.add(theme);
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', theme === 'dark' ? '#0d111f' : '#ffffff');
   }, [theme]);
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       document.documentElement.classList.remove('no-transition');
     }, 300);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    fetchCurrencies();
-  }, [fetchCurrencies]);
+    dispatch(fetchCurrencies());
+    // rates change during the day, refresh when the tab becomes visible again
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') dispatch(loadMarketRates());
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => document.removeEventListener('visibilitychange', onVisible);
+  }, [dispatch]);
 
   return (
     <div id="app" className="app">
       <h1 className="hidden-text">
-        UAH USD EUR BTC RUB.Конвертер валют гривна доллар обменник. Currency
-        converter hryvnia dollar exchanger. Конвертер валют гривня долар
-        обмінник.
+        UAH USD EUR PLN BTC. Конвертер валют гривня долар євро обмінник.
+        Currency converter hryvnia dollar euro exchanger. Конвертер валют
+        гривня долар обмінник.
       </h1>
       <ScrollBackdrop />
       <AppHeader />
@@ -62,11 +52,4 @@ const App: FC<IProps> = (props) => {
   );
 };
 
-export default connect<IStateProps, IDispatchProps, object, ExchangesState>(
-  ({ method, exchange, lastUpdate }) => ({
-    method,
-    exchange,
-    lastUpdate,
-  }),
-  { fetchCurrencies },
-)(App);
+export default App;

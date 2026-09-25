@@ -17,8 +17,8 @@
     "@types/react-ga": "^2.3.0",
     "@types/react-redux": "^7.1.24",
     "@types/svgo": "^3.0.0",
-    "antd": "^4.24.3",
     "axios": "^1.6.0",
+    "big.js": "^5.2.2",
     "classnames": "^2.3.2",
     "cryptocurrencies": "^7.0.0",
     "cryptocurrency-icons": "^0.18.1",
@@ -79,5 +79,10 @@
     "react-app-env": "^1.2.3",
     "react-app-rewired": "^2.2.1",
     "yarn-upgrade-all": "^0.7.1"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!axios)/"
+    ]
   }
 }

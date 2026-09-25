@@ -127,3 +127,54 @@ export const setNumber = (fn: any) => (val: any, precision: number) => {
 };
 
 export default formatCurrency;
+
+/** Accepts "1 234,5" / "1234.5", returns a normalized string or null if invalid */
+export const parseAmount = (input: string): string | null => {
+  const value = input.replace(/[\s  ]/g, '').replace(',', '.');
+  if (value === '') return '';
+  if (!/^\d*\.?\d*$/.test(value)) return null;
+  if (value.length > 16) return null;
+  return value.startsWith('.') ? `0${value}` : value;
+};
+
+const groupThousands = (value: string) => {
+  const [int, frac] = value.split('.');
+  const grouped = int.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  return frac !== undefined ? `${grouped}.${frac}` : grouped;
+};
+
+const significantDecimals = (value: Big, significant: number) => {
+  const abs = value.abs();
+  if (abs.eq(0) || abs.gte(1)) return 2;
+  const exponent = Math.floor(Math.log10(Number(abs.toString())));
+  return Math.min(12, -exponent + significant - 1);
+};
+
+const stripZeros = (value: string) =>
+  value.includes('.') ? value.replace(/\.?0+$/, '') : value;
+
+/** Human friendly amount: 2 decimals for normal values, ~5 significant digits for tiny ones */
+export const formatAmount = (input: SN | Big | null | undefined) => {
+  if (input === '' || input === null || input === undefined) return '';
+  try {
+    const value = new Big(input);
+    const decimals = significantDecimals(value, 5);
+    const fixed = value.toFixed(decimals);
+    return groupThousands(decimals > 2 ? stripZeros(fixed) : fixed.replace(/\.00$/, ''));
+  } catch {
+    return '';
+  }
+};
+
+/** Rate with enough precision to be useful: 45.4175, 0.02202, 0.00000026 */
+export const formatRate = (input: SN | Big | null | undefined) => {
+  if (input === '' || input === null || input === undefined) return '';
+  try {
+    const value = new Big(input);
+    if (value.abs().gte(1000)) return groupThousands(value.toFixed(2));
+    if (value.abs().gte(1)) return value.toFixed(4);
+    return stripZeros(value.toFixed(significantDecimals(value, 4)));
+  } catch {
+    return '';
+  }
+};

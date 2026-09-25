@@ -1,43 +1,49 @@
 import {
   SET_LAST_UPDATE,
-  UPDATE_COMPUTED_PRICE,
   FETCH_CURRENCIES_REQUEST,
   FETCH_CURRENCIES_SUCCESS,
   FETCH_CURRENCIES_FAILURE,
-  SET_EXCHANGE,
   TOGGLE_EXCHANGE_METHOD,
-  UPDATE_COMPUTED_CURRENCY,
   SET_THEME,
+  SET_PAIR,
+  SET_CURRENCY,
+  SWAP_PAIR,
+  SET_METHOD,
+  SET_MARKET_RATES,
 } from '../../constants';
-import initialExchange from './initialExchange';
-import initialCurrency from './initialCurrency';
 import { ExchangesState } from '../types';
-import { Currency, SN } from '../../types';
-import { currenciesStorage } from '../../services';
-import has from 'has';
+import { Exchange } from '../../types';
+import { currenciesStorage, exchangeStorage } from '../../services';
+import { resolveExchange } from '../../utils/resolveExchange';
 
-const toggleExchangeMethod = (method: string) => {
-  return method === 'buy' ? 'sell' : 'buy';
+/** Pick up the pair chosen in the previous version of the app */
+const initialPair = () => {
+  const legacy: Exchange | null = exchangeStorage.get();
+  const from = legacy?.currencyA?.code;
+  const to = legacy?.currencyB?.code;
+  return from && to && from !== to ? { from, to } : { from: 'USD', to: 'UAH' };
 };
-
-const setExchangeMethod = (item: object) => {
-  return has(item, 'rateBuy') ? 'buy' : 'cross';
-};
-
-const updateComputedPrice = (state: Currency, payload: SN | null) => ({
-  ...state,
-  computedPrice: payload,
-});
 
 const initialState: ExchangesState = {
   lastUpdate: '',
   currencies: [...(currenciesStorage.get() || [])],
+  market: null,
   loading: false,
   hasError: false,
-  method: setExchangeMethod(initialExchange),
-  exchange: { ...initialExchange },
-  computedCurrency: { ...initialCurrency },
+  method: 'buy',
+  pair: initialPair(),
   theme: 'light',
+};
+
+/** Buy / sell only make sense when the bank quotes both sides */
+const withValidMethod = (state: ExchangesState): ExchangesState => {
+  const exchange = resolveExchange(state.pair, state.currencies, state.market);
+  if (!exchange) return state;
+  const hasBuySell = !!exchange.rateBuy && !!exchange.rateSell;
+  if (!hasBuySell) {
+    return state.method === 'cross' ? state : { ...state, method: 'cross' };
+  }
+  return state.method === 'cross' ? { ...state, method: 'buy' } : state;
 };
 
 const reducer = (
@@ -52,42 +58,55 @@ const reducer = (
         hasError: false,
       };
     case FETCH_CURRENCIES_SUCCESS:
-      return {
+      return withValidMethod({
         ...state,
         currencies: [...action.payload],
         loading: false,
         hasError: false,
-      };
+      });
     case FETCH_CURRENCIES_FAILURE:
       return {
         ...state,
         loading: false,
         hasError: true,
       };
-    case SET_EXCHANGE:
-      return {
+    case SET_MARKET_RATES:
+      return withValidMethod({
         ...state,
-        exchange: Object.assign({}, initialExchange, action.payload),
-        method: setExchangeMethod(action.payload),
+        market: action.payload,
+      });
+    case SET_PAIR:
+      return withValidMethod({
+        ...state,
+        pair: { ...action.payload },
+      });
+    case SET_CURRENCY: {
+      const { side, code } = action.payload as {
+        side: 'from' | 'to';
+        code: string;
       };
+      const other = side === 'from' ? 'to' : 'from';
+      const pair =
+        state.pair[other] === code
+          ? { from: state.pair.to, to: state.pair.from }
+          : { ...state.pair, [side]: code };
+      return withValidMethod({ ...state, pair });
+    }
+    case SWAP_PAIR:
+      return withValidMethod({
+        ...state,
+        pair: { from: state.pair.to, to: state.pair.from },
+      });
+    case SET_METHOD:
+      return withValidMethod({
+        ...state,
+        method: action.payload,
+      });
     case TOGGLE_EXCHANGE_METHOD:
-      return {
+      return withValidMethod({
         ...state,
-        method: toggleExchangeMethod(state.method),
-      };
-    case UPDATE_COMPUTED_PRICE:
-      return {
-        ...state,
-        computedCurrency: updateComputedPrice(
-          state.computedCurrency,
-          action.payload,
-        ),
-      };
-    case UPDATE_COMPUTED_CURRENCY:
-      return {
-        ...state,
-        computedCurrency: { ...action.payload },
-      };
+        method: state.method === 'buy' ? 'sell' : 'buy',
+      });
     case SET_LAST_UPDATE:
       return {
         ...state,

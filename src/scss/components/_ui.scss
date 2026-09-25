@@ -1,0 +1,110 @@
+// Currency icon
+.currency-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+  &--badge {
+    @include flex-row(center, center);
+    font-family: $base-font;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--accent);
+    background-color: var(--accent-soft);
+    text-transform: uppercase;
+  }
+}
+
+// Theme toggle
+.theme-toggle {
+  position: relative;
+  width: 52px;
+  height: 30px;
+  padding: 3px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  flex-shrink: 0;
+  background-color: $B3;
+  @include transition(background-color);
+  &._dark {
+    background-color: $B7;
+  }
+  &__thumb {
+    @include flex-row(center, center);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: $N0;
+    color: $Y2;
+    font-size: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    transition: transform 0.25s cubic-bezier(0.3, 1.4, 0.6, 1), color 0.2s ease;
+    ._dark & {
+      transform: translateX(22px);
+      color: $B5;
+    }
+  }
+}
+
+// Skeleton
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+.skeleton {
+  @include flex-col(center, stretch);
+  gap: 12px;
+  width: 100%;
+  &__row {
+    display: block;
+    height: 16px;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-hover) 37%, var(--surface-2) 63%);
+    background-size: 400% 100%;
+    animation: skeleton-shimmer 1.4s ease infinite;
+    &:last-child:not(:first-child) {
+      width: 60%;
+    }
+  }
+}
+
+// Segmented control
+.segmented {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 12px;
+  background-color: var(--surface-2);
+  border: 1px solid var(--border);
+  @include transition(background-color, border-color);
+  &__item {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 7px 14px;
+    border-radius: 9px;
+    white-space: nowrap;
+    font-family: $second-font;
+    @include text($H300, 400, var(--text-muted));
+    transition-property: background-color, color, box-shadow;
+    &:hover {
+      color: var(--text);
+    }
+    &._active {
+      color: $N0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      &.buy {
+        background-color: var(--buy);
+      }
+      &.sell {
+        background-color: var(--sell);
+      }
+    }
+  }
+}

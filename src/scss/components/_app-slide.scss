@@ -100,13 +100,7 @@
     @include text($H400, 600);
   }
   &__skeleton {
-    .ant-skeleton-paragraph {
-      
-      @include flex-col(center, stretch);
-      li {
-        width: 100% !important;
-      }
-    }
+    width: 100%;
   }
   &__grow-wrapper {
     @include flex-row(center, center);

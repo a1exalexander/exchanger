@@ -28,6 +28,9 @@ const AppSlide: FC<Props> = ({ exchange, setExchange }) => {
   const handleClick = (e: any) => {
     e.preventDefault();
     setExchange(id);
+    if (!window.matchMedia?.('(min-width: 860px)').matches) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const priceElement = () => {
@@ -61,7 +64,11 @@ const AppSlide: FC<Props> = ({ exchange, setExchange }) => {
   };
 
   return (
-    <li onClick={handleClick} className="app-slide">
+    <li
+      onClick={handleClick}
+      className="app-slide"
+      title={`Відкрити ${codeA} → ${codeB} у конвертері`}
+    >
       <div className="app-slide__row">
         <img
           className="app-slide__icon"

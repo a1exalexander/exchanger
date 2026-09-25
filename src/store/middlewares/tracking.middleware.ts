@@ -1,29 +1,35 @@
-import { Dispatch } from 'redux';
-import { CustomAction, CustomActionType } from '../types';
+import { Middleware } from 'redux';
+import { CustomAction, CustomActionType, ExchangesState } from '../types';
+import { resolveExchange } from '../../utils/resolveExchange';
 
-export const trackingMiddleware =
-  () => (next: Dispatch<CustomAction>) => (action: CustomAction) => {
+const capture = (event: string, payload?: any) => {
+  window.posthog?.capture?.(event, payload);
+};
+
+const PAIR_ACTIONS: CustomActionType[] = ['SET_PAIR', 'SET_CURRENCY', 'SWAP_PAIR'];
+
+export const trackingMiddleware: Middleware<{}, ExchangesState> =
+  (store) => (next) => (action: CustomAction) => {
+    const result = next(action);
     if (
-      (
-        [
-          'SET_THEME',
-          'TOGGLE_EXCHANGE_METHOD',
-          'UPDATE_COMPUTED_CURRENCY',
-          'UPDATE_COMPUTED_PRICE',
-        ] as CustomActionType[]
-      ).includes(action.type)
+      (['SET_THEME', 'TOGGLE_EXCHANGE_METHOD', 'SET_METHOD'] as CustomActionType[]).includes(
+        action.type,
+      )
     ) {
-      window.posthog.capture(action.type, action.payload);
+      capture(action.type, action.payload);
     }
-    if (action.type === 'SET_EXCHANGE' && action.payload) {
-      window.posthog.capture(action.type, {
-        codeFrom: action.payload?.currencyA?.code,
-        codeTo: action.payload?.currencyB?.code,
-        codes: `${action.payload?.currencyA?.code}:${action.payload?.currencyB?.code}`,
-        rateBuy: action.payload?.rateBuy ?? action.payload?.rateCross,
-        rateSell: action.payload?.rateSell ?? action.payload?.rateCross,
-        rateNB: action.payload?.NB?.rate,
+    if (PAIR_ACTIONS.includes(action.type)) {
+      const { pair, currencies, market } = store.getState();
+      const exchange = resolveExchange(pair, currencies, market);
+      capture('SET_EXCHANGE', {
+        codeFrom: pair.from,
+        codeTo: pair.to,
+        codes: `${pair.from}:${pair.to}`,
+        source: exchange?.source,
+        rateBuy: exchange?.rateBuy ?? exchange?.rateCross,
+        rateSell: exchange?.rateSell ?? exchange?.rateCross,
+        rateNB: exchange?.NB?.rate,
       });
     }
-    return next(action);
+    return result;
   };

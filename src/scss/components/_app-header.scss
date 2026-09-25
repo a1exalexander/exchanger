@@ -1,42 +1,16 @@
-.dark {
-  .app-header {
-    background-color: $B111;
-    &__title {
-      color: $N0;
-    }
-    &__nav {
-      border-color: $B8;
-    }
-    @include media {
-      border-color: $B8;
-    }
-  }
-}
 .app-header {
-  height: 82px;
-  position: relative;
-  background-color: $N0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--page-bg);
   transition-property: background-color, border-color;
   transition-duration: 0.2s;
   transition-timing-function: ease;
   @include media {
-    height: auto;
-    border-bottom: 1px solid $N1;
-    margin-bottom: 0;
+    position: relative;
+    z-index: auto;
+    border-bottom: 1px solid var(--border);
     padding-bottom: 62px;
-  }
-  &__help {
-    text-align: center;
-    left: 0;
-    right: 0;
-    position: fixed;
-    top: 60px;
-    font-family: $second-font;
-    @include text($H300, 200, $N6);
-    z-index: 0;
-    @include media {
-      display: none;
-    }
   }
   .app-carousel {
     display: none;
@@ -44,59 +18,67 @@
       display: block;
     }
   }
-  &__logo {
-    @include svg(20px);
-    margin-right: 8px;
-    @include media {
-      @include svg(32px);
-      display: block;
-      margin-right: 12px;
-    }
-  }
   &__nav {
-    @include container;
-    $size: 12px;
-    padding-top: $size;
-    padding-bottom: $size;
-    @extend %bb;
+    @include flex-row(space-between, center);
     margin: 0;
-    display: none;
-    transition: border-color 0.2s ease;
+    padding: calc(10px + env(safe-area-inset-top)) 16px 10px;
+    @extend %animate-gradient;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
     @include media {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      $size: 14px;
-      padding-top: $size;
-      padding-bottom: $size;
+      @include container;
+      background: none;
+      animation: none;
+      box-shadow: none;
+      padding-top: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      transition: border-color 0.2s ease;
     }
   }
   &__link {
-    @include transition(color);
     @include flex-row(flex-start, center);
+    color: $N0;
     @include media {
-      &:hover > * {
-        color: lighten($N100, 20%);
+      color: var(--text);
+      &:hover {
+        color: var(--text);
+        opacity: 0.8;
       }
     }
-    &:active > * {
-      color: $N100;
+    &:hover,
+    &:active {
+      color: inherit;
+    }
+  }
+  &__logo {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    margin-right: 10px;
+    border-radius: 3px;
+    @include media {
+      width: 32px;
+      height: 32px;
+      margin-right: 12px;
     }
   }
   &__title {
-    @include text($H500, 600);
-    transition: color ease 0.2s;
-    color: $N100;
-    margin: 0;
     font-family: $pixel-font;
+    font-weight: 600;
+    font-size: $H700;
+    line-height: 1;
+    color: inherit;
+    transition: color 0.2s ease;
     @include media {
       font-size: $H900;
     }
   }
-  &__switch {
-    background-color: $B7;
-    &.ant-switch-checked {
-      background-color: $B3;
+  &__theme {
+    @include media-max(859px) {
+      background-color: rgba(255, 255, 255, 0.25);
+      &._dark {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
     }
   }
 }

@@ -1,0 +1,64 @@
+.quick-pick {
+  &__title {
+    margin: 0 0 12px;
+    font-family: $second-font;
+    @include text($H400, 400, var(--text));
+    @include media {
+      margin-bottom: 16px;
+    }
+  }
+  &__list {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin: 0 -16px;
+    padding: 2px 16px 6px;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    @include media {
+      flex-wrap: wrap;
+      overflow: visible;
+      margin: 0;
+      padding: 0;
+    }
+  }
+  &__chip {
+    @include flex-row(center, center);
+    flex-shrink: 0;
+    gap: 8px;
+    height: 40px;
+    padding: 0 14px 0 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+    cursor: pointer;
+    font-family: $base-font;
+    @include text($H400, 600, var(--text));
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    &:hover {
+      border-color: var(--border-strong);
+      background-color: var(--surface-hover);
+    }
+    &._active {
+      border-color: var(--accent);
+      background-color: var(--accent-soft);
+      color: var(--accent);
+    }
+  }
+  &__hint {
+    margin: 10px 0 0;
+    font-family: $second-font;
+    @include text($H300, 300, var(--text-muted));
+    line-height: 1.5;
+    b {
+      font-weight: 400;
+      color: var(--text);
+    }
+    @include media {
+      margin-top: 20px;
+    }
+  }
+}

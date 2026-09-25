@@ -126,19 +126,4 @@ $style: app-footer;
   &__date {
     font-weight: 400;
   }
-  &__switch-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 42px;
-    @include media {
-      display: none;
-    }
-  }
-  &__switch {
-    background-color: $B7;
-    &.ant-switch-checked {
-      background-color: $B3;
-    }
-  }
 }
