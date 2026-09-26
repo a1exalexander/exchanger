@@ -29,12 +29,13 @@ extension Font.TextStyle {
 // MARK: - Card
 
 private struct CardModifier: ViewModifier {
+    let padding: CGFloat
     @Environment(\.colorScheme) private var colorScheme
 
     func body(content: Content) -> some View {
         let shape = RoundedRectangle(cornerRadius: 20, style: .continuous)
         content
-            .padding(16)
+            .padding(padding)
             .background(Color.surface, in: shape)
             .overlay(shape.strokeBorder(Color.border, lineWidth: 1))
             // Web: 0 5px 10px rgba(116,79,79,.12).
@@ -45,8 +46,8 @@ private struct CardModifier: ViewModifier {
 
 extension View {
     /// Rounded surface card with border and soft shadow.
-    func card() -> some View {
-        modifier(CardModifier())
+    func card(padding: CGFloat = 16) -> some View {
+        modifier(CardModifier(padding: padding))
     }
 
     /// Loading placeholder: redacted content with a moving highlight (static under Reduce Motion).
@@ -196,7 +197,9 @@ struct SourceMark: View {
             Text("providers.nbuName")
                 .font(.system(size: side * 0.55, weight: .bold, design: .rounded))
                 .foregroundStyle(Color.textPrimary)
-                .padding(.horizontal, side * 0.25)
+                .lineLimit(1)
+                .minimumScaleFactor(0.7)
+                .padding(.horizontal, side * 0.15)
                 .frame(minWidth: side, minHeight: side)
                 .background(Color.surfaceSecondary, in: .rect(cornerRadius: side * 0.28, style: .continuous))
         case .market:

@@ -1,56 +1,16 @@
 import SwiftUI
 
-/// Logo + "Exchanger" title and the settings button, floating over the top of the scroll view.
-/// Collapses to a small logo on a bar once the content scrolls.
+/// Logo + "Exchanger" title, shown in the navigation bar.
 struct HeaderView: View {
-    static let expandedHeight: CGFloat = 52
-    static let collapsedHeight: CGFloat = 30
-
-    let collapsed: Bool
-    let onSettings: () -> Void
-
     var body: some View {
-        ZStack {
-            HStack(spacing: 8) {
-                AppLogo(size: collapsed ? 16 : 26)
-                if !collapsed {
-                    Text(verbatim: "Exchanger")
-                        .font(.display(20))
-                        .foregroundStyle(Color.textPrimary)
-                        .transition(.scale(scale: 0.6, anchor: .leading).combined(with: .opacity))
-                }
-            }
-            .accessibilityElement(children: .combine)
-            .accessibilityAddTraits(.isHeader)
-
-            if !collapsed {
-                Button(action: onSettings) {
-                    Image(systemName: "gearshape")
-                        .font(.system(size: 17, weight: .medium))
-                        .foregroundStyle(Color.textPrimary)
-                        .frame(width: 36, height: 36)
-                        .background(Color.surface, in: .circle)
-                        .overlay(Circle().strokeBorder(Color.border))
-                        .contentShape(.circle)
-                }
-                .buttonStyle(.pressable)
-                .accessibilityLabel(Text("settings.title"))
-                .frame(maxWidth: .infinity, alignment: .trailing)
-                .transition(.scale(scale: 0.5).combined(with: .opacity))
-            }
+        HStack(spacing: 8) {
+            AppLogo(size: 26)
+            Text(verbatim: "Exchanger")
+                .font(.display(20))
+                .foregroundStyle(Color.textPrimary)
         }
-        .padding(.horizontal, 16)
-        .frame(maxWidth: .infinity)
-        .frame(height: collapsed ? Self.collapsedHeight : Self.expandedHeight)
-        .background {
-            if collapsed {
-                Rectangle()
-                    .fill(.bar)
-                    .overlay(alignment: .bottom) { Divider() }
-                    .ignoresSafeArea(edges: .top)
-                    .transition(.opacity)
-            }
-        }
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isHeader)
     }
 }
 

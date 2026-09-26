@@ -127,7 +127,7 @@ private struct SourceLink: View {
         Link(destination: URL(string: url)!) {
             HStack(spacing: 12) {
                 SourceMark(source: source)
-                    .frame(width: 28)
+                    .frame(width: 32)
                 VStack(alignment: .leading, spacing: 2) {
                     name.foregroundStyle(Color.textPrimary)
                     Text(note).font(.footnote).foregroundStyle(Color.textSecondary)

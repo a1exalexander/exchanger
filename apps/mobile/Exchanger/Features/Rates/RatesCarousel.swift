@@ -72,13 +72,13 @@ private struct RateSlide: View {
     let exchange: Exchange?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 8) {
             currencyRow(exchange?.currencyB.code ?? "UAH")
             rates
             currencyRow(exchange?.currencyA.code ?? "USD")
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .card()
+        .card(padding: 12)
         .containerRelativeFrame(.horizontal)
         .scrollTransition(.interactive) { content, phase in
             content
@@ -89,12 +89,12 @@ private struct RateSlide: View {
 
     private func currencyRow(_ code: String) -> some View {
         HStack(spacing: 10) {
-            CurrencyIcon(code: code, size: 24)
+            CurrencyIcon(code: code, size: 20)
             Text(verbatim: code)
-                .font(.display(14))
+                .font(.display(13))
                 .foregroundStyle(Color.textPrimary)
             Text(verbatim: CurrencyCatalog.name(of: code, market: model.market))
-                .font(.footnote)
+                .font(.caption)
                 .foregroundStyle(Color.textSecondary)
                 .lineLimit(1)
         }
@@ -125,7 +125,7 @@ private struct RateSlide: View {
                 .monospacedDigit()
                 .contentTransition(.numericText())
         }
-        .font(.footnote.weight(.semibold))
+        .font(.caption.weight(.semibold))
         .lineLimit(1)
     }
 }

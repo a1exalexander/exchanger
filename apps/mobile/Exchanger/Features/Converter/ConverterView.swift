@@ -83,7 +83,7 @@ struct ConverterView: View {
                     Text(verbatim: "\(String(localized: item == .buy ? "card.buy" : "card.sell")) \(model.pair.from)")
                         .font(.subheadline.weight(.semibold))
                         .foregroundStyle(selected ? Color.white : Color.textSecondary)
-                        .frame(maxWidth: .infinity, minHeight: 32)
+                        .frame(maxWidth: .infinity, minHeight: 29)
                         .background {
                             if selected {
                                 Capsule()
@@ -97,7 +97,7 @@ struct ConverterView: View {
                 .accessibilityAddTraits(selected ? .isSelected : [])
             }
         }
-        .padding(3)
+        .padding(2)
         .background(Color.surfaceSecondary, in: .capsule)
         .sensoryFeedback(.selection, trigger: model.method)
         .accessibilityElement(children: .contain)
@@ -245,7 +245,7 @@ private struct RateSummary: View {
         }
         .foregroundStyle(.white)
         .padding(.horizontal, 12)
-        .frame(minHeight: 38)
+        .frame(minHeight: 34)
         .background(unavailable ? Color.surfaceSecondary : tint, in: .rect(cornerRadius: 11))
         .animation(.easeInOut(duration: 0.3), value: model.method)
         .accessibilityElement(children: .contain)

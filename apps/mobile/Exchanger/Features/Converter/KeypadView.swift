@@ -58,10 +58,9 @@ struct KeypadView: View {
             }
         }
         .padding(.horizontal, 16)
-        .padding(.top, 8)
+        .padding(.top, 12)
         .padding(.bottom, 6)
-        .background(.bar)
-        .overlay(alignment: .top) { Divider() }
+        .background { KeypadBackground() }
         .disabled(disabled)
         .opacity(disabled ? 0.45 : 1)
         .animation(.easeInOut(duration: 0.2), value: disabled)
@@ -131,6 +130,22 @@ struct KeypadView: View {
         focus.replaceNext = false
         clears += 1
         model.setInput("", side: model.activeSide)
+    }
+}
+
+/// Liquid Glass sheet behind the keys (material on iOS < 26); the page scrolls underneath it.
+private struct KeypadBackground: View {
+    private let shape = UnevenRoundedRectangle(topLeadingRadius: 28, topTrailingRadius: 28, style: .continuous)
+
+    var body: some View {
+        Group {
+            if #available(iOS 26, *) {
+                Color.clear.glassEffect(.regular, in: shape)
+            } else {
+                shape.fill(.ultraThinMaterial).overlay(shape.stroke(Color.border))
+            }
+        }
+        .ignoresSafeArea(edges: .bottom)
     }
 }
 

@@ -6,33 +6,31 @@ import UIKit
 struct RootView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.scenePhase) private var scenePhase
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @State private var headerCollapsed = false
 
     var body: some View {
         @Bindable var model = model
-        ScrollView {
-            VStack(spacing: 20) {
-                ConverterView()
-                QuickPickView()
-                RatesCarousel()
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 20) {
+                    ConverterView()
+                    QuickPickView()
+                    RatesCarousel()
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
             }
-            .padding(.horizontal, 16)
-            .padding(.bottom, 8)
-        }
-        .contentMargins(.top, HeaderView.expandedHeight, for: .scrollContent)
-        .onScrollGeometryChange(for: Bool.self) { $0.contentOffset.y + $0.contentInsets.top > 8 } action: { _, collapsed in
-            withAnimation(reduceMotion ? .easeInOut(duration: 0.2) : .spring(duration: 0.45, bounce: 0.4)) {
-                headerCollapsed = collapsed
+            .scrollDismissesKeyboard(.immediately)
+            .background(Color.pageBackground)
+            .refreshable { await model.refresh() }
+            .safeAreaInset(edge: .bottom, spacing: 0) { KeypadView() }
+            .toolbar {
+                ToolbarItem(placement: .principal) { HeaderView() }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("settings.title", systemImage: "gearshape") { model.showSettings = true }
+                }
             }
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .scrollDismissesKeyboard(.immediately)
-        .background(Color.pageBackground)
-        .refreshable { await model.refresh() }
-        .overlay(alignment: .top) {
-            HeaderView(collapsed: headerCollapsed) { model.showSettings = true }
-        }
-        .safeAreaInset(edge: .bottom, spacing: 0) { KeypadView() }
         .sheet(item: $model.pickerSide) { side in CurrencyPickerSheet(side: side) }
         .sheet(isPresented: $model.showSettings) { SettingsView() }
         .onChange(of: model.theme, initial: true) { _, theme in applyTheme(theme) }

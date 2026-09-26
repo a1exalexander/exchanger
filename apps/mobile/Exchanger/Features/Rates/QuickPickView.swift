@@ -11,7 +11,7 @@ struct QuickPickView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("quickPick.title")
-                .font(.display(15))
+                .font(.system(size: 14, weight: .semibold))
                 .foregroundStyle(Color.textPrimary)
                 .accessibilityAddTraits(.isHeader)
 
