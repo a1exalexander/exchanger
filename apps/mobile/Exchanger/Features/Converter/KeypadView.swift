@@ -50,7 +50,7 @@ struct KeypadView: View {
     ]
 
     var body: some View {
-        Grid(horizontalSpacing: 8, verticalSpacing: 8) {
+        Grid(horizontalSpacing: 6, verticalSpacing: 6) {
             ForEach(rows, id: \.self) { row in
                 GridRow {
                     ForEach(row, id: \.self) { key($0) }
@@ -58,7 +58,7 @@ struct KeypadView: View {
             }
         }
         .padding(.horizontal, 16)
-        .padding(.top, 10)
+        .padding(.top, 8)
         .padding(.bottom, 6)
         .background(.bar)
         .overlay(alignment: .top) { Divider() }
@@ -80,7 +80,7 @@ struct KeypadView: View {
             press(key)
         } label: {
             label(key)
-                .frame(maxWidth: .infinity, minHeight: verticalSizeClass == .compact ? 36 : 48)
+                .frame(maxWidth: .infinity, minHeight: verticalSizeClass == .compact ? 32 : 42)
                 .contentShape(.rect)
         }
         .buttonStyle(KeyStyle(secondary: key == .backspace || key == .decimal))
@@ -101,9 +101,9 @@ struct KeypadView: View {
     @ViewBuilder
     private func label(_ key: KeypadKey) -> some View {
         switch key {
-        case .digit(let d): Text("\(d)").font(.display(26))
-        case .decimal: Text(verbatim: ".").font(.display(26))
-        case .backspace: Image(systemName: "delete.left").font(.system(size: 22, weight: .medium))
+        case .digit(let d): Text("\(d)").font(.display(22))
+        case .decimal: Text(verbatim: ".").font(.display(22))
+        case .backspace: Image(systemName: "delete.left").font(.system(size: 19, weight: .medium))
         }
     }
 

@@ -11,7 +11,7 @@ struct QuickPickView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("quickPick.title")
-                .font(.display(17))
+                .font(.display(15))
                 .foregroundStyle(Color.textPrimary)
                 .accessibilityAddTraits(.isHeader)
 
@@ -42,13 +42,13 @@ struct QuickPickView: View {
             model.setCurrency(code, side: .from)
         } label: {
             HStack(spacing: 6) {
-                CurrencyIcon(code: code, size: 20)
-                Text(verbatim: code).font(.subheadline.weight(.semibold))
+                CurrencyIcon(code: code, size: 18)
+                Text(verbatim: code).font(.footnote.weight(.semibold))
             }
             .foregroundStyle(Color.textPrimary)
             .padding(.leading, 6)
             .padding(.trailing, 12)
-            .padding(.vertical, 6)
+            .padding(.vertical, 5)
             .background(active ? Color.accentSoft : Color.surface, in: .capsule)
             .overlay(Capsule().stroke(active ? Color.accentColor : Color.border))
             .contentShape(.capsule)

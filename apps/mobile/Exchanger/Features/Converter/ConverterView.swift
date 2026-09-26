@@ -6,6 +6,7 @@ import SwiftUI
 struct ConverterView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.colorScheme) private var colorScheme
     @Namespace private var methodThumb
     @State private var swapTurns = 0
 
@@ -22,8 +23,8 @@ struct ConverterView: View {
     }
 
     var body: some View {
-        VStack(spacing: 14) {
-            VStack(spacing: 34) {
+        VStack(spacing: 12) {
+            VStack(spacing: 28) {
                 ForEach(rows, id: \.id) { row in
                     AmountRow(side: row.side, skeleton: skeleton, disabled: unavailable)
                 }
@@ -46,15 +47,17 @@ struct ConverterView: View {
     // MARK: Swap
 
     private var swapButton: some View {
-        Button(action: swap) {
+        // Dark: a filled accent disc with a glow, since a surface circle vanishes on the dark card.
+        let dark = colorScheme == .dark
+        return Button(action: swap) {
                 Image(systemName: "arrow.up.arrow.down")
                     .font(.system(size: 17, weight: .semibold))
-                    .foregroundStyle(Color.accentColor)
+                    .foregroundStyle(dark ? Color.white : Color.accentColor)
                     .rotationEffect(.degrees(Double(swapTurns) * 180))
                     .frame(width: 44, height: 44)
-                    .background(Color.surface, in: .circle)
-                    .overlay(Circle().stroke(Color.border))
-                    .shadow(color: .black.opacity(0.08), radius: 6, y: 2)
+                    .background(dark ? Color.accentColor : Color.surface, in: .circle)
+                    .overlay(Circle().stroke(dark ? Color.surface : Color.border, lineWidth: dark ? 2 : 1))
+                    .shadow(color: dark ? Color.accentColor.opacity(0.45) : .black.opacity(0.08), radius: dark ? 10 : 6, y: 2)
             }
             .buttonStyle(PressScale())
             .accessibilityLabel(Text("card.swap"))
@@ -80,7 +83,7 @@ struct ConverterView: View {
                     Text(verbatim: "\(String(localized: item == .buy ? "card.buy" : "card.sell")) \(model.pair.from)")
                         .font(.subheadline.weight(.semibold))
                         .foregroundStyle(selected ? Color.white : Color.textSecondary)
-                        .frame(maxWidth: .infinity, minHeight: 36)
+                        .frame(maxWidth: .infinity, minHeight: 32)
                         .background {
                             if selected {
                                 Capsule()
@@ -137,7 +140,7 @@ private struct AmountRow: View {
 
             Button(action: activate) {
                 amount
-                    .frame(maxWidth: .infinity, minHeight: 48, alignment: .trailing)
+                    .frame(maxWidth: .infinity, minHeight: 42, alignment: .trailing)
                     .padding(.bottom, 4)
                     .overlay(alignment: .bottom) {
                         Capsule()
@@ -159,12 +162,12 @@ private struct AmountRow: View {
     private var amount: some View {
         if skeleton {
             Text(verbatim: "0 000.00")
-                .font(.display(34))
+                .font(.display(30))
                 .shimmering()
         } else {
             HStack(spacing: 2) {
                 Text(verbatim: text.isEmpty ? "0" : text)
-                    .font(.display(34))
+                    .font(.display(30))
                     .foregroundStyle(text.isEmpty || disabled ? Color.textSecondary : Color.textPrimary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.35)
@@ -192,7 +195,7 @@ private struct Caret: View {
     var body: some View {
         Capsule()
             .fill(Color.accentColor)
-            .frame(width: 2.5, height: 34)
+            .frame(width: 2.5, height: 30)
             .opacity(visible ? 1 : 0)
             .onAppear {
                 guard !reduceMotion else { return }
@@ -241,9 +244,9 @@ private struct RateSummary: View {
             }
         }
         .foregroundStyle(.white)
-        .padding(.horizontal, 14)
-        .frame(minHeight: 44)
-        .background(unavailable ? Color.surfaceSecondary : tint, in: .rect(cornerRadius: 12))
+        .padding(.horizontal, 12)
+        .frame(minHeight: 38)
+        .background(unavailable ? Color.surfaceSecondary : tint, in: .rect(cornerRadius: 11))
         .animation(.easeInOut(duration: 0.3), value: model.method)
         .accessibilityElement(children: .contain)
     }

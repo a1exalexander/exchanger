@@ -1,44 +1,58 @@
 import SwiftUI
+import UIKit
 
 // Owned by the scaffold. Composes the feature views; units should not need to edit it.
 
 struct RootView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var headerCollapsed = false
 
     var body: some View {
         @Bindable var model = model
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 20) {
-                    ConverterView()
-                    QuickPickView()
-                    RatesCarousel()
-                }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
+        ScrollView {
+            VStack(spacing: 20) {
+                ConverterView()
+                QuickPickView()
+                RatesCarousel()
             }
-            .scrollDismissesKeyboard(.immediately)
-            .background(Color.pageBackground)
-            .refreshable { await model.refresh() }
-            .safeAreaInset(edge: .bottom, spacing: 0) { KeypadView() }
-            .toolbar {
-                ToolbarItem(placement: .principal) { HeaderView() }
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("settings.title", systemImage: "gearshape") { model.showSettings = true }
-                }
-            }
-            .navigationBarTitleDisplayMode(.inline)
+            .padding(.horizontal, 16)
+            .padding(.bottom, 8)
         }
+        .contentMargins(.top, HeaderView.expandedHeight, for: .scrollContent)
+        .onScrollGeometryChange(for: Bool.self) { $0.contentOffset.y + $0.contentInsets.top > 8 } action: { _, collapsed in
+            withAnimation(reduceMotion ? .easeInOut(duration: 0.2) : .spring(duration: 0.45, bounce: 0.4)) {
+                headerCollapsed = collapsed
+            }
+        }
+        .scrollDismissesKeyboard(.immediately)
+        .background(Color.pageBackground)
+        .refreshable { await model.refresh() }
+        .overlay(alignment: .top) {
+            HeaderView(collapsed: headerCollapsed) { model.showSettings = true }
+        }
+        .safeAreaInset(edge: .bottom, spacing: 0) { KeypadView() }
         .sheet(item: $model.pickerSide) { side in CurrencyPickerSheet(side: side) }
         .sheet(isPresented: $model.showSettings) { SettingsView() }
-        .preferredColorScheme(model.theme.colorScheme)
+        .onChange(of: model.theme, initial: true) { _, theme in applyTheme(theme) }
         .task {
             await model.load()
             openDebugSheet()
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { Task { await model.refresh() } }
+        }
+    }
+
+    /// Set on the window rather than via `preferredColorScheme`, so an open sheet follows every change.
+    private func applyTheme(_ theme: ThemePreference) {
+        for case let scene as UIWindowScene in UIApplication.shared.connectedScenes {
+            for window in scene.windows {
+                UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve) {
+                    window.overrideUserInterfaceStyle = theme.interfaceStyle
+                }
+            }
         }
     }
 
@@ -54,9 +68,9 @@ struct RootView: View {
 }
 
 extension ThemePreference {
-    var colorScheme: ColorScheme? {
+    var interfaceStyle: UIUserInterfaceStyle {
         switch self {
-        case .system: nil
+        case .system: .unspecified
         case .light: .light
         case .dark: .dark
         }
