@@ -84,7 +84,7 @@ const uk = {
   quickPick: {
     title: 'Швидкий вибір',
     hint: (count: number) =>
-      `Тут першими з'являються валюти, які ти обираєш найчастіше. Усі ${count} — за натисканням на валюту в картці.`,
+      `Швидкий вибір підлаштовується під валюти, які ти обираєш найчастіше. Усі ${count} — за натисканням на валюту в картці.`,
   },
   slide: {
     sell: 'Продаж:',
@@ -165,7 +165,7 @@ const en: Messages = {
   quickPick: {
     title: 'Quick pick',
     hint: (count: number) =>
-      `The currencies you pick most often show up here first. Tap a currency in the card to see all ${count}.`,
+      `Quick pick puts the currencies you use most first. Tap a currency in the card to see all ${count}.`,
   },
   slide: {
     sell: 'Sell:',
