@@ -1,11 +1,11 @@
 # Публікація в App Store
 
-Уже налаштовано: team `C8L8G6WU6L`, automatic signing, bundle `ua.in.exchanger`, версія з `MARKETING_VERSION` / `CURRENT_PROJECT_VERSION` у `project.yml`, `Exchanger/Resources/PrivacyInfo.xcprivacy`, `ExportOptions.plist`, скрипт `release`, privacy policy `apps/web/public/privacy.html`.
+Уже налаштовано: team `C8L8G6WU6L`, automatic signing, bundle `ua.in.exchanger`, версія з `MARKETING_VERSION` / `CURRENT_PROJECT_VERSION` у `project.yml`, `Exchanger/Resources/PrivacyInfo.xcprivacy`, `ExportOptions.plist`, скрипт `release`, privacy policy `apps/web/public/privacy.html` (en) і `apps/web/public/uk/privacy.html` (uk).
 
 ## Перший реліз
 
 1. **Xcode → Settings → Accounts → «+» → Apple ID.** Увійти акаунтом з Developer Program. Без цього archive падає з `No Accounts`.
-2. **Задеплоїти web**, щоб https://exchanger.in.ua/privacy.html відкривалась (потрібна для App Store Connect).
+2. **Задеплоїти web**, щоб https://exchanger.in.ua/privacy.html і https://exchanger.in.ua/uk/privacy.html відкривались (потрібні для App Store Connect).
 3. **App Store Connect → Apps → «+» → New App:**
    - Platform: iOS
    - Name: `Exchanger — конвертер валют` (якщо зайнято — `UAH Exchanger`)
@@ -20,7 +20,7 @@
    Або в Xcode: destination «Any iOS Device» → Product → Archive → Distribute App → App Store Connect → Upload. Через 5–30 хв збірка з'явиться в TestFlight.
 5. **App Information:** категорія Finance, Content Rights: «does not contain third-party content» (курси — факти з публічних API).
 6. **Pricing and Availability:** Free, усі країни.
-7. **App Privacy:** Privacy Policy URL `https://exchanger.in.ua/privacy.html`, далі анкета (див. нижче).
+7. **App Privacy:** Privacy Policy URL для Ukrainian — `https://exchanger.in.ua/uk/privacy.html`, для English — `https://exchanger.in.ua/privacy.html`; далі анкета (див. нижче).
 8. **Age Rating:** на всі питання «No / None» → 4+.
 9. **Сторінка версії 1.0.0** для кожної мови (uk і en — додати English через Localizations): тексти й скріншоти нижче, Build → вибрати завантажену збірку, Review Notes, Contact Info. Sign-in required: No.
 10. **Add for Review → Submit.** Рев'ю зазвичай 1–3 дні. Version Release: Automatically або Manually.
@@ -104,7 +104,7 @@ Rates are for reference only.
 
 - Support URL: `https://exchanger.in.ua`
 - Marketing URL: `https://exchanger.in.ua`
-- Privacy Policy URL: `https://exchanger.in.ua/privacy.html`
+- Privacy Policy URL: uk — `https://exchanger.in.ua/uk/privacy.html`, en — `https://exchanger.in.ua/privacy.html`
 - Copyright: `2026 Oleksandr Ratushnyi`
 
 **Review Notes:**
