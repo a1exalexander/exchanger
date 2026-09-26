@@ -28,7 +28,6 @@
     "currency-codes": "^2.1.0",
     "decimal.js": "^10.4.2",
     "env-cmd": "^10.1.0",
-    "gh-pages": "^4.0.0",
     "json-server": "^0.17.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
@@ -55,9 +54,7 @@
     "build:nossr": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "json-server --watch fake-server/db.json --routes fake-server/routes.json --port 3004",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "server": "json-server --watch fake-server/db.json --routes fake-server/routes.json --port 3004"
   },
   "browserslist": {
     "production": [
