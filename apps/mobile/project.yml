@@ -1,0 +1,61 @@
+name: Exchanger
+options:
+  bundleIdPrefix: ua.in
+  deploymentTarget:
+    iOS: "18.0"
+  developmentLanguage: en
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+    SWIFT_APPROACHABLE_CONCURRENCY: YES
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+    DEVELOPMENT_TEAM: ""
+packages:
+  PostHog:
+    url: https://github.com/PostHog/posthog-ios
+    from: "3.0.0"
+targets:
+  Exchanger:
+    type: application
+    platform: iOS
+    sources: [Exchanger]
+    dependencies:
+      - package: PostHog
+    info:
+      path: Exchanger/Info.plist
+      properties:
+        CFBundleDisplayName: Exchanger
+        CFBundleLocalizations: [en, uk]
+        UILaunchScreen: {}
+        UIAppFonts: [Unbounded-SemiBold.ttf]
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        ITSAppUsesNonExemptEncryption: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: ua.in.exchanger
+        TARGETED_DEVICE_FAMILY: "1"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: YES
+        LOCALIZATION_PREFERS_STRING_CATALOGS: YES
+        SWIFT_EMIT_LOC_STRINGS: YES
+  ExchangerTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [ExchangerTests]
+    dependencies:
+      - target: Exchanger
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  Exchanger:
+    build:
+      targets:
+        Exchanger: all
+        ExchangerTests: [test]
+    test:
+      targets: [ExchangerTests]

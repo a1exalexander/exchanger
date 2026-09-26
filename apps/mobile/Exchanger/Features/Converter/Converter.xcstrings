@@ -1,0 +1,27 @@
+{
+  "sourceLanguage": "en",
+  "version": "1.0",
+  "strings": {
+    "keypad.clear": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Clear" } },
+        "uk": { "stringUnit": { "state": "translated", "value": "Очистити" } }
+      }
+    },
+    "keypad.decimal": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Decimal point" } },
+        "uk": { "stringUnit": { "state": "translated", "value": "Десяткова кома" } }
+      }
+    },
+    "keypad.delete": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Delete" } },
+        "uk": { "stringUnit": { "state": "translated", "value": "Видалити" } }
+      }
+    }
+  }
+}
