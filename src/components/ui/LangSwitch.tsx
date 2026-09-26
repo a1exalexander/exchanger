@@ -13,30 +13,30 @@ export const LangSwitch: FC<{ className?: string }> = ({ className }) => {
   const dispatch = useDispatch();
   const lang = useLang();
   const t = useT();
+  const index = LANGS.indexOf(lang);
+  const next = LANGS[(index + 1) % LANGS.length];
 
+  // The whole pill is one button: tapping anywhere switches to the next language
   return (
-    <div
+    <button
+      type="button"
       className={classNames('lang-switch', className)}
-      role="radiogroup"
-      aria-label={t.header.language}
-      style={{ '--lang-index': LANGS.indexOf(lang) } as React.CSSProperties}
+      aria-label={`${t.header.language}: ${LABELS[lang].name}`}
+      title={LABELS[next].name}
+      style={{ '--lang-index': index } as React.CSSProperties}
+      onClick={() => dispatch({ type: SET_LANG, payload: next })}
     >
       <span className="lang-switch__thumb" aria-hidden="true" />
       {LANGS.map((item) => (
-        <button
+        <span
           key={item}
-          type="button"
-          role="radio"
           lang={item}
-          aria-checked={lang === item}
-          aria-label={LABELS[item].name}
-          title={LABELS[item].name}
+          aria-hidden="true"
           className={classNames('lang-switch__item', { _active: lang === item })}
-          onClick={() => dispatch({ type: SET_LANG, payload: item })}
         >
           {LABELS[item].short}
-        </button>
+        </span>
       ))}
-    </div>
+    </button>
   );
 };

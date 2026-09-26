@@ -88,12 +88,14 @@
       }
       .lang-switch__item {
         color: rgba(255, 255, 255, 0.85);
-        &:hover {
+      }
+      @media (hover: hover) {
+        &:hover .lang-switch__item {
           color: $N0;
         }
-        &._active {
-          color: $B5;
-        }
+      }
+      .lang-switch__item._active {
+        color: $B5;
       }
     }
   }
