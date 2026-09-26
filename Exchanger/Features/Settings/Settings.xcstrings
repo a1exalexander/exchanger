@@ -1,0 +1,55 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "settings.about" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "About" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Про застосунок" } }
+      }
+    },
+    "settings.appearance" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Appearance" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Вигляд" } }
+      }
+    },
+    "settings.author" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Author" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Автор" } }
+      }
+    },
+    "settings.done" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Done" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Готово" } }
+      }
+    },
+    "settings.languageHint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The app language is changed in iOS Settings." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Мова застосунку змінюється в Параметрах iOS." } }
+      }
+    },
+    "settings.version" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Version" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Версія" } }
+      }
+    },
+    "settings.website" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Website" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Вебсайт" } }
+      }
+    }
+  },
+  "version" : "1.0"
+}
