@@ -4,13 +4,13 @@
 SVGs are converted to vector PDF with rsvg-convert (brew install librsvg), which
 renders every feature the web SVGs use; asset catalogs keep them as vectors.
 
-Usage: scripts/generate_icons.py [path/to/web/exchanger]   (default: ../exchanger)
+Usage: scripts/generate_icons.py [path/to/web/exchanger]   (default: ../web)
 """
 import json, shutil, subprocess, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-WEB = Path(sys.argv[1] if len(sys.argv) > 1 else ROOT.parent / "exchanger").resolve()
+WEB = Path(sys.argv[1] if len(sys.argv) > 1 else ROOT.parent / "web").resolve()
 ASSETS = ROOT / "Exchanger/Resources/Assets.xcassets"
 
 CRYPTO = ("BTC ETH USDT USDC BNB SOL XRP TON ADA DOGE TRX DOT LTC LINK AVAX XLM XMR BCH ETC ATOM "

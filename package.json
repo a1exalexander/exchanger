@@ -1,0 +1,19 @@
+{
+  "name": "exchanger-monorepo",
+  "private": true,
+  "packageManager": "yarn@1.22.22",
+  "engines": {
+    "node": "24.x"
+  },
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev --filter=web",
+    "build": "turbo run build",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "turbo": "^2.11.4"
+  }
+}
