@@ -63,7 +63,28 @@
   border-radius: 999px;
   background-color: var(--surface-2);
   border: 1px solid var(--border);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
   @include transition(background-color, border-color);
+  // extend the tap target beyond the visible pill for fingers
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+  }
+  @media (hover: hover) {
+    &:hover .lang-switch__item {
+      color: var(--text);
+    }
+  }
+  &:active .lang-switch__thumb {
+    transform: translateX(calc(var(--lang-index, 0) * 100%)) scale(0.94);
+  }
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
   &__thumb {
     position: absolute;
     top: 3px;
@@ -81,27 +102,13 @@
     z-index: 1;
     min-width: 40px;
     padding: 5px 10px;
-    border: none;
     border-radius: 999px;
-    background: transparent;
-    cursor: pointer;
+    text-align: center;
     font-family: $second-font;
     letter-spacing: 0.04em;
     @include text($H200, 600, var(--text-muted));
-    -webkit-tap-highlight-color: transparent;
-    transition: color 0.2s ease, transform 0.15s ease;
-    &:hover {
-      color: var(--text);
-    }
-    &:active {
-      transform: scale(0.94);
-    }
-    &:focus-visible {
-      outline: none;
-      box-shadow: var(--focus-ring);
-    }
-    &._active,
-    &._active:hover {
+    transition: color 0.2s ease;
+    &._active {
       color: var(--text);
     }
   }
