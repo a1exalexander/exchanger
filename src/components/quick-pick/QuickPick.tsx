@@ -52,7 +52,6 @@ export const QuickPick: FC<{ className?: string }> = ({ className }) => {
           );
         })}
       </div>
-      <p className="quick-pick__hint">{t.quickPick.hint(options.length)}</p>
     </section>
   );
 };

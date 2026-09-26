@@ -5,6 +5,7 @@ import 'moment/locale/uk';
 import { useSelector } from 'react-redux';
 import { ExchangesState } from '../../store/types';
 import { Lang, useLang, useT } from '../../i18n';
+import { useCurrencyOptions } from '../../hooks';
 import {
   providerDescription,
   RATE_PROVIDERS,
@@ -27,6 +28,7 @@ export const AppFooter: FC<Props> = ({ className = '' }) => {
   const lastUpdate = useSelector((state: ExchangesState) => state.lastUpdate);
   const lang = useLang();
   const t = useT();
+  const currencyCount = useCurrencyOptions().length;
 
   const sources: { provider: RateProvider; label: string; note: string }[] = [
     { provider: 'mono', label: 'Monobank', note: t.footer.monoNote },
@@ -60,6 +62,7 @@ export const AppFooter: FC<Props> = ({ className = '' }) => {
             ))}
           </ul>
           <p className="app-footer__disclaimer">{t.footer.disclaimer}</p>
+          <p className="app-footer__disclaimer">{t.quickPick.hint(currencyCount)}</p>
         </div>
         {lastUpdate && (
           <div className="app-footer__date-card">

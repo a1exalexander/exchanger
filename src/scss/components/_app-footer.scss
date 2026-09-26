@@ -68,6 +68,9 @@ $style: app-footer;
     margin: 10px 0 0;
     font-family: $second-font;
     @include text($H200, 300, var(--text-muted));
+    & + & {
+      margin-top: 4px;
+    }
   }
   &__date-card {
     flex-shrink: 0;

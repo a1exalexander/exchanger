@@ -55,19 +55,6 @@
       color: var(--accent);
     }
   }
-  &__hint {
-    margin: 10px 0 0;
-    font-family: $second-font;
-    @include text($H300, 300, var(--text-muted));
-    line-height: 1.5;
-    b {
-      font-weight: 400;
-      color: var(--text);
-    }
-    @include media {
-      margin-top: 20px;
-    }
-  }
 }
 
 @keyframes chip-in {
