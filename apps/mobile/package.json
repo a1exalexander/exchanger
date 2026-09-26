@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "generate": "xcodegen generate",
-    "test": "xcodegen generate && xcodebuild -project Exchanger.xcodeproj -scheme Exchanger -destination 'platform=iOS Simulator,name=iPhone 17' -derivedDataPath .dd test"
+    "test": "xcodegen generate && xcodebuild -project Exchanger.xcodeproj -scheme Exchanger -destination 'platform=iOS Simulator,name=iPhone 17' -derivedDataPath .dd test",
+    "release": "xcodegen generate && xcodebuild -project Exchanger.xcodeproj -scheme Exchanger -configuration Release -destination 'generic/platform=iOS' -archivePath build/Exchanger.xcarchive -allowProvisioningUpdates archive && xcodebuild -exportArchive -archivePath build/Exchanger.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath build -allowProvisioningUpdates"
   }
 }

@@ -8,4 +8,4 @@ xcodegen generate
 open Exchanger.xcodeproj
 ```
 
-Set your Team under Signing & Capabilities to run on a device.
+Signing is automatic with team `C8L8G6WU6L`. Releasing to the App Store: see [AppStore.md](AppStore.md).
