@@ -1,6 +1,7 @@
 import { resolveExchange, hasBankRates } from '../utils/resolveExchange';
 import { Currencies } from '../types';
 import { MarketRates } from '../services/marketRates';
+import reducer from '../store/reducers';
 
 const bank = [
   {
@@ -73,9 +74,8 @@ describe('resolveExchange', () => {
 
 describe('swapping the pair', () => {
   it('keeps the same deal: buying USD becomes selling UAH at the same rate', () => {
-    const reducer = require('../store/reducers').default;
     const base = reducer(undefined, { type: '@@INIT' });
-    const state = { ...base, currencies: bank, market, pair: { from: 'USD', to: 'UAH' }, method: 'buy' };
+    const state = { ...base, currencies: bank, market, pair: { from: 'USD', to: 'UAH' }, method: 'buy' as const };
     const swapped = reducer(state, { type: 'SWAP_PAIR' });
     expect(swapped.pair).toEqual({ from: 'UAH', to: 'USD' });
     expect(swapped.method).toBe('sell');

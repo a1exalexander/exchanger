@@ -3,7 +3,7 @@ import { Exchange, SN } from '../../types';
 import { connect } from 'react-redux';
 import getIcon from '../../utils/getIcon';
 import { setExchange } from '../../store/actions';
-import { ReactComponent as IconExchange } from '../../assets/images/exchange-arrows.svg';
+import IconExchange from '../../assets/images/exchange-arrows.svg?react';
 import { toFix } from '../../utils/formatCurrency';
 import { getCurrencyName } from '../../utils/currencyMeta';
 import { useLang, useT } from '../../i18n';

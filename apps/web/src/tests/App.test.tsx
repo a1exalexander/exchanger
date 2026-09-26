@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import App from '../app';
 import { store } from '../store';
 
-(global as any).IS_REACT_ACT_ENVIRONMENT = true;
+(globalThis as any).IS_REACT_ACT_ENVIRONMENT = true;
 
 describe('App tests', () => {
   beforeAll(() => {

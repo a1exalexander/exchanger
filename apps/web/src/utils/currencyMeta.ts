@@ -4,7 +4,7 @@ import { Currencies } from '../types';
 import { MarketRates } from '../services/marketRates';
 import type { Lang } from '../i18n';
 
-const cryptocurrencies = require('cryptocurrencies');
+import cryptocurrencies from 'cryptocurrencies';
 
 export type CurrencyKind = 'fiat' | 'crypto' | 'metal';
 
@@ -159,21 +159,21 @@ const METAL_SEARCH: { [code: string]: string } = {
 
 const flagIcons: { [code: string]: string } = flagMap;
 
-const requireFlag = (name: string) => {
-  try {
-    return require(`../assets/flags/${name}.svg`) || '';
-  } catch {
-    return '';
-  }
-};
+const svgUrls = (glob: Record<string, string>) =>
+  Object.fromEntries(
+    Object.entries(glob).map(([path, url]) => [path.replace(/^.*\//, '').replace(/\.svg$/, ''), url]),
+  );
 
-const requireCryptoIcon = (code: string) => {
-  try {
-    return require(`cryptocurrency-icons/svg/color/${code.toLowerCase()}.svg`) || '';
-  } catch {
-    return '';
-  }
-};
+const flagSvgs = svgUrls(
+  import.meta.glob<string>('../assets/flags/*.svg', { eager: true, query: '?url', import: 'default' }),
+);
+const cryptoSvgs = svgUrls(
+  import.meta.glob<string>('@crypto-icons/*.svg', { eager: true, query: '?url', import: 'default' }),
+);
+
+export const flagIcon = (name: string) => flagSvgs[name] || '';
+
+const cryptoIcon = (code: string) => cryptoSvgs[code.toLowerCase()] || '';
 
 const iconCache: { [code: string]: string } = {};
 
@@ -183,8 +183,8 @@ export const getCurrencyIcon = (code: string): string => {
   if (!(code in iconCache)) {
     iconCache[code] =
       getKind(code) !== 'crypto' && flagIcons[code]
-        ? requireFlag(flagIcons[code])
-        : requireCryptoIcon(code);
+        ? flagIcon(flagIcons[code])
+        : cryptoIcon(code);
   }
   return iconCache[code];
 };
