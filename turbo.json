@@ -1,0 +1,15 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "build": {
+      "outputs": ["build/**"]
+    },
+    "test": {
+      "env": ["CI"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

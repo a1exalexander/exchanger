@@ -1,0 +1,9 @@
+{
+  "name": "mobile",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "generate": "xcodegen generate",
+    "test": "xcodegen generate && xcodebuild -project Exchanger.xcodeproj -scheme Exchanger -destination 'platform=iOS Simulator,name=iPhone 17' -derivedDataPath .dd test"
+  }
+}

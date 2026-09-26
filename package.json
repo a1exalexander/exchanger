@@ -1,91 +1,19 @@
 {
-  "name": "exchanger",
-  "version": "0.1.0",
+  "name": "exchanger-monorepo",
   "private": true,
+  "packageManager": "yarn@1.22.22",
   "engines": {
     "node": "24.x"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "dependencies": {
-    "@types/big.js": "^6.1.6",
-    "@types/classnames": "^2.3.1",
-    "@types/has": "^1.0.2",
-    "@types/jest": "^29.2.3",
-    "@types/lodash": "^4.14.189",
-    "@types/moment": "^2.13.0",
-    "@types/react": "^18.0.25",
-    "@types/react-dom": "^18.0.9",
-    "@types/react-ga": "^2.3.0",
-    "@types/react-redux": "^7.1.24",
-    "@types/svgo": "^3.0.0",
-    "axios": "^1.6.0",
-    "big.js": "^5.2.2",
-    "classnames": "^2.3.2",
-    "cryptocurrencies": "^7.0.0",
-    "cryptocurrency-icons": "^0.18.1",
-    "currency-codes": "^2.1.0",
-    "decimal.js": "^10.4.2",
-    "env-cmd": "^10.1.0",
-    "gh-pages": "^4.0.0",
-    "json-server": "^0.17.1",
-    "lodash": "^4.17.21",
-    "moment": "^2.29.4",
-    "posthog-js": "^1.96.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-html-parser": "^2.0.2",
-    "react-redux": "^8.0.5",
-    "react-scripts": "^5.0.1",
-    "redux": "^4.2.0",
-    "redux-persist": "^6.0.0",
-    "redux-thunk": "^2.4.2",
-    "sass": "^1.56.1",
-    "typescript": "^4.9.3",
-    "uikit": "^3.15.12",
-    "usehooks-ts": "^2.9.1"
-  },
+  "workspaces": [
+    "apps/*"
+  ],
   "scripts": {
-    "start": "env-cmd -f .env.production react-app-rewired start",
-    "dev:dev": "env-cmd -f .env.development react-app-rewired start",
-    "dev": "env-cmd -f .env.production react-app-rewired start",
-    "dev:fake": "env-cmd -f .env.fake react-app-rewired start",
-    "build": "react-app-rewired build",
-    "build:nossr": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "server": "json-server --watch fake-server/db.json --routes fake-server/routes.json --port 3004",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
-  },
-  "browserslist": {
-    "production": [
-      "last 2 chrome version",
-      "last 2 firefox version",
-      "last 2 safari version",
-      "last 2 opera version"
-    ],
-    "development": [
-      "last 2 chrome version",
-      "last 2 firefox version",
-      "last 2 safari version",
-      "last 2 opera version"
-    ]
+    "dev": "turbo run dev --filter=web",
+    "build": "turbo run build",
+    "test": "turbo run test"
   },
   "devDependencies": {
-    "babel-plugin-root-import": "^6.6.0",
-    "has": "^1.0.3",
-    "imagemin-svgo": "^7.0.0",
-    "imagemin-webpack-plugin": "^2.4.2",
-    "prerender-spa-plugin": "^3.4.0",
-    "react-app-env": "^1.2.3",
-    "react-app-rewired": "^2.2.1",
-    "yarn-upgrade-all": "^0.7.1"
-  },
-  "jest": {
-    "transformIgnorePatterns": [
-      "node_modules/(?!axios)/"
-    ]
+    "turbo": "^2.11.4"
   }
 }

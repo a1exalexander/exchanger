@@ -1,0 +1,137 @@
+[
+{ 
+"r030":12,"txt":"Алжирський динар","rate":0.33546,"cc":"DZD","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":36,"txt":"Австралійський долар","rate":31.5289,"cc":"AUD","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":50,"txt":"Така","rate":0.36443,"cc":"BDT","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":124,"txt":"Канадський долар","rate":31.7024,"cc":"CAD","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":156,"txt":"Юань Женьміньбі","rate":6.6795,"cc":"CNY","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":203,"txt":"Чеська крона","rate":2.101,"cc":"CZK","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":208,"txt":"Данська крона","rate":6.8406,"cc":"DKK","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":344,"txt":"Гонконгівський долар","rate":5.7168,"cc":"HKD","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":348,"txt":"Форинт","rate":0.14001,"cc":"HUF","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":356,"txt":"Індійська рупія","rate":0.4679,"cc":"INR","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":360,"txt":"Рупія","rate":0.0025047,"cc":"IDR","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":376,"txt":"Новий ізраїльський шекель","rate":14.7801,"cc":"ILS","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":392,"txt":"Єна","rate":0.28461,"cc":"JPY","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":398,"txt":"Теньге","rate":0.101251,"cc":"KZT","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":410,"txt":"Вона","rate":0.033116,"cc":"KRW","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":422,"txt":"Ліванський фунт","rate":0.0005,"cc":"LBP","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":458,"txt":"Малайзійський ринггіт","rate":11.0071,"cc":"MYR","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":484,"txt":"Мексиканське песо","rate":2.5351,"cc":"MXN","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":498,"txt":"Молдовський лей","rate":2.5263,"cc":"MDL","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":554,"txt":"Новозеландський долар","rate":25.4305,"cc":"NZD","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":578,"txt":"Норвезька крона","rate":4.7162,"cc":"NOK","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":682,"txt":"Саудівський ріял","rate":11.9431,"cc":"SAR","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":702,"txt":"Сінгапурський долар","rate":35.1135,"cc":"SGD","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":704,"txt":"Донг","rate":0.0017261,"cc":"VND","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":710,"txt":"Ренд","rate":2.752,"cc":"ZAR","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":752,"txt":"Шведська крона","rate":4.5276,"cc":"SEK","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":756,"txt":"Швейцарський франк","rate":54.1321,"cc":"CHF","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":764,"txt":"Бат","rate":1.34501,"cc":"THB","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":784,"txt":"Дирхам ОАЕ","rate":12.2085,"cc":"AED","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":788,"txt":"Туніський динар","rate":15.1787,"cc":"TND","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":818,"txt":"Єгипетський фунт","rate":0.8661,"cc":"EGP","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":826,"txt":"Фунт стерлінгів","rate":59.422,"cc":"GBP","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":840,"txt":"Долар США","rate":44.8414,"cc":"USD","exchangedate":"28.09.2026","special":"N"
+ }
+,{ 
+"r030":941,"txt":"Сербський динар","rate":0.4352,"cc":"RSD","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":944,"txt":"Азербайджанський манат","rate":26.3858,"cc":"AZN","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":946,"txt":"Румунський лей","rate":9.6977,"cc":"RON","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":949,"txt":"Турецька ліра","rate":0.9158,"cc":"TRY","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":960,"txt":"СПЗ (спеціальні права запозичення)","rate":61.015,"cc":"XDR","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":978,"txt":"Євро","rate":51.1358,"cc":"EUR","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":981,"txt":"Ларі","rate":17.2136,"cc":"GEL","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":985,"txt":"Злотий","rate":11.6972,"cc":"PLN","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":959,"txt":"Золото","rate":193022.18,"cc":"XAU","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":961,"txt":"Срібло","rate":2905.24,"cc":"XAG","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":962,"txt":"Платина","rate":79751.64,"cc":"XPT","exchangedate":"28.09.2026","special":null
+ }
+,{ 
+"r030":964,"txt":"Паладій","rate":56731.14,"cc":"XPD","exchangedate":"28.09.2026","special":null
+ }
+]
