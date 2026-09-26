@@ -9,12 +9,12 @@ const apiType: { [key: string]: string } = {
 
 type API_MODE_TYPE = 'prod' | 'fake' | 'dev';
 const env: API_MODE_TYPE =
-  (process.env.REACT_APP_API_MODE as API_MODE_TYPE) || 'dev';
+  (import.meta.env.REACT_APP_API_MODE as API_MODE_TYPE) || 'dev';
 
 const ROOT_URL: string = apiType[env];
 
-logInfo(`MODE: ${process.env.NODE_ENV}`);
-logInfo(`ROOT URL ${process.env.REACT_APP_API_MODE}: ${ROOT_URL}`);
+logInfo(`MODE: ${import.meta.env.MODE}`);
+logInfo(`ROOT URL ${import.meta.env.REACT_APP_API_MODE}: ${ROOT_URL}`);
 
 const api = {
   currencies: `${ROOT_URL}/currencies`,

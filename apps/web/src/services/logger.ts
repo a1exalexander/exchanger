@@ -1,4 +1,4 @@
-const isProd = process.env.NODE_ENV === 'production';
+const isProd = import.meta.env.PROD;
 
 const logError = (url: string, body: any) => {
   if (isProd) return;
