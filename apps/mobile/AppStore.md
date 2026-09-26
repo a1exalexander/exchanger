@@ -8,26 +8,26 @@
 2. **Задеплоїти web**, щоб https://exchanger.in.ua/privacy.html і https://exchanger.in.ua/uk/privacy.html відкривались (потрібні для App Store Connect).
 3. **App Store Connect → Apps → «+» → New App:**
    - Platform: iOS
-   - Name: `Exchanger — конвертер валют` (якщо зайнято — `UAH Exchanger`)
-   - Primary Language: Ukrainian
-   - Bundle ID: `ua.in.exchanger` (з'явиться в списку після першого archive з кроку 4 або після реєстрації в developer.apple.com → Identifiers)
+   - Name: `Exchanger — Currency Converter` (якщо зайнято — `UAH Exchanger`)
+   - Primary Language: English (U.S.)
+   - Bundle ID: `ua.in.exchanger` (зареєстрований автоматично першим archive)
    - SKU: `exchanger-ios`
    - User Access: Full Access
-4. **Збірка й завантаження:**
+4. **Завантаження збірки.** Якщо archive вже є в `build/`:
    ```sh
-   yarn workspace mobile release
+   xcodebuild -exportArchive -archivePath build/Exchanger.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath build -allowProvisioningUpdates
    ```
-   Або в Xcode: destination «Any iOS Device» → Product → Archive → Distribute App → App Store Connect → Upload. Через 5–30 хв збірка з'явиться в TestFlight.
+   Інакше `yarn workspace mobile release` (archive + upload). Або в Xcode: destination «Any iOS Device» → Product → Archive → Distribute App → App Store Connect → Upload. Через 5–30 хв збірка з'явиться в TestFlight.
 5. **App Information:** категорія Finance, Content Rights: «does not contain third-party content» (курси — факти з публічних API).
 6. **Pricing and Availability:** Free, усі країни.
-7. **App Privacy:** Privacy Policy URL для Ukrainian — `https://exchanger.in.ua/uk/privacy.html`, для English — `https://exchanger.in.ua/privacy.html`; далі анкета (див. нижче).
+7. **App Privacy:** Privacy Policy URL `https://exchanger.in.ua/privacy.html` (English); для локалізації Ukrainian — `https://exchanger.in.ua/uk/privacy.html`. Далі анкета (див. нижче).
 8. **Age Rating:** на всі питання «No / None» → 4+.
-9. **Сторінка версії 1.0.0** для кожної мови (uk і en — додати English через Localizations): тексти й скріншоти нижче, Build → вибрати завантажену збірку, Review Notes, Contact Info. Sign-in required: No.
+9. **Сторінка версії 1.0.0** спочатку English (основна), потім додати Ukrainian через меню мов праворуч угорі: тексти й скріншоти нижче, Build → вибрати завантажену збірку, Review Notes, Contact Info. Sign-in required: No.
 10. **Add for Review → Submit.** Рев'ю зазвичай 1–3 дні. Version Release: Automatically або Manually.
 
 ## Скріншоти
 
-Згенеровані 1320×2868 (6.9"), лежать у `build/screenshots/{uk,en}/` (не в git). Перезняти:
+Згенеровані 1320×2868 (6.9"), лежать у `build/screenshots/{en,uk}/` (не в git). Перезняти:
 ```sh
 xcrun simctl boot "iPhone 18 Pro Max"
 # зібрати й встановити Debug, далі для кожного екрана:
@@ -44,35 +44,7 @@ xcrun simctl io booted screenshot 1-main.png
 
 ## Тексти
 
-### Українська
-
-**Name** (≤30): `Exchanger — конвертер валют`
-
-**Subtitle** (≤30): `Курс Monobank, НБУ і ринку`
-
-**Promotional Text:**
-Конвертуйте гривню, долар, євро та ще понад 200 валют і криптовалют за курсом Monobank, НБУ або ринковим курсом.
-
-**Description:**
-```
-Exchanger — швидкий конвертер валют для України.
-
-• Курс купівлі та продажу Monobank
-• Офіційний курс Національного банку України
-• Ринковий курс для понад 200 валют і криптовалют
-• Швидкий вибір валют, якими ви користуєтесь найчастіше
-• Пошук за кодом, назвою або країною
-• Працює офлайн з останніми завантаженими курсами
-• Світла й темна теми
-
-Без реєстрації та реклами.
-
-Курси мають довідковий характер.
-```
-
-**Keywords** (≤100): `гривня,долар,євро,злотий,курс,обмін,валюта,нбу,монобанк,крипта,біткоїн,uah,usd,eur,pln`
-
-### English
+### English (основна мова)
 
 **Name** (≤30): `Exchanger — Currency Converter`
 
@@ -100,11 +72,39 @@ Rates are for reference only.
 
 **Keywords** (≤100): `hryvnia,uah,usd,eur,pln,exchange,rate,nbu,monobank,ukraine,crypto,bitcoin,money,forex,fx`
 
+### Українська (локалізація)
+
+**Name** (≤30): `Exchanger — конвертер валют`
+
+**Subtitle** (≤30): `Курс Monobank, НБУ і ринку`
+
+**Promotional Text:**
+Конвертуйте гривню, долар, євро та ще понад 200 валют і криптовалют за курсом Monobank, НБУ або ринковим курсом.
+
+**Description:**
+```
+Exchanger — швидкий конвертер валют для України.
+
+• Курс купівлі та продажу Monobank
+• Офіційний курс Національного банку України
+• Ринковий курс для понад 200 валют і криптовалют
+• Швидкий вибір валют, якими ви користуєтесь найчастіше
+• Пошук за кодом, назвою або країною
+• Працює офлайн з останніми завантаженими курсами
+• Світла й темна теми
+
+Без реєстрації та реклами.
+
+Курси мають довідковий характер.
+```
+
+**Keywords** (≤100): `гривня,долар,євро,злотий,курс,обмін,валюта,нбу,монобанк,крипта,біткоїн,uah,usd,eur,pln`
+
 ### Спільне
 
 - Support URL: `https://exchanger.in.ua`
 - Marketing URL: `https://exchanger.in.ua`
-- Privacy Policy URL: uk — `https://exchanger.in.ua/uk/privacy.html`, en — `https://exchanger.in.ua/privacy.html`
+- Privacy Policy URL: en — `https://exchanger.in.ua/privacy.html`, uk — `https://exchanger.in.ua/uk/privacy.html`
 - Copyright: `2026 Oleksandr Ratushnyi`
 
 **Review Notes:**
