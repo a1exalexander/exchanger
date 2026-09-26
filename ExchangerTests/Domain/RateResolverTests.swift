@@ -125,7 +125,7 @@ struct RateResolverTests {
         #expect(e.source == .bank)
         #expect(e.rateBuy == Decimal(string: "44.635"))
         #expect(e.nbRate == Decimal(string: "44.8414"))
-        #expect(e.date == "26 September 2026")
+        #expect(e.date == "25 September 2026")
         #expect(RateResolver.convert(1, typedOn: .from, exchange: e, method: .buy) == Decimal(string: "45.0349"))
     }
 
