@@ -107,10 +107,46 @@ Exchanger — швидкий конвертер валют для України
 - Privacy Policy URL: en — `https://exchanger.in.ua/privacy.html`, uk — `https://exchanger.in.ua/uk/privacy.html`
 - Copyright: `2026 Oleksandr Ratushnyi`
 
-**Review Notes:**
+**Review Notes** (App Review Information → Notes; той самий текст — відповідь на запит Guideline 2.1 «Information Needed»). Перед відправкою вписати модель iPhone і версію iOS:
 ```
-No account or sign-in is required. Exchange rates come from public APIs: Monobank (api.monobank.ua), National Bank of Ukraine (bank.gov.ua) and fawazahmed0/exchange-api (mid-market rates). The app provides reference rates only; it does not perform any currency exchange or financial transactions.
+1. Screen recording
+Attached: recorded on iPhone [model], iOS [version], starting from app launch. The app has no account registration/login (so no account deletion), no user-generated content, and no paid content or In-App Purchases.
+
+2. Purpose and target audience
+Exchanger is a free currency converter for people in Ukraine and Ukrainians abroad who need to quickly check how much an amount is worth in another currency. It shows, side by side, Monobank's buy/sell rates (the rates most Ukrainians actually get when paying by card), the official National Bank of Ukraine rate, and mid-market rates for 200+ currencies and cryptocurrencies. It works offline with the last downloaded rates. The app is informational only: it does not exchange money, hold funds, or perform any financial transactions.
+
+3. How to use
+No login, demo account, or sample files are required. Open the app, type an amount on the keypad, and pick the currencies at the top (tap a currency to search by code, name, or country). Swipe the rate cards to switch between Monobank, NBU, and mid-market rates. Settings (gear icon) contains theme, language, data sources, and app info.
+
+4. External services
+- Monobank public API (api.monobank.ua/bank/currency): public exchange rates, no authentication
+- National Bank of Ukraine open data API (bank.gov.ua): official exchange rates
+- fawazahmed0/exchange-api (via cdn.jsdelivr.net / currency-api.pages.dev): open-source mid-market rates
+- exchanger.in.ua/api/currencies: our own backend that caches and combines the above
+- PostHog (eu.posthog.com): anonymous product analytics, not linked to identity, no tracking/IDFA
+No authentication, payment, or AI services are used.
+
+5. Regional differences
+The app functions identically in all regions. Content does not depend on the user's location. The UI is available in English and Ukrainian.
+
+6. Regulated industry / third-party material
+The app does not provide financial services. It does not exchange currency, give investment advice, or process payments, so it requires no financial license. All rates are publicly available data from the official public APIs listed above and are shown with source attribution and a "rates are for reference only" disclaimer. The app is not affiliated with Monobank or the National Bank of Ukraine.
 ```
+
+## Запис екрана для App Review
+
+Apple вимагає для нових акаунтів (Guideline 2.1). Знімати на фізичному iPhone з останньою iOS, збірка з TestFlight — та сама, що на рев'ю. Control Center → Screen Recording; запис починається з домашнього екрана і натискання на іконку. Показати (1–2 хв):
+
+1. Запуск і головний екран конвертера.
+2. Введення суми на клавіатурі, перерахунок.
+3. Перемикання курсів Monobank / НБУ / ринковий у каруселі.
+4. Quick picks і вибір валюти через пошук (код, назва, країна).
+5. Settings: тема, мова, джерела даних, дисклеймер.
+6. Офлайн: авіарежим → перезапуск → працюють останні завантажені курси.
+
+Прикріпити у відповідь в App Store Connect (App Review → Reply) разом із текстом Review Notes.
+
+Якщо Apple причепиться до «Monobank» як чужої торгової марки (5.2.1 / 2.3.7) — прибрати з Keywords і змінити Subtitle, напр. на `Bank, NBU & market rates`.
 
 ## Наступні версії
 
