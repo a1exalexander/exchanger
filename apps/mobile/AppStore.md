@@ -106,6 +106,7 @@ Exchanger — швидкий конвертер валют для України
 - Marketing URL: `https://exchanger.in.ua`
 - Privacy Policy URL: en — `https://exchanger.in.ua/privacy.html`, uk — `https://exchanger.in.ua/uk/privacy.html`
 - Copyright: `2026 Oleksandr Ratushnyi`
+- App Store: `https://apps.apple.com/app/id6816478659` (Apple ID `6816478659`; Smart App Banner у `apps/web/index.html`)
 
 **Review Notes** (App Review Information → Notes; той самий текст — відповідь на запит Guideline 2.1 «Information Needed»). Перед відправкою вписати модель iPhone і версію iOS:
 ```
